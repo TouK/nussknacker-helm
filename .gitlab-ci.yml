@@ -1,0 +1,4 @@
+deploy:
+  environment: sandbox
+  image: docker-gitlab.touk.pl/carpinion/ci/k8s-tools
+  script: env
