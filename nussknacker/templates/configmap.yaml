@@ -8,9 +8,9 @@ data:
   application.conf: |-
     base: { include "/opt/nussknacker/conf/base-application.conf" }
 
-    base.flinkEngineConfig.restUrl: "http://my-nussknacker-flink-jobmanager-rest:8081"
-    base.flinkEngineConfig.queryableStateProxyUrl: "my-nussknacker-flink-taskmanager:6122"
-    base.streamingModelConfig.kafka.kafkaAddress: "my-nussknacker-kafka:9092"
+    base.flinkEngineConfig.restUrl: "http://{{ include "flink.fullname" . }}-jobmanager-rest:8081"
+    base.flinkEngineConfig.queryableStateProxyUrl: "{{ include "flink.fullname" . }}-taskmanager:6122"
+    base.streamingModelConfig.kafka.kafkaAddress: "{{ include "kafka.fullname" . }}:9092"
 
     environment: "demo"
 
