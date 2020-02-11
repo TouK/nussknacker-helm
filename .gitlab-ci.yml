@@ -1,4 +1,21 @@
-deploy:
-  environment: sandbox
+stages:
+  - build
+  - publish
+  - deploy
+
+default:
   image: docker-gitlab.touk.pl/carpinion/ci/k8s-tools
-  script: env
+
+build:
+  stage: build
+  script:
+    - helm3 repo add stable https://kubernetes-charts.storage.googleapis.com
+    - helm3 repo add incubator https://kubernetes-charts-incubator.storage.googleapis.com
+    - helm3 repo add riskfocus https://riskfocus.github.io/helm-charts-public/
+    - helm3 package nussknacker -u -d dist
+
+deploy:
+  stage: deploy
+  environment: sandbox
+  script:
+    - helm3 upgrade -i --devel -n "$KUBE_NAMESPACE" "$CI_ENVIRONMENT_SLUG" dist/nussknacker-*.tgz

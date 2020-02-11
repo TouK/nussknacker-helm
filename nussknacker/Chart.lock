@@ -1,0 +1,12 @@
+dependencies:
+- name: postgresql
+  repository: https://kubernetes-charts.storage.googleapis.com/
+  version: 8.3.0
+- name: kafka
+  repository: http://storage.googleapis.com/kubernetes-charts-incubator
+  version: 0.20.8
+- name: flink
+  repository: https://riskfocus.github.io/helm-charts-public
+  version: 0.1.4
+digest: sha256:ff31271f2acf15b646698b8f711b27ad7b782364777823cc7bb3ef1604cd3eb8
+generated: "2020-02-10T17:25:42.197820615+01:00"

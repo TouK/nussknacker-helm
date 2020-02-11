@@ -1,0 +1,49 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "nussknacker.fullname" . }}
+  labels:
+    {{- include "nussknacker.labels" . | nindent 4 }}
+data:
+  application.conf: |-
+    base: { include "/opt/nussknacker/conf/base-application.conf" }
+
+    base.flinkEngineConfig.restUrl: "http://my-nussknacker-flink-jobmanager-rest:8081"
+    base.flinkEngineConfig.queryableStateProxyUrl: "my-nussknacker-flink-taskmanager:6122"
+    base.streamingModelConfig.kafka.kafkaAddress: "my-nussknacker-kafka:9092"
+
+    environment: "demo"
+
+    categoriesConfig {
+      "FraudDetection": "streaming",
+      "Recommendations": "streaming"
+    }
+
+    processTypes {
+      "streaming": {
+        engineConfig: ${base.flinkEngineConfig}
+        modelConfig: {
+          classPath: ["model/demoModel.jar"]
+        } ${base.streamingModelConfig}
+      }
+    }
+
+    metricsSettings: {
+      url: ${base.grafanaUrl}"/dashboard/db/$dashboard?theme=dark&var-processName=$process&var-env="${environment}
+      defaultDashboard: "flink-esp"
+      processingTypeToDashboard: {
+        "streaming": "flink-esp"
+      }
+    }
+
+    # TODO: lightbend config can't include files on root level - move nussknacker config on nk level and get rid of this below
+    jdbcServer: ${base.jdbcServer}
+    db: ${base.db}
+    akka: ${base.akka}
+    authentication: ${base.authentication}
+
+    commentSettings: ${base.commentSettings}
+    attachmentsPath: ${base.attachmentsPath}
+    countsSettings: ${base.countsSettings}
+    kibanaSettings: ${base.kibanaSettings}
+
