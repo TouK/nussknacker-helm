@@ -18,4 +18,4 @@ deploy:
   stage: deploy
   environment: sandbox
   script:
-    - helm3 upgrade -i --devel -n "$KUBE_NAMESPACE" "$CI_ENVIRONMENT_SLUG" dist/nussknacker-*.tgz
+    - helm3 upgrade -i --devel -n "$KUBE_NAMESPACE" "$CI_ENVIRONMENT_SLUG" ./dist/nussknacker-*.tgz
