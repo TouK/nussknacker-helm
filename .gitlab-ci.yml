@@ -22,4 +22,5 @@ deploy:
   stage: deploy
   environment: sandbox
   script:
-    - helm3 upgrade -i --devel -n "$KUBE_NAMESPACE" "$CI_ENVIRONMENT_SLUG" ./dist/nussknacker-*.tgz
+    - kubectl get secret "$CI_ENVIRONMENT_SLUG-postgresql" || kubectl create secret generic "$CI_ENVIRONMENT_SLUG-postgresql" --from-literal postgresql-password=`date +%s | sha256sum | base64 | head -c 32`
+    - helm3 upgrade -i --devel -n "$KUBE_NAMESPACE" "$CI_ENVIRONMENT_SLUG" ./dist/nussknacker-*.tgz --set postgresql.existingSecret="$CI_ENVIRONMENT_SLUG-postgresql"
