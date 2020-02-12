@@ -30,8 +30,13 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           volumeMounts:
-            - name: config-volume
+            - name: config
               mountPath: /etc/nussknacker
+            {{- if .Values.persistence.enabled }}
+            - name: storage
+              mountPath: /opt/nussknacker/storage
+              subPath: {{ .Values.persistence.subPath }}
+            {{- end }}
           env:
             - name: NUSSKNACKER_CONFIG_FILE
               value: /etc/nussknacker/application.conf
@@ -50,9 +55,16 @@ spec:
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       volumes:
-        - name: config-volume
+        - name: config
           configMap:
             name: {{ include "nussknacker.fullname" . }}
+        - name: storage
+        {{- if .Values.persistence.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ .Values.persistence.existingClaim | default (include "nussknacker.fullname" .) }}
+        {{- else }}
+          emptyDir: {}
+        {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
