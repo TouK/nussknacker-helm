@@ -1,10 +1,11 @@
 stages:
   - build
   - publish
-  - deploy
 
 default:
   image: docker-gitlab.touk.pl/carpinion/ci/k8s-tools
+  before_script:
+    - export VERSION=`helm3 show chart nussknacker | grep ^version | sed -e "s/.*:\ //;s/SNAPSHOT/SNAPSHOT.${CI_PIPELINE_IID}/"`
 
 build:
   stage: build
@@ -16,13 +17,9 @@ build:
     - helm3 repo add stable https://kubernetes-charts.storage.googleapis.com
     - helm3 repo add incubator https://kubernetes-charts-incubator.storage.googleapis.com
     - helm3 repo add riskfocus https://riskfocus.github.io/helm-charts-public/
-    - helm3 package nussknacker -u -d dist
+    - helm3 package nussknacker -u -d dist --version $VERSION
 
-deploy:
-  stage: deploy
-  environment:
-    name: $CI_COMMIT_REF_NAME
-    url: https://${CI_ENVIRONMENT_SLUG}-nussknacker.carpinion.touk.pl
+publish:
+  stage: publish
   script:
-    - kubectl get secret "$CI_ENVIRONMENT_SLUG-postgresql" || kubectl create secret generic "$CI_ENVIRONMENT_SLUG-postgresql" --from-literal postgresql-password=`date +%s | sha256sum | base64 | head -c 32`
-    - helm3 upgrade -i --devel -n "$KUBE_NAMESPACE" "$CI_ENVIRONMENT_SLUG" ./dist/nussknacker-*.tgz --set postgresql.existingSecret="$CI_ENVIRONMENT_SLUG-postgresql"
+    - curl -u publisher:MzQwMjY0NTk4ZDc0 --fail --data-binary "@dist/nussknacker-$VERSION.tgz" https://chartmuseum.carpinion.touk.pl/api/charts
