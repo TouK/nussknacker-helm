@@ -7,12 +7,35 @@ appVersion: staging-latest
 
 dependencies:
   - name: postgresql
-    version: 8.3.0
+    version: ^8.3.0
     repository: "@stable"
+    condition: postgresql.enabled
   - name: kafka
-    version: 0.20.8
+    version: ^0.20.8
     repository: "@incubator"
+    condition: kafka.enabled
   - name: flink
-    version: 0.1.4
+    version: ^0.1.4
     repository: "@riskfocus"
+    condition: flink.enabled
+  - name: elasticsearch
+    version: ^1.32.3
+    repository: "@stable"
+    condition: elasticsearch.enabled
+  - name: kibana
+    version: ^3.2.6
+    repository: "@stable"
+    condition: kibana.enabled
+  - name: logstash
+    version: ^2.4.0
+    repository: "@stable"
+    condition: logstash.enabled
+  - name: grafana
+    version: ^5.0.0
+    repository: "@stable"
+    condition: grafana.enabled
+  - name: influxdb
+    version: ^4.2.4
+    repository: "@stable"
+    condition: influxdb.enabled
 

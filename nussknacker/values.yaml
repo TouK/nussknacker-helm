@@ -86,7 +86,16 @@ tolerations: []
 
 affinity: {}
 
+postgresql:
+  enabled: true
+  volumePermissions:
+    enabled: true
+
+kafka:
+  enabled: true
+
 flink:
+  enabled: true
   taskmanager:
     statefulset: false
   jobmanager:
@@ -95,3 +104,21 @@ flink:
     serviceMonitor:
       enabled: false
 
+elasticsearch:
+  enabled: true
+
+kibana:
+  enabled: true
+  env:
+    ELASTICSEARCH_HOSTS: http://{{ .Release.Name }}-elasticsearch-client:9200
+
+logstash:
+  enabled: true
+  # elasticsearch:
+  #   host: elastic-stack-elasticsearch-client
+
+grafana:
+  enabled: true
+
+influxdb:
+  enabled: true

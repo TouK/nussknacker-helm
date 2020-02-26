@@ -1,12 +1,27 @@
 dependencies:
 - name: postgresql
   repository: https://kubernetes-charts.storage.googleapis.com/
-  version: 8.3.0
+  version: 8.4.0
 - name: kafka
   repository: http://storage.googleapis.com/kubernetes-charts-incubator
   version: 0.20.8
 - name: flink
   repository: https://riskfocus.github.io/helm-charts-public
   version: 0.1.4
-digest: sha256:ff31271f2acf15b646698b8f711b27ad7b782364777823cc7bb3ef1604cd3eb8
-generated: "2020-02-10T17:25:42.197820615+01:00"
+- name: elasticsearch
+  repository: https://kubernetes-charts.storage.googleapis.com/
+  version: 1.32.3
+- name: kibana
+  repository: https://kubernetes-charts.storage.googleapis.com/
+  version: 3.2.6
+- name: logstash
+  repository: https://kubernetes-charts.storage.googleapis.com/
+  version: 2.4.0
+- name: grafana
+  repository: https://kubernetes-charts.storage.googleapis.com/
+  version: 5.0.0
+- name: influxdb
+  repository: https://kubernetes-charts.storage.googleapis.com/
+  version: 4.2.4
+digest: sha256:9f98c4bcad068cf4fb46a4880b25a790e7f2b21e79ebdc974c98854f693f4cbc
+generated: "2020-02-24T13:33:28.133941825+01:00"
