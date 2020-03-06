@@ -9,11 +9,11 @@ dependencies:
   repository: http://storage.googleapis.com/kubernetes-charts-incubator
   version: 1.1.9
 - name: flink
-  repository: https://riskfocus.github.io/helm-charts-public
+  repository: https://riskfocus.github.io/helm-charts-public/
   version: 0.1.5
 - name: elasticsearch
   repository: https://kubernetes-charts.storage.googleapis.com/
-  version: 1.32.3
+  version: 1.32.4
 - name: kibana
   repository: https://kubernetes-charts.storage.googleapis.com/
   version: 3.2.6
@@ -26,5 +26,5 @@ dependencies:
 - name: influxdb
   repository: https://kubernetes-charts.storage.googleapis.com/
   version: 4.3.1
-digest: sha256:4c8e86fa76de63d5036b6721336365f557c6d6599ddfabedbec92e1f5bd6572f
-generated: "2020-03-06T10:55:19.790126976+01:00"
+digest: sha256:fbc3d5a3b99b91771c83ccbc1bf37a8c35a060bb64c3e62c5d04d2ad36cfe0d9
+generated: "2020-03-06T11:20:54.507535339+01:00"
