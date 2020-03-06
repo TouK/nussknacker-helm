@@ -8,6 +8,9 @@ dependencies:
 - name: schema-registry
   repository: https://kubernetes-charts-incubator.storage.googleapis.com/
   version: 1.1.9
+- name: schema-registry-ui
+  repository: https://kubernetes-charts.storage.googleapis.com/
+  version: 0.4.1
 - name: flink
   repository: https://riskfocus.github.io/helm-charts-public/
   version: 0.1.5
@@ -26,5 +29,5 @@ dependencies:
 - name: influxdb
   repository: https://kubernetes-charts.storage.googleapis.com/
   version: 4.3.1
-digest: sha256:44d1e2243c9230de92baccbe6e38fda29c54993f06afd8379488470692686d48
-generated: "2020-03-06T12:19:26.330063306+01:00"
+digest: sha256:9143de3bc75841597b0393a4d57215996c6d7550262680ddb65eaa6abd4ebdd0
+generated: "2020-03-06T12:45:52.613970834+01:00"

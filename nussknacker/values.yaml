@@ -96,6 +96,8 @@ kafka:
 
 schema-registry:
   enabled: true
+  kafka:
+    enabled: false
 
 flink:
   enabled: true
