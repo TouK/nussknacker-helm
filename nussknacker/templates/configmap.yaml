@@ -21,8 +21,7 @@ data:
 
     categoriesConfig {
       "FraudDetection": "streaming",
-      "Recommendations": "streaming",
-      "Default": "streaming-generic"
+      "Recommendations": "streaming"
     }
 
     processTypes {
@@ -32,12 +31,6 @@ data:
           classPath: ["model/demoModel.jar"]
         } ${base.streamingModelConfig}
       }
-      "streaming-generic": {
-        engineConfig: ${base.flinkEngineConfig}
-        modelConfig = {
-          classPath: [ "model/genericModel.jar" ]
-        } ${base.streamingModelConfig}
-      }
     }
 
     metricsSettings: {
@@ -45,7 +38,6 @@ data:
       defaultDashboard: "flink-esp"
       processingTypeToDashboard: {
         "streaming": "flink-esp"
-        "streaming-generic": "flink-generic"
       }
     }
 
@@ -59,4 +51,3 @@ data:
     attachmentsPath: ${base.attachmentsPath}
     countsSettings: ${base.countsSettings}
     kibanaSettings: ${base.kibanaSettings}
-
