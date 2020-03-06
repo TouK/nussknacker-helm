@@ -94,6 +94,9 @@ postgresql:
 kafka:
   enabled: true
 
+schema-registry:
+  enabled: true
+
 flink:
   enabled: true
   taskmanager:
