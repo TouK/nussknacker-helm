@@ -35,7 +35,7 @@ data:
       "streaming-generic": {
         engineConfig: ${base.flinkEngineConfig}
         modelConfig = {
-          classPath: [ ${genericModelDir}"/genericModel.jar" ]
+          classPath: [ "model/genericModel.jar" ]
         } ${base.streamingModelConfig}
       }
     }
