@@ -21,7 +21,8 @@ data:
 
     categoriesConfig {
       "FraudDetection": "streaming",
-      "Recommendations": "streaming"
+      "Recommendations": "streaming",
+      "Default": "streaming-generic"
     }
 
     processTypes {
@@ -31,6 +32,12 @@ data:
           classPath: ["model/demoModel.jar"]
         } ${base.streamingModelConfig}
       }
+      "streaming-generic": {
+        engineConfig: ${base.flinkEngineConfig}
+        modelConfig = {
+          classPath: [ ${genericModelDir}"/genericModel.jar" ]
+        } ${base.streamingModelConfig}
+      }
     }
 
     metricsSettings: {
@@ -38,6 +45,7 @@ data:
       defaultDashboard: "flink-esp"
       processingTypeToDashboard: {
         "streaming": "flink-esp"
+        "streaming-generic": "flink-generic"
       }
     }
 
