@@ -3,10 +3,10 @@ dependencies:
   repository: https://kubernetes-charts.storage.googleapis.com/
   version: 8.6.0
 - name: kafka
-  repository: http://storage.googleapis.com/kubernetes-charts-incubator
+  repository: https://kubernetes-charts-incubator.storage.googleapis.com/
   version: 0.20.8
 - name: schema-registry
-  repository: http://storage.googleapis.com/kubernetes-charts-incubator
+  repository: https://kubernetes-charts-incubator.storage.googleapis.com/
   version: 1.1.9
 - name: flink
   repository: https://riskfocus.github.io/helm-charts-public/
@@ -26,5 +26,5 @@ dependencies:
 - name: influxdb
   repository: https://kubernetes-charts.storage.googleapis.com/
   version: 4.3.1
-digest: sha256:fbc3d5a3b99b91771c83ccbc1bf37a8c35a060bb64c3e62c5d04d2ad36cfe0d9
-generated: "2020-03-06T11:20:54.507535339+01:00"
+digest: sha256:44d1e2243c9230de92baccbe6e38fda29c54993f06afd8379488470692686d48
+generated: "2020-03-06T12:19:26.330063306+01:00"
