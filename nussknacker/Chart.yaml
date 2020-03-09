@@ -23,7 +23,7 @@ dependencies:
     repository: "@stable"
     condition: schema-registry-ui.enabled
   - name: flink
-    version: ^0.1.4
+    version: 0.1.4
     repository: "@riskfocus"
     condition: flink.enabled
   - name: elasticsearch
