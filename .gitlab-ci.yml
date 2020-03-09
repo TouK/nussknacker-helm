@@ -23,4 +23,4 @@ build:
 publish:
   stage: publish
   script:
-    - curl -u publisher:MzQwMjY0NTk4ZDc0 --fail --data-binary "@dist/nussknacker-$VERSION.tgz" https://chartmuseum.carpinion.touk.pl/api/charts
+    - curl -u publisher:MzQwMjY0NTk4ZDc0 --fail --data-binary "@dist/nussknacker-$VERSION.tgz" https://chartmuseum.carpinion.touk.pl/public/api/charts
