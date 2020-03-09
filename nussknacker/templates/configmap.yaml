@@ -21,7 +21,8 @@ data:
 
     categoriesConfig {
       "FraudDetection": "streaming",
-      "Recommendations": "streaming"
+      "Recommendations": "streaming",
+      "Default": "streaming-generic"
     }
 
     processTypes {
@@ -31,6 +32,12 @@ data:
           classPath: ["model/demoModel.jar"]
         } ${base.streamingModelConfig}
       }
+      "streaming-generic": {
+        engineConfig: ${base.flinkEngineConfig}
+        modelConfig = {
+          classPath: [ "model/genericModel.jar" ]
+        } ${base.streamingModelConfig}
+      }
     }
 
     metricsSettings: {
@@ -38,8 +45,10 @@ data:
       defaultDashboard: "flink-esp"
       processingTypeToDashboard: {
         "streaming": "flink-esp"
+        "streaming-generic": "flink-generic"
       }
     }
+
 
     # TODO: lightbend config can't include files on root level - move nussknacker config on nk level and get rid of this below
     jdbcServer: ${base.jdbcServer}
