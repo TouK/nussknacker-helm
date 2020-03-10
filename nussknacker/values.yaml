@@ -150,9 +150,8 @@ logstash:
               target => [ "parsedEventTime" ]
             }
           }
-          mutate {
-            add_field => { "topic" => "%{[@metadata][kafka][topic]}"}
-          }
+        mutate {
+          add_field => { "topic" => "%{[@metadata][kafka][topic]}"}
         }
       }
   outputs:
@@ -160,7 +159,7 @@ logstash:
       output {
         elasticsearch {
           index => "processedevents.%{[@metadata][kafka][topic]}-%{+YYYY.MM}"
-          hosts => "http://master-elasticsearch-client.nk-cloud-1251-master.k8s-carpinion.touk.pl:9200"
+          hosts => ["http://master-elasticsearch-client.nk-cloud-1251-master.k8s-carpinion.touk.pl:9200"]
         }
       }   
   elasticsearch:
