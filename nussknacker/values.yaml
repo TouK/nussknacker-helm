@@ -103,7 +103,7 @@ schema-registry-ui:
   enabled: true
   schema-registry:
     url: http://{{ .Release.Name }}-schema-registry
-    port: 80
+    port: 8081
     proxy: true
 
 flink:
