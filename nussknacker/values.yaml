@@ -103,7 +103,8 @@ schema-registry-ui:
   enabled: true
   schema-registry:
     url: http://{{ .Release.Name }}-schema-registry
-    port: 8081
+    port: 80
+    proxy: true
 
 flink:
   enabled: true
@@ -126,8 +127,10 @@ kibana:
 logstash:
   enabled: true
   env:
-    KAFKA_HOST: http://{{ .Release.Name }}-kafka:9092
-    ELASTICSEARCH_HOSTS: http://{{ .Release.Name }}-elasticsearch-client:9200
+    KAFKA_HOST: http://{{ .Release.Name }}-kafka
+    KAFKA_POST: 9092
+    ELASTICSEARCH_HOST: http://{{ .Release.Name }}-elasticsearch-client
+    ELASTICSEARCH_PORT: 9200
   logstashPipeline:
     logstash.conf: |-
       {{ .Files.Get logstash/logstash.conf }}
