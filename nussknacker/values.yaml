@@ -129,33 +129,39 @@ logstash:
   enabled: true
   inputs:
     main: |-
-      kafka {
-      codec => "json"
-      bootstrap_servers => "http://master-kafka.nk-cloud-1251-master.k8s-carpinion.touk.pl:9092"
-      topics_pattern => "*"
-      # topics => ["group.topic"]
-      auto_offset_reset => "latest"
-      client_id => "logstash"
-      group_id => "logstash"
-      decorate_events => "true"
+      input {
+        kafka {
+        codec => "json"
+        bootstrap_servers => "http://master-kafka.nk-cloud-1251-master.k8s-carpinion.touk.pl:9092"
+        topics_pattern => "*"
+        # topics => ["group.topic"]
+        auto_offset_reset => "latest"
+        client_id => "logstash"
+        group_id => "logstash"
+        decorate_events => "true"
+        }
       }
   filters:
     main: |-
-      if [eventTime] {
-          date {
-            match => [ "eventTime", "ISO8601" ]
-            target => [ "parsedEventTime" ]
+      filter {
+        if [eventTime] {
+            date {
+              match => [ "eventTime", "ISO8601" ]
+              target => [ "parsedEventTime" ]
+            }
           }
-        }
-        mutate {
-          add_field => { "topic" => "%{[@metadata][kafka][topic]}"}
+          mutate {
+            add_field => { "topic" => "%{[@metadata][kafka][topic]}"}
+          }
         }
       }
   outputs:
     main: |-
-      elasticsearch {
-      index => "processedevents.%{[@metadata][kafka][topic]}-%{+YYYY.MM}"
-      hosts => "http://master-elasticsearch-client.nk-cloud-1251-master.k8s-carpinion.touk.pl:9200"
+      output {
+        elasticsearch {
+          index => "processedevents.%{[@metadata][kafka][topic]}-%{+YYYY.MM}"
+          hosts => "http://master-elasticsearch-client.nk-cloud-1251-master.k8s-carpinion.touk.pl:9200"
+        }
       }   
   elasticsearch:
     host: http://master-elasticsearch-client.nk-cloud-1251-master.k8s-carpinion.touk.pl
