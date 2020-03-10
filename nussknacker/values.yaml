@@ -134,8 +134,8 @@ logstash:
   logstashPipeline:
     logstash.conf: |-
       {{ .Files.Get logstash/logstash.conf }}
-  elasticsearch:
-    host: http://{{ .Release.Name }}-elasticsearch-client:9200
+  #elasticsearch:
+  #  host: http://{{ .Release.Name }}-elasticsearch-client:9200
 
 grafana:
   enabled: true
