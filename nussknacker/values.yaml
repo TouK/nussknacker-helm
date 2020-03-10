@@ -133,8 +133,8 @@ logstash:
         kafka {
         codec => "json"
         bootstrap_servers => "http://master-kafka.nk-cloud-1251-master.k8s-carpinion.touk.pl:9092"
-        topics_pattern => "*"
-        # topics => ["group.topic"]
+        # topics_pattern => "*"
+        topics => ["test.input"]
         auto_offset_reset => "latest"
         client_id => "logstash"
         group_id => "logstash"
@@ -145,11 +145,11 @@ logstash:
     main: |-
       filter {
         if [eventTime] {
-            date {
-              match => [ "eventTime", "ISO8601" ]
-              target => [ "parsedEventTime" ]
-            }
+          date {
+            match => [ "eventTime", "ISO8601" ]
+            target => [ "parsedEventTime" ]
           }
+        }
         mutate {
           add_field => { "topic" => "%{[@metadata][kafka][topic]}"}
         }
