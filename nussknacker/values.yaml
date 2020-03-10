@@ -133,8 +133,8 @@ logstash:
         kafka {
         codec => "json"
         bootstrap_servers => "http://master-kafka.nk-cloud-1251-master.k8s-carpinion.touk.pl:9092"
-        # topics_pattern => "*"
-        topics => ["test.input", "test.test"]
+        topics_pattern => "//*"
+        # topics => ["test.input", "test.test"]
         auto_offset_reset => "latest"
         client_id => "logstash"
         group_id => "logstash"
