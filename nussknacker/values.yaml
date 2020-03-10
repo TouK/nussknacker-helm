@@ -125,8 +125,14 @@ kibana:
 
 logstash:
   enabled: true
-  # elasticsearch:
-  #   host: elastic-stack-elasticsearch-client
+  env:
+    KAFKA_HOST: http://{{ .Release.Name }}-kafka:9092
+    ELASTICSEARCH_HOSTS: http://{{ .Release.Name }}-elasticsearch-client:9200
+  logstashPipeline:
+    logstash.conf: |-
+      {{ .Files.Get logstash/logstash.conf }}
+  elasticsearch:
+    host: http://{{ .Release.Name }}-elasticsearch-client:9200
 
 grafana:
   enabled: true
