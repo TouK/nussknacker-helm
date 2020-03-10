@@ -132,7 +132,7 @@ logstash:
       input {
         kafka {
         codec => "json"
-        bootstrap_servers => "http://master-kafka.nk-cloud-1251-master.k8s-carpinion.touk.pl:9092"
+        bootstrap_servers => "http://{{ .Release.Name }}-kafka:9092"
         topics_pattern => ".*"
         # topics => ["test.input", "test.test"]
         auto_offset_reset => "latest"
@@ -159,11 +159,11 @@ logstash:
       output {
         elasticsearch {
           index => "events.%{[@metadata][kafka][topic]}-%{+YYYY.MM}"
-          hosts => ["http://master-elasticsearch-client.nk-cloud-1251-master.k8s-carpinion.touk.pl:9200"]
+          hosts => ["http://{{ .Release.Name }}-elasticsearch-client:9200"]
         }
       }   
   elasticsearch:
-    host: http://master-elasticsearch-client.nk-cloud-1251-master.k8s-carpinion.touk.pl
+    host: http://{{ .Release.Name }}-elasticsearch-client
 
 
 grafana:
