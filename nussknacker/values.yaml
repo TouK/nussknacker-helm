@@ -126,16 +126,41 @@ kibana:
 
 logstash:
   enabled: true
-  env:
-    KAFKA_HOST: http://{{ .Release.Name }}-kafka
-    KAFKA_POST: 9092
-    ELASTICSEARCH_HOST: http://{{ .Release.Name }}-elasticsearch-client
-    ELASTICSEARCH_PORT: 9200
-  logstashPipeline:
-    logstash.conf: |-
-      {{ .Files.Get logstash/logstash.conf }}
-  #elasticsearch:
-  #  host: http://{{ .Release.Name }}-elasticsearch-client:9200
+  inputs:
+    main: |-
+      kafka {
+      codec => "json"
+      bootstrap_servers => "http://master-kafka.nk-cloud-1251-master.k8s-carpinion.touk.pl:9092"
+      topics_pattern => "*"
+      # topics => ["group.topic"]
+      auto_offset_reset => "latest"
+      client_id => "logstash"
+      group_id => "logstash"
+      decorate_events => "true"
+      }
+  filters:
+    main: |-
+      if [eventTime] {
+          date {
+            match => [ "eventTime", "ISO8601" ]
+            target => [ "parsedEventTime" ]
+          }
+        }
+        mutate {
+          add_field => { "topic" => "%{[@metadata][kafka][topic]}"}
+        }
+      }
+  outputs:
+    main: |-
+      output {
+        elasticsearch {
+        index => "processedevents.%{[@metadata][kafka][topic]}-%{+YYYY.MM}"
+        hosts => "http://master-elasticsearch-client.nk-cloud-1251-master.k8s-carpinion.touk.pl:9200"
+        }
+      }   
+  elasticsearch:
+    host: http://{{ .Release.Name }}-elasticsearch-client
+
 
 grafana:
   enabled: true
