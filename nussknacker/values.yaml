@@ -122,7 +122,8 @@ elasticsearch:
 kibana:
   enabled: true
   env:
-    ELASTICSEARCH_HOSTS: http://master-elasticsearch-client.nk-cloud-1251-master.k8s-carpinion.touk.pl:9200
+    ELASTICSEARCH_HOSTS: http://{{ .Release.Name }}-elasticsearch-client:9200
+
 
 logstash:
   enabled: true
@@ -157,7 +158,7 @@ logstash:
       hosts => "http://master-elasticsearch-client.nk-cloud-1251-master.k8s-carpinion.touk.pl:9200"
       }   
   elasticsearch:
-    host: http://{{ .Release.Name }}-elasticsearch-client
+    host: http://master-elasticsearch-client.nk-cloud-1251-master.k8s-carpinion.touk.pl
 
 
 grafana:
