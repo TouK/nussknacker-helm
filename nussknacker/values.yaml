@@ -122,7 +122,7 @@ elasticsearch:
 kibana:
   enabled: true
   env:
-    ELASTICSEARCH_HOSTS: http://{{ .Release.Name }}-elasticsearch-client:9200
+    ELASTICSEARCH_HOSTS: http://master-elasticsearch-client.nk-cloud-1251-master.k8s-carpinion.touk.pl:9200
 
 logstash:
   enabled: true
@@ -152,11 +152,9 @@ logstash:
       }
   outputs:
     main: |-
-      output {
-        elasticsearch {
-        index => "processedevents.%{[@metadata][kafka][topic]}-%{+YYYY.MM}"
-        hosts => "http://master-elasticsearch-client.nk-cloud-1251-master.k8s-carpinion.touk.pl:9200"
-        }
+      elasticsearch {
+      index => "processedevents.%{[@metadata][kafka][topic]}-%{+YYYY.MM}"
+      hosts => "http://master-elasticsearch-client.nk-cloud-1251-master.k8s-carpinion.touk.pl:9200"
       }   
   elasticsearch:
     host: http://{{ .Release.Name }}-elasticsearch-client
