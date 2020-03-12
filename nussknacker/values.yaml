@@ -113,7 +113,7 @@ flink:
   jobmanager:
     statefulset: true
   prometheus:
-    serviceMonitor:But the value in value.yaml will be consumed in ConfigMap in this question. And then .Release.Name will be evaluated to strings in the ConfigMap template.
+    serviceMonitor:
       enabled: false
 
 elasticsearch:
