@@ -122,7 +122,7 @@ elasticsearch:
 kibana:
   enabled: true
   env:
-    ELASTICSEARCH_HOSTS: http://master-elasticsearch-client:9200
+    ELASTICSEARCH_HOSTS: http://{{ .Release.Name }}-elasticsearch-client:9200
 
 
 logstash:
@@ -132,7 +132,7 @@ logstash:
       input {
         kafka {
         codec => "json"
-        bootstrap_servers => "http://master-kafka.k8s-carpinion.touk.pl:9092"
+        bootstrap_servers => "http://master-kafka.nk-cloud-1251-master.k8s-carpinion.touk.pl:9092"
         topics_pattern => ".*"
         auto_offset_reset => "latest"
         client_id => "logstash"
@@ -158,11 +158,11 @@ logstash:
       output {
         elasticsearch {
           index => "events.%{[@metadata][kafka][topic]}-%{+YYYY.MM}"
-          hosts => ["http://master-elasticsearch-client.k8s-carpinion.touk.pl:9200"]
+          hosts => ["http://master-elasticsearch-client.nk-cloud-1251-master.k8s-carpinion.touk.pl:9200"]
         }
       }   
   elasticsearch:
-    host: http://master-elasticsearch-client.k8s-carpinion.touk.pl
+    host: http://master-elasticsearch-client.nk-cloud-1251-master.k8s-carpinion.touk.pl
     port: 9200
 
 
