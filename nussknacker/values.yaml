@@ -175,5 +175,5 @@ influxdb:
 hermes:
   enabled: true
   kafka:
-    url: "{{ .Release.Name }}-kafka:9092"
-    zookeeperUrl: "{{ .Release.Name }}-zookeeper:2181"
+    url: "http://master-kafka.nk-cloud-1251-master.k8s-carpinion.touk.pl:9092"
+    zookeeperUrl: "http://master-zookeeper.nk-cloud-1251-master.k8s-carpinion.touk.pl:2181"
