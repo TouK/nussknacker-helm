@@ -46,4 +46,8 @@ dependencies:
     version: ^4.2.4
     repository: "@stable"
     condition: influxdb.enabled
+  - name: hermes
+    version: ^1.0.1-SNAPSHOT
+    repository: "@touk"
+    condition: hermes.enabled
 

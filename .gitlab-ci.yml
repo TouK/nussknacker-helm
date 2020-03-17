@@ -17,6 +17,7 @@ build:
     - helm3 repo add stable https://kubernetes-charts.storage.googleapis.com/
     - helm3 repo add incubator https://kubernetes-charts-incubator.storage.googleapis.com/
     - helm3 repo add riskfocus https://riskfocus.github.io/helm-charts-public/
+    - helm3 repo add touk https://chartmuseum.carpinion.touk.pl/public/
     - helm3 dependencies build nussknacker
     - helm3 package nussknacker -d dist --version $VERSION
 
