@@ -5,7 +5,7 @@ stages:
 default:
   image: docker-gitlab.touk.pl/carpinion/ci/k8s-tools
   before_script:
-    - export VERSION=`helm3 show chart nussknacker | grep ^version | sed -e "s/.*:\ //;s/SNAPSHOT/SNAPSHOT.${CI_PIPELINE_IID}/"`
+    - export VERSION=`helm show chart nussknacker | grep ^version | sed -e "s/.*:\ //;s/SNAPSHOT/SNAPSHOT.${CI_PIPELINE_IID}/"`
 
 build:
   stage: build
@@ -14,12 +14,12 @@ build:
     paths:
       - ./dist/
   script:
-    - helm3 repo add stable https://kubernetes-charts.storage.googleapis.com/
-    - helm3 repo add incubator https://kubernetes-charts-incubator.storage.googleapis.com/
-    - helm3 repo add riskfocus https://riskfocus.github.io/helm-charts-public/
-    - helm3 repo add touk https://chartmuseum.carpinion.touk.pl/public/
-    - helm3 dependencies build nussknacker
-    - helm3 package nussknacker -d dist --version $VERSION
+    - helm repo add stable https://kubernetes-charts.storage.googleapis.com/
+    - helm repo add incubator https://kubernetes-charts-incubator.storage.googleapis.com/
+    - helm repo add riskfocus https://riskfocus.github.io/helm-charts-public/
+    - helm repo add touk https://chartmuseum.carpinion.touk.pl/public/
+    - helm dependencies build nussknacker
+    - helm package nussknacker -d dist --version $VERSION
 
 publish:
   stage: publish
