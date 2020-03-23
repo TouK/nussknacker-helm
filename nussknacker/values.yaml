@@ -177,7 +177,7 @@ hermes:
   enabled: true
   kafka:
     url: "master-kafka.nk-cloud-1251-master.k8s-carpinion.touk.pl:9092"
-    zookeeperUrl: "master-zookeeper.nk-cloud-1251-master.k8s-carpinion.touk.pl:2181"
+    zookeeper.url: "master-zookeeper.nk-cloud-1251-master.k8s-carpinion.touk.pl:2181"
   management:
     ingress: 
       enabled: true
