@@ -38,6 +38,12 @@ data:
           classPath: [ "model/genericModel.jar" ]
         } ${base.streamingModelConfig}
       }
+      "streaming-hermes": {
+        engineConfig: ${base.flinkEngineConfig}
+        modelConfig: {
+          classPath: ["model/hermesModel.jar"]
+        } ${base.streamingModelConfig}
+      }
     }
 
     metricsSettings: {
