@@ -41,7 +41,7 @@ data:
       "streaming-hermes": {
         engineConfig: ${base.flinkEngineConfig}
         modelConfig: {
-          classPath: ["model/hermesModel.jar"]
+          classPath: ["storage/hermesModel.jar"]
         } ${base.streamingModelConfig}
       }
     }
