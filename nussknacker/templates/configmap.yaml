@@ -22,7 +22,8 @@ data:
     categoriesConfig {
       "FraudDetection": "streaming",
       "Recommendations": "streaming",
-      "Default": "streaming-generic"
+      "Default": "streaming-generic",
+      "Hermes": "streaming-hermes",
     }
 
     processTypes {
