@@ -1,27 +1,22 @@
-stages:
-  - build
-  - publish
-
-default:
-  image: docker-gitlab.touk.pl/carpinion/ci/k8s-tools
-  before_script:
-    - export VERSION=`helm show chart nussknacker | grep ^version | sed -e "s/.*:\ //;s/SNAPSHOT/SNAPSHOT.${CI_PIPELINE_IID}/"`
+include:
+  - project: 'carpinion/ci/templates'
+    file: 'vanilla-helm.yaml'
 
 build:
-  stage: build
-  artifacts:
-    expire_in: 1d
-    paths:
-      - ./dist/
   script:
     - helm repo add stable https://kubernetes-charts.storage.googleapis.com/
     - helm repo add incubator https://kubernetes-charts-incubator.storage.googleapis.com/
     - helm repo add riskfocus https://riskfocus.github.io/helm-charts-public/
     - helm repo add touk https://chartmuseum.carpinion.touk.pl/public/
-    - helm dependencies build nussknacker
-    - helm package nussknacker -d dist --version $VERSION
+    - helm dependencies build ./src
+    - helm package ./src -d dist --version $VERSION
 
-publish:
-  stage: publish
+deploy:
+  services:
+    - docker:dind
   script:
-    - curl -u publisher:MzQwMjY0NTk4ZDc0 --fail --data-binary "@dist/nussknacker-$VERSION.tgz" https://chartmuseum.carpinion.touk.pl/public/api/charts
+    - docker info | grep Driver
+    - env
+    - helm repo add touk https://chartmuseum.carpinion.touk.pl/public/
+    - kubectl get secret "$CI_ENVIRONMENT_SLUG-postgresql" || kubectl create secret generic "$CI_ENVIRONMENT_SLUG-postgresql" --from-literal postgresql-password=`date +%s | sha256sum | base64 | head -c 32`
+    - helm upgrade -i --devel "$CI_ENVIRONMENT_SLUG" ./dist/$NAME-$VERSION.tgz --set postgresql.existingSecret="$CI_ENVIRONMENT_SLUG-postgresql" -f deploy-values.yaml

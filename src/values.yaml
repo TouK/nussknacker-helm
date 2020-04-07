@@ -98,15 +98,6 @@ schema-registry:
   kafka:
     enabled: false
 
-schema-registry-ui:
-  enabled: true
-  service:
-    type: ClusterIP
-  schema-registry:
-    url: http://{{ .Release.Name }}-schema-registry
-    port: 8081
-    proxy: true
-
 flink:
   enabled: true
   taskmanager:
@@ -133,7 +124,7 @@ logstash:
       input {
         kafka {
         codec => "json"
-        bootstrap_servers => "http://master-kafka.nk-cloud-1251-master.k8s-carpinion.touk.pl:9092"
+        bootstrap_servers => "http://master-kafka:9092"
         topics_pattern => ".*"
         auto_offset_reset => "latest"
         client_id => "logstash"
@@ -159,11 +150,11 @@ logstash:
       output {
         elasticsearch {
           index => "events.%{[@metadata][kafka][topic]}-%{+YYYY.MM}"
-          hosts => ["http://master-elasticsearch-client.nk-cloud-1251-master.k8s-carpinion.touk.pl:9200"]
+          hosts => ["http://master-elasticsearch-client:9200"]
         }
       }   
   elasticsearch:
-    host: http://master-elasticsearch-client.nk-cloud-1251-master.k8s-carpinion.touk.pl
+    host: http://master-elasticsearch-client
     port: 9200
 
 
@@ -176,9 +167,14 @@ influxdb:
 hermes:
   enabled: true
   kafka:
-    url: "master-kafka.nk-cloud-1251-master.k8s-carpinion.touk.pl:9092"
+    enabled: false
+    url: "{{ .Release.Name }}-kafka:9092"
     zookeeper:
-      url: "master-zookeeper.nk-cloud-1251-master.k8s-carpinion.touk.pl:2181"
+      enabled: false
+      url: "{{ .Release.Name }}-zookeeper:2181"
+  schema-registry:
+    enabled: false
+    url: "http://{{ .Release.Name }}-schema-registry:8081"
   management:
     ingress: 
       enabled: true

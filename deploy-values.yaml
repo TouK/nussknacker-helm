@@ -1,0 +1,42 @@
+image:
+  pullPolicy: Always
+
+persistence:
+  accessMode: ReadWriteMany
+  storageClass: nfs
+
+flink:
+  taskmanager:
+    replicaCount: 3
+    resources:
+      limits:
+        memory: 3Gi
+      requests:
+        memory: 2560Mi
+grafana:
+  enabled: false
+  rbac:
+    create: false
+    namespaced: true
+    pspEnabled: false
+resources:
+  limits:
+    memory: 1Gi
+  requests:
+    memory: 512Mi
+schema-registry:
+  enabled: true
+  kafka:
+    enabled: false
+
+kibana:
+  ingress:
+    enabled: true
+    hosts:
+      - master-kibana.carpinion.touk.pl/
+    annotations:
+      certmanager.k8s.io/cluster-issuer: "letsencrypt-prod"
+    tls:
+      - secretName: master-kibana-tls
+        hosts:
+          - master-kibana.carpinion.touk.pl
