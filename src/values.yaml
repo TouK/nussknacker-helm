@@ -119,12 +119,17 @@ kibana:
 
 logstash:
   enabled: true
+  extraEnv:
+    - name: HELM_RELEASE_NAME
+      valueFrom:
+        fieldRef:
+          fieldPath: metadata.labels['release']
   inputs:
     main: |-
       input {
         kafka {
         codec => "json"
-        bootstrap_servers => "http://master-kafka:9092"
+        bootstrap_servers => "http://${HELM_RELEASE_NAME}-kafka:9092"
         topics_pattern => ".*"
         auto_offset_reset => "latest"
         client_id => "logstash"
@@ -150,13 +155,12 @@ logstash:
       output {
         elasticsearch {
           index => "events.%{[@metadata][kafka][topic]}-%{+YYYY.MM}"
-          hosts => ["http://master-elasticsearch-client:9200"]
+          hosts => ["http://${HELM_RELEASE_NAME}-elasticsearch-client:9200"]
         }
       }   
   elasticsearch:
-    host: http://master-elasticsearch-client
+    host: http://{{ .Release.Name }}-elasticsearch-client
     port: 9200
-
 
 grafana:
   enabled: true
