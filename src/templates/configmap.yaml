@@ -27,7 +27,7 @@ data:
           engineConfig: ${base.flinkEngineConfig}
           modelConfig: {
             classPath: ["model/hermesModel.jar"]
-            namespace: {{ .Values.namespace }}
+            namespace: {{ .Values.hermes.kafka.namespace }}
           } ${base.streamingModelConfig}
         }
     }

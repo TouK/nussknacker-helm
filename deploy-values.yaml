@@ -17,6 +17,10 @@ namespace: "namespace"
 imagePullSecrets: 
   - name: gitlab-registry
 
+hermes:
+  kafka:
+    namespace: "ns"
+
 flink:
   taskmanager:
     replicaCount: 1
