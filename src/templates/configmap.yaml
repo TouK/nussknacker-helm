@@ -19,33 +19,29 @@ data:
     environment: "demo"
 
     categoriesConfig {
-      "FraudDetection": "streaming",
-      "Recommendations": "streaming",
-      "Default": "streaming-generic",
-      "Hermes": "streaming-hermes",
+      "Default": "hermes-model"
     }
 
     processTypes {
-      "streaming": {
-        engineConfig: ${base.flinkEngineConfig}
-        modelConfig: {
-          classPath: ["model/demoModel.jar"]
-        } ${base.streamingModelConfig}
-      }
-      "streaming-generic": {
-        engineConfig: ${base.flinkEngineConfig}
-        modelConfig = {
-          classPath: [ "model/genericModel.jar" ]
-        } ${base.streamingModelConfig}
-      }
+      "hermes-model": {
+          engineConfig: ${base.flinkEngineConfig}
+          modelConfig: {
+            classPath: ["model/hermesModel.jar"]
+            namespace: {{ .Values.namespace }}
+          } ${base.streamingModelConfig}
+        }
+    }
+
+    environmentAlert: {
+      content: "KUBERNETES ENVIRONMENT"
+      cssClass: "indicator-green"
     }
 
     metricsSettings: {
       url: ${base.grafanaUrl}"/dashboard/db/$dashboard?theme=dark&var-processName=$process&var-env="${environment}
       defaultDashboard: "flink-esp"
       processingTypeToDashboard: {
-        "streaming": "flink-esp"
-        "streaming-generic": "flink-generic"
+        "hermes-model": "flink-esp"
       }
     }
 

@@ -3,7 +3,7 @@ name: nussknacker
 version: 0.1.0-SNAPSHOT
 description: A Helm chart for Nussknacker
 type: application
-appVersion: staging-latest
+appVersion: latest
 
 dependencies:
   - name: postgresql

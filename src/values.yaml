@@ -5,8 +5,8 @@
 replicaCount: 1
 
 image:
-  repository: touk/nussknacker
-  tag: staging-latest
+  repository: docker-gitlab.touk.pl/carpinion/nussknacker/hermes-model/master
+  tag: latest
   pullPolicy: IfNotPresent
 
 imagePullSecrets: []
