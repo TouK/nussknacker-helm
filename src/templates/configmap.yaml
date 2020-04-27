@@ -11,10 +11,9 @@ data:
     base.flinkEngineConfig.restUrl: "http://{{ .Release.Name }}-flink-jobmanager-rest:8081"
     base.flinkEngineConfig.queryableStateProxyUrl: "{{ .Release.Name }}-flink-taskmanager:6122"
     base.streamingModelConfig.kafka.kafkaAddress: "{{ .Release.Name }}-kafka:9092"
-    base.db.type: postgres
-    base.db.driver: "org.postgresql.Driver"
-    base.db.url: "jdbc:postgresql://{{ .Release.Name }}-postgresql/"
-    base.db.user: postgres
+    {{- with .Values.db }}
+    base.db: {{ tpl (toJson .) $ }}
+    {{- end }}
     base.jdbcServer.enabled: false
 
     environment: "demo"

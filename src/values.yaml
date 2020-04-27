@@ -85,6 +85,14 @@ tolerations: []
 
 affinity: {}
 
+db:
+  type: postgres
+  driver: "org.postgresql.Driver"
+  url: 'jdbc:postgresql://{{ .Release.Name }}-postgresql/'
+  schema: public
+  user: postgres
+  # password: from a postgresql secret by default
+
 postgresql:
   enabled: true
   volumePermissions:
@@ -115,7 +123,6 @@ kibana:
   enabled: true
   env:
     ELASTICSEARCH_HOSTS: http://{{ .Release.Name }}-elasticsearch-client:9200
-
 
 logstash:
   enabled: true

@@ -40,11 +40,13 @@ spec:
           env:
             - name: NUSSKNACKER_CONFIG_FILE
               value: /etc/nussknacker/application.conf
+            {{- if .Values.postgresql.enabled }}
             - name: DB_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Release.Name }}-postgresql
+                  name: '{{- include "postgresql.secretName" (dict "Values" .Values.postgresql) }}'
                   key: postgresql-password
+            {{- end }}
           ports:
             - name: http
               containerPort: 8080

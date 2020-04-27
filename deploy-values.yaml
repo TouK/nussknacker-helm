@@ -5,14 +5,28 @@ persistence:
   accessMode: ReadWriteMany
   storageClass: nfs
 
+kafka:
+  replicas: 1
+  zookeeper:
+    replicaCount: 1
+
 flink:
   taskmanager:
-    replicaCount: 3
+    replicaCount: 1
     resources:
       limits:
         memory: 3Gi
       requests:
         memory: 2560Mi
+
+elasticsearch:
+  master:
+    replicas: 2
+  data:
+    replicas: 1
+  client:
+    replicas: 1
+
 grafana:
   enabled: false
   rbac:
