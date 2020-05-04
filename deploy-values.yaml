@@ -1,6 +1,9 @@
 image:
   pullPolicy: Always
 
+imagePullSecrets:
+  - name: gitlab-registry
+
 persistence:
   accessMode: ReadWriteMany
   storageClass: nfs
@@ -42,15 +45,3 @@ schema-registry:
   enabled: true
   kafka:
     enabled: false
-
-kibana:
-  ingress:
-    enabled: true
-    hosts:
-      - master-kibana.carpinion.touk.pl/
-    annotations:
-      certmanager.k8s.io/cluster-issuer: "letsencrypt-prod"
-    tls:
-      - secretName: master-kibana-tls
-        hosts:
-          - master-kibana.carpinion.touk.pl

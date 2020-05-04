@@ -1,3 +1,9 @@
+stages:
+  - build
+  - publish
+  - deploy
+  - check
+
 include:
   - project: 'carpinion/ci/templates'
     file: 'vanilla-helm.yaml'
@@ -15,7 +21,24 @@ deploy:
   services:
     - docker:dind
   script:
-    - docker info | grep Driver
-    - env
+    - |
+      kubectl create secret -n "$KUBE_NAMESPACE" docker-registry gitlab-registry \
+        --docker-server="$CI_REGISTRY" \
+        --docker-username="${CI_DEPLOY_USER:-$CI_REGISTRY_USER}" \
+        --docker-password="${CI_DEPLOY_PASSWORD:-$CI_REGISTRY_PASSWORD}" \
+        --docker-email="$GITLAB_USER_EMAIL" \
+        -o yaml --dry-run | kubectl replace -n "$KUBE_NAMESPACE" --force -f -
     - kubectl get secret "$CI_ENVIRONMENT_SLUG-postgresql" || kubectl create secret generic "$CI_ENVIRONMENT_SLUG-postgresql" --from-literal postgresql-password=`date +%s | sha256sum | base64 | head -c 32`
     - helm upgrade -i --devel "$CI_ENVIRONMENT_SLUG" ./dist/$NAME-$VERSION.tgz --set postgresql.existingSecret="$CI_ENVIRONMENT_SLUG-postgresql" -f deploy-values.yaml
+
+check:
+  stage: check
+  tags:
+    - aws
+  except:
+    - tags
+  environment:
+    name: $CI_COMMIT_REF_NAME
+  when: manual
+  script:
+    - helm test "$CI_ENVIRONMENT_SLUG"
