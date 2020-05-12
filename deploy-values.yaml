@@ -8,6 +8,10 @@ persistence:
   accessMode: ReadWriteMany
   storageClass: nfs
 
+hermes:
+  imagePullSecrets:
+    - name: gitlab-registry
+
 kafka:
   replicas: 1
   zookeeper:
