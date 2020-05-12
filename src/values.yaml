@@ -100,9 +100,18 @@ postgresql:
 
 kafka:
   enabled: true
+  imageTag: 5.4.2
+  persistence:
+    enabled: true
+  zookeeper:
+    image:
+      tag: 3.6.0
+    persistence:
+      enabled: true
 
 schema-registry:
   enabled: true
+  imageTag: 5.4.2
   kafka:
     enabled: false
 
