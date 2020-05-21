@@ -28,7 +28,7 @@ data:
           modelConfig: {
             classPath: ["model/hermesModel.jar"]
             {{- if .Values.hermes.kafka.namespace }}
-            namespace: {{ .Values.hermes.kafka.namespace }}
+            namespace: {{ include .Values.hermes.kafka.namespace . }}
             {{- end }}
           } ${base.streamingModelConfig}
         }
