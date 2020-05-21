@@ -29,7 +29,6 @@ deploy:
         --docker-email="$GITLAB_USER_EMAIL" \
         -o yaml --dry-run | kubectl replace -n "$KUBE_NAMESPACE" --force -f -
     - kubectl get secret "$CI_ENVIRONMENT_SLUG-postgresql" || kubectl create secret generic "$CI_ENVIRONMENT_SLUG-postgresql" --from-literal postgresql-password=`date +%s | sha256sum | base64 | head -c 32`
-    - helm delete "$CI_ENVIRONMENT_SLUG"
     - helm upgrade -i --devel "$CI_ENVIRONMENT_SLUG" ./dist/$NAME-$VERSION.tgz --set postgresql.existingSecret="$CI_ENVIRONMENT_SLUG-postgresql" -f deploy-values.yaml
 
 check:
