@@ -15,7 +15,7 @@ kafka:
 
 hermes:
   kafka:
-    namespace: '{{ .Release.Name }}'
+    namespace: "{{ .Release.Name }}"
 
 flink:
   taskmanager:
