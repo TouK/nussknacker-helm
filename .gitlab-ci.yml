@@ -14,6 +14,7 @@ build:
     - helm repo add incubator https://kubernetes-charts-incubator.storage.googleapis.com/
     - helm repo add riskfocus https://riskfocus.github.io/helm-charts-public/
     - helm repo add touk https://helm-charts.touk.pl/public/
+    - helm repo add touk-private https://chartmuseum.carpinion.touk.pl/private/
     - helm repo add influxdata https://helm.influxdata.com/
     - helm dependencies build ./src
     - helm package ./src -d dist --version $VERSION
