@@ -13,13 +13,12 @@ kafka:
   zookeeper:
     replicaCount: 1
     
-namespace: "namespace"
 imagePullSecrets: 
   - name: gitlab-registry
 
 hermes:
   kafka:
-    namespace: "ns"
+    namespace: '{{ .Release.Name }}'
 
 flink:
   taskmanager:
