@@ -184,6 +184,9 @@ grafana:
 influxdb:
   enabled: true
 
+telegraf:
+  enabled: false
+
 hermes:
   enabled: true
   kafka:

@@ -39,9 +39,13 @@ dependencies:
     repository: "@stable"
     condition: grafana.enabled
   - name: influxdb
-    version: ^4.2.4
-    repository: "@stable"
+    version: ^4.4.11
+    repository: "@influxdata"
     condition: influxdb.enabled
+  - name: telegraf
+    version: ^1.7.13
+    repository: "@influxdata"
+    condition: telegraf.enabled
   - name: hermes
     version: ^0.1.0-SNAPSHOT
     repository: "@touk"
