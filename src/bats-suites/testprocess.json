@@ -1,0 +1,308 @@
+{
+  "comment": "",
+  "process": {
+    "id": "${PROCESS_NAME}",
+    "edges": [
+      {
+        "edgeType": null,
+        "from": "kafka-avro-source",
+        "to": "kafka-avro-sink"
+      }
+    ],
+    "nodes": [
+      {
+        "additionalFields": {
+          "description": null,
+          "layoutData": {
+            "x": 0,
+            "y": 0
+          }
+        },
+        "id": "kafka-avro-source",
+        "ref": {
+          "parameters": [
+            {
+              "expression": {
+                "expression": "'${KAFKA_NAMESPACE}_${GROUP}.${INPUT_TOPIC}'",
+                "language": "spel"
+              },
+              "name": "topic"
+            },
+            {
+              "expression": {
+                "expression": "",
+                "language": "spel"
+              },
+              "name": "Schema version"
+            }
+          ],
+          "typ": "kafka-avro"
+        },
+        "type": "Source"
+      },
+      {
+        "additionalFields": {
+          "description": null,
+          "layoutData": {
+            "x": 0,
+            "y": 135
+          }
+        },
+        "endResult": null,
+        "id": "kafka-avro-sink",
+        "isDisabled": null,
+        "ref": {
+          "parameters": [
+            {
+              "expression": {
+                "expression": "#input",
+                "language": "spel"
+              },
+              "name": "Output"
+            },
+            {
+              "expression": {
+                "expression": "'${KAFKA_NAMESPACE}_${GROUP}.${OUTPUT_TOPIC}'",
+                "language": "spel"
+              },
+              "name": "topic"
+            },
+            {
+              "expression": {
+                "expression": "",
+                "language": "spel"
+              },
+              "name": "Schema version"
+            }
+          ],
+          "typ": "kafka-avro"
+        },
+        "type": "Sink"
+      }
+    ],
+    "processingType": "streaming-generic",
+    "properties": {
+      "additionalFields": {
+        "description": null,
+        "groups": [],
+        "properties": {}
+      },
+      "exceptionHandler": {
+        "parameters": []
+      },
+      "isSubprocess": false,
+      "subprocessVersions": {},
+      "typeSpecificProperties": {
+        "checkpointIntervalInSeconds": null,
+        "parallelism": 1,
+        "splitStateToDisk": true,
+        "type": "StreamMetaData",
+        "useAsyncInterpretation": null
+      }
+    },
+    "validationResult": {
+      "errors": {
+        "globalErrors": [],
+        "invalidNodes": {},
+        "processPropertiesErrors": []
+      },
+      "typingInfo": {},
+      "variableTypes": {
+        "$exceptionHandler": {
+          "CONV": {
+            "params": [],
+            "refClazzName": "pl.touk.nussknacker.engine.util.functions.conversion$",
+            "type": "TypedClass"
+          },
+          "DATE": {
+            "params": [],
+            "refClazzName": "pl.touk.nussknacker.engine.util.functions.date$",
+            "type": "TypedClass"
+          },
+          "GEO": {
+            "params": [],
+            "refClazzName": "pl.touk.nussknacker.engine.util.functions.geo$",
+            "type": "TypedClass"
+          },
+          "NUMERIC": {
+            "params": [],
+            "refClazzName": "pl.touk.nussknacker.engine.util.functions.numeric$",
+            "type": "TypedClass"
+          },
+          "meta": {
+            "fields": {
+              "processName": {
+                "params": [],
+                "refClazzName": "java.lang.String",
+                "type": "TypedClass"
+              },
+              "properties": {
+                "fields": {},
+                "params": [
+                  {
+                    "params": [],
+                    "refClazzName": "java.lang.String",
+                    "type": "TypedClass"
+                  },
+                  {
+                    "params": [],
+                    "refClazzName": "java.lang.Object",
+                    "type": "Unknown"
+                  }
+                ],
+                "refClazzName": "java.util.Map",
+                "type": "TypedObjectTypingResult"
+              }
+            },
+            "params": [
+              {
+                "params": [],
+                "refClazzName": "java.lang.String",
+                "type": "TypedClass"
+              },
+              {
+                "params": [],
+                "refClazzName": "java.lang.Object",
+                "type": "Unknown"
+              }
+            ],
+            "refClazzName": "java.util.Map",
+            "type": "TypedObjectTypingResult"
+          }
+        },
+        "kafka-avro-sink": {
+          "CONV": {
+            "params": [],
+            "refClazzName": "pl.touk.nussknacker.engine.util.functions.conversion$",
+            "type": "TypedClass"
+          },
+          "DATE": {
+            "params": [],
+            "refClazzName": "pl.touk.nussknacker.engine.util.functions.date$",
+            "type": "TypedClass"
+          },
+          "GEO": {
+            "params": [],
+            "refClazzName": "pl.touk.nussknacker.engine.util.functions.geo$",
+            "type": "TypedClass"
+          },
+          "NUMERIC": {
+            "params": [],
+            "refClazzName": "pl.touk.nussknacker.engine.util.functions.numeric$",
+            "type": "TypedClass"
+          },
+          "input": {
+            "params": [],
+            "refClazzName": "java.lang.Object",
+            "type": "Unknown"
+          },
+          "meta": {
+            "fields": {
+              "processName": {
+                "params": [],
+                "refClazzName": "java.lang.String",
+                "type": "TypedClass"
+              },
+              "properties": {
+                "fields": {},
+                "params": [
+                  {
+                    "params": [],
+                    "refClazzName": "java.lang.String",
+                    "type": "TypedClass"
+                  },
+                  {
+                    "params": [],
+                    "refClazzName": "java.lang.Object",
+                    "type": "Unknown"
+                  }
+                ],
+                "refClazzName": "java.util.Map",
+                "type": "TypedObjectTypingResult"
+              }
+            },
+            "params": [
+              {
+                "params": [],
+                "refClazzName": "java.lang.String",
+                "type": "TypedClass"
+              },
+              {
+                "params": [],
+                "refClazzName": "java.lang.Object",
+                "type": "Unknown"
+              }
+            ],
+            "refClazzName": "java.util.Map",
+            "type": "TypedObjectTypingResult"
+          }
+        },
+        "kafka-avro-source": {
+          "CONV": {
+            "params": [],
+            "refClazzName": "pl.touk.nussknacker.engine.util.functions.conversion$",
+            "type": "TypedClass"
+          },
+          "DATE": {
+            "params": [],
+            "refClazzName": "pl.touk.nussknacker.engine.util.functions.date$",
+            "type": "TypedClass"
+          },
+          "GEO": {
+            "params": [],
+            "refClazzName": "pl.touk.nussknacker.engine.util.functions.geo$",
+            "type": "TypedClass"
+          },
+          "NUMERIC": {
+            "params": [],
+            "refClazzName": "pl.touk.nussknacker.engine.util.functions.numeric$",
+            "type": "TypedClass"
+          },
+          "meta": {
+            "fields": {
+              "processName": {
+                "params": [],
+                "refClazzName": "java.lang.String",
+                "type": "TypedClass"
+              },
+              "properties": {
+                "fields": {},
+                "params": [
+                  {
+                    "params": [],
+                    "refClazzName": "java.lang.String",
+                    "type": "TypedClass"
+                  },
+                  {
+                    "params": [],
+                    "refClazzName": "java.lang.Object",
+                    "type": "Unknown"
+                  }
+                ],
+                "refClazzName": "java.util.Map",
+                "type": "TypedObjectTypingResult"
+              }
+            },
+            "params": [
+              {
+                "params": [],
+                "refClazzName": "java.lang.String",
+                "type": "TypedClass"
+              },
+              {
+                "params": [],
+                "refClazzName": "java.lang.Object",
+                "type": "Unknown"
+              }
+            ],
+            "refClazzName": "java.util.Map",
+            "type": "TypedObjectTypingResult"
+          }
+        }
+      },
+      "warnings": {
+        "invalidNodes": {}
+      }
+    }
+  }
+}

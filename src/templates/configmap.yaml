@@ -15,6 +15,7 @@ data:
     base.db: {{ tpl (toJson .) $ }}
     {{- end }}
     base.jdbcServer.enabled: false
+    base.schemaRegistryUrl: "http://{{ .Release.Name }}-schema-registry:8081"
 
     environment: "demo"
 

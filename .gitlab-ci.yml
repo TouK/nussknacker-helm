@@ -1,9 +1,3 @@
-stages:
-  - build
-  - publish
-  - deploy
-  - check
-
 include:
   - project: 'carpinion/ci/templates'
     file: 'vanilla-helm.yaml'
@@ -13,7 +7,8 @@ build:
     - helm repo add stable https://kubernetes-charts.storage.googleapis.com/
     - helm repo add incubator https://kubernetes-charts-incubator.storage.googleapis.com/
     - helm repo add riskfocus https://riskfocus.github.io/helm-charts-public/
-    - helm repo add touk https://helm-charts.touk.pl/public/
+    - helm repo add touk $CHART_REPOSITORY_PUBLIC_URL
+    - helm repo add touk-private $CHART_REPOSITORY_PRIVATE_URL
     - helm dependencies build ./src
     - helm package ./src -d dist --version $VERSION
 
@@ -30,15 +25,3 @@ deploy:
         -o yaml --dry-run | kubectl replace -n "$KUBE_NAMESPACE" --force -f -
     - kubectl get secret "$CI_ENVIRONMENT_SLUG-postgresql" || kubectl create secret generic "$CI_ENVIRONMENT_SLUG-postgresql" --from-literal postgresql-password=`date +%s | sha256sum | base64 | head -c 32`
     - helm upgrade -i --devel "$CI_ENVIRONMENT_SLUG" ./dist/$NAME-$VERSION.tgz --set postgresql.existingSecret="$CI_ENVIRONMENT_SLUG-postgresql" -f deploy-values.yaml
-
-check:
-  stage: check
-  tags:
-    - aws
-  except:
-    - tags
-  environment:
-    name: $CI_COMMIT_REF_NAME
-  when: manual
-  script:
-    - helm test "$CI_ENVIRONMENT_SLUG"

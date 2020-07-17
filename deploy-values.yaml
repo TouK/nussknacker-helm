@@ -4,9 +4,31 @@ image:
 imagePullSecrets:
   - name: gitlab-registry
 
+resources:
+  limits:
+    memory: 1Gi
+  requests:
+    memory: 512Mi
+
 persistence:
   accessMode: ReadWriteMany
   storageClass: nfs
+
+hermes:
+  imagePullSecrets:
+    - name: gitlab-registry
+  management:
+    ingress:
+      enabled: true
+      annotations:
+        certmanager.k8s.io/cluster-issuer: "letsencrypt-prod"
+      domain: carpinion.touk.pl
+  frontend:
+    ingress:
+      enabled: true
+      annotations:
+        certmanager.k8s.io/cluster-issuer: "letsencrypt-prod"
+      domain: carpinion.touk.pl
 
 kafka:
   replicas: 1
@@ -23,6 +45,7 @@ flink:
         memory: 2560Mi
 
 elasticsearch:
+  enabled: false
   master:
     replicas: 2
   data:
@@ -30,17 +53,19 @@ elasticsearch:
   client:
     replicas: 1
 
+influxdb:
+  enabled: false
+
 grafana:
   enabled: false
   rbac:
     create: false
     namespaced: true
     pspEnabled: false
-resources:
-  limits:
-    memory: 1Gi
-  requests:
-    memory: 512Mi
+
+kibana:
+  enabled: false
+
 schema-registry:
   enabled: true
   kafka:

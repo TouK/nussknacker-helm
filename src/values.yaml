@@ -6,7 +6,7 @@ replicaCount: 1
 
 image:
   repository: touk/nussknacker
-  tag: staging-latest
+  tag: flink-1.10-latest
   pullPolicy: IfNotPresent
 
 imagePullSecrets: []
@@ -100,9 +100,19 @@ postgresql:
 
 kafka:
   enabled: true
+  imageTag: 5.4.2
+  testsEnabled: false
+  peristence:
+    enabled: true
+  zookeeper:
+    persistence:
+      enabled: true
+    image:
+      tag: 3.6.0
 
 schema-registry:
   enabled: true
+  imageTag: 5.4.2
   kafka:
     enabled: false
 
@@ -183,18 +193,7 @@ hermes:
     zookeeper:
       enabled: false
       url: "{{ .Release.Name }}-zookeeper:2181"
+    namespace: "{{ .Release.Name }}"
   schema-registry:
     enabled: false
     url: "http://{{ .Release.Name }}-schema-registry:8081"
-  management:
-    ingress: 
-      enabled: true
-      annotations: 
-        certmanager.k8s.io/cluster-issuer: "letsencrypt-prod"
-      domain: carpinion.touk.pl
-  frontend:
-    ingress: 
-      enabled: true
-      annotations: 
-        certmanager.k8s.io/cluster-issuer: "letsencrypt-prod"
-      domain: carpinion.touk.pl

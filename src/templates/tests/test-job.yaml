@@ -1,0 +1,73 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: "{{ include "nussknacker.fullname" . }}-test-job"
+  annotations:
+    "helm.sh/hook": test
+spec:
+  backoffLimit: 0
+  template:
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+      {{- toYaml . | nindent 8 }}
+      {{- end }}
+      shareProcessNamespace: true
+      containers:
+        - name: test-job
+          image: docker-gitlab.touk.pl/carpinion/ci/bats-docker
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command:
+            - /main-wrapper.sh
+            - /usr/sbin/bats
+          args:
+            - -t
+            - /suites
+          env:
+            - name: MANAGEMENT_URL
+              value: "http://{{ include "hermes.management.fullname" (dict "Chart" (dict "Name" "hermes") "Values" .Values.hermes "Release" .Release "Capabilities" .Capabilities) }}:{{ .Values.hermes.management.service.port }}"
+            - name: FRONTEND_URL
+              value: "http://{{ include "hermes.frontend.fullname" (dict "Chart" (dict "Name" "hermes") "Values" .Values.hermes "Release" .Release "Capabilities" .Capabilities) }}:{{ .Values.hermes.frontend.service.port }}"
+            - name: NUSSKNACKER_URL
+              value: "http://{{ include "nussknacker.fullname" . }}:{{ .Values.service.port }}"
+            - name: AUTHORIZATION
+              value: "Basic YWRtaW46YWRtaW4="
+            - name: POD_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+            - name: WIREMOCK_URL
+              value: "http://$(POD_IP):8080"
+            - name: KAFKA_NAMESPACE
+              value: {{ .Release.Name }}
+          volumeMounts:
+            - name: suites
+              mountPath: /suites
+            - name: scripts
+              mountPath: /main-wrapper.sh
+              subPath: main-wrapper.sh
+            - name: pids
+              mountPath: /var/run/sidecars
+        - name: test-wiremock
+          image: rodolpheche/wiremock
+          command:
+            - /sidecar-wrapper.sh
+            - /docker-entrypoint.sh
+          args: ["java", "-cp", "/var/wiremock/lib/*:/var/wiremock/extensions/*", "com.github.tomakehurst.wiremock.standalone.WireMockServerRunner", "--verbose"]
+          volumeMounts:
+            - name: scripts
+              mountPath: /sidecar-wrapper.sh
+              subPath: sidecar-wrapper.sh
+            - name: pids
+              mountPath: /var/run/sidecars
+      restartPolicy: Never
+      volumes:
+        - name: pids
+          emptyDir: {}
+        - name: suites
+          configMap:
+            name: {{ include "nussknacker.fullname" . }}-test-suites
+        - name: scripts
+          configMap:
+            name: {{ include "nussknacker.fullname" . }}-test-scripts
+            defaultMode: 0744

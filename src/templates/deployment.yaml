@@ -27,7 +27,7 @@ spec:
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.image.repository }}:{{ .Chart.AppVersion }}"
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           volumeMounts:
             - name: config
@@ -44,7 +44,7 @@ spec:
             - name: DB_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: '{{- include "postgresql.secretName" (dict "Values" .Values.postgresql) }}'
+                  name: '{{- include "postgresql.secretName" (dict "Chart" (dict "Name" "postgresql") "Values" .Values.postgresql "Release" .Release "Capabilities" .Capabilities) }}'
                   key: postgresql-password
             {{- end }}
           ports:

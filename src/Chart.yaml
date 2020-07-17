@@ -7,11 +7,11 @@ appVersion: staging-latest
 
 dependencies:
   - name: postgresql
-    version: ^8.3.0
+    version: 8.6.2
     repository: "@stable"
     condition: postgresql.enabled
   - name: kafka
-    version: ^0.20.8
+    version: ^0.21.2
     repository: "@incubator"
     condition: kafka.enabled
   - name: schema-registry
@@ -19,7 +19,7 @@ dependencies:
     repository: "@incubator"
     condition: schema-registry.enabled
   - name: flink
-    version: 0.1.4
+    version: 0.1.16
     repository: "@riskfocus"
     condition: flink.enabled
   - name: elasticsearch
@@ -43,7 +43,7 @@ dependencies:
     repository: "@stable"
     condition: influxdb.enabled
   - name: hermes
-    version: ^0.1.0-SNAPSHOT
+    version: ^0.2.0
     repository: "@touk"
     condition: hermes.enabled
 
