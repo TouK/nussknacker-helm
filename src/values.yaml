@@ -6,7 +6,8 @@ replicaCount: 1
 
 image:
   repository: touk/nussknacker
-  tag: flink-1.10-latest
+  #TODO: replace with stable staging/master version after NK upgrade to Flink 1.10
+  tag: preview_flink1_10-latest
   pullPolicy: IfNotPresent
 
 imagePullSecrets: []
