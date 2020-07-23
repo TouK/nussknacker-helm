@@ -1,308 +1,113 @@
 {
-  "comment": "",
-  "process": {
+  "metaData": {
     "id": "${PROCESS_NAME}",
-    "edges": [
-      {
-        "edgeType": null,
-        "from": "kafka-avro-source",
-        "to": "kafka-avro-sink"
-      }
-    ],
-    "nodes": [
-      {
-        "additionalFields": {
-          "description": null,
-          "layoutData": {
-            "x": 0,
-            "y": 0
-          }
-        },
-        "id": "kafka-avro-source",
-        "ref": {
-          "parameters": [
-            {
-              "expression": {
-                "expression": "'${KAFKA_NAMESPACE}_${GROUP}.${INPUT_TOPIC}'",
-                "language": "spel"
-              },
-              "name": "topic"
-            },
-            {
-              "expression": {
-                "expression": "",
-                "language": "spel"
-              },
-              "name": "Schema version"
-            }
-          ],
-          "typ": "kafka-avro"
-        },
-        "type": "Source"
-      },
-      {
-        "additionalFields": {
-          "description": null,
-          "layoutData": {
-            "x": 0,
-            "y": 135
-          }
-        },
-        "endResult": null,
-        "id": "kafka-avro-sink",
-        "isDisabled": null,
-        "ref": {
-          "parameters": [
-            {
-              "expression": {
-                "expression": "#input",
-                "language": "spel"
-              },
-              "name": "Output"
-            },
-            {
-              "expression": {
-                "expression": "'${KAFKA_NAMESPACE}_${GROUP}.${OUTPUT_TOPIC}'",
-                "language": "spel"
-              },
-              "name": "topic"
-            },
-            {
-              "expression": {
-                "expression": "",
-                "language": "spel"
-              },
-              "name": "Schema version"
-            }
-          ],
-          "typ": "kafka-avro"
-        },
-        "type": "Sink"
-      }
-    ],
-    "processingType": "streaming-generic",
-    "properties": {
-      "additionalFields": {
-        "description": null,
-        "groups": [],
-        "properties": {}
-      },
-      "exceptionHandler": {
-        "parameters": []
-      },
-      "isSubprocess": false,
-      "subprocessVersions": {},
-      "typeSpecificProperties": {
-        "checkpointIntervalInSeconds": null,
-        "parallelism": 1,
-        "splitStateToDisk": true,
-        "type": "StreamMetaData",
-        "useAsyncInterpretation": null
+    "typeSpecificData": {
+      "parallelism": 1,
+      "splitStateToDisk": true,
+      "useAsyncInterpretation": null,
+      "checkpointIntervalInSeconds": null,
+      "type": "StreamMetaData"
+    },
+    "isSubprocess": false,
+    "additionalFields": {
+      "description": null,
+      "groups": [
+      ],
+      "properties": {
       }
     },
-    "validationResult": {
-      "errors": {
-        "globalErrors": [],
-        "invalidNodes": {},
-        "processPropertiesErrors": []
+    "subprocessVersions": {
+    }
+  },
+  "exceptionHandlerRef": {
+    "parameters": [
+    ]
+  },
+  "nodes": [
+    {
+      "id": "kafka-avro-source",
+      "ref": {
+        "typ": "kafka-avro",
+        "parameters": [
+          {
+            "name": "Topic",
+            "expression": {
+              "language": "spel",
+              "expression": "'${KAFKA_NAMESPACE}_${GROUP}.${INPUT_TOPIC}'"
+            }
+          },
+          {
+            "name": "Schema version",
+            "expression": {
+              "language": "spel",
+              "expression": "'latest'"
+            }
+          }
+        ]
       },
-      "typingInfo": {},
-      "variableTypes": {
-        "$exceptionHandler": {
-          "CONV": {
-            "params": [],
-            "refClazzName": "pl.touk.nussknacker.engine.util.functions.conversion$",
-            "type": "TypedClass"
-          },
-          "DATE": {
-            "params": [],
-            "refClazzName": "pl.touk.nussknacker.engine.util.functions.date$",
-            "type": "TypedClass"
-          },
-          "GEO": {
-            "params": [],
-            "refClazzName": "pl.touk.nussknacker.engine.util.functions.geo$",
-            "type": "TypedClass"
-          },
-          "NUMERIC": {
-            "params": [],
-            "refClazzName": "pl.touk.nussknacker.engine.util.functions.numeric$",
-            "type": "TypedClass"
-          },
-          "meta": {
-            "fields": {
-              "processName": {
-                "params": [],
-                "refClazzName": "java.lang.String",
-                "type": "TypedClass"
-              },
-              "properties": {
-                "fields": {},
-                "params": [
-                  {
-                    "params": [],
-                    "refClazzName": "java.lang.String",
-                    "type": "TypedClass"
-                  },
-                  {
-                    "params": [],
-                    "refClazzName": "java.lang.Object",
-                    "type": "Unknown"
-                  }
-                ],
-                "refClazzName": "java.util.Map",
-                "type": "TypedObjectTypingResult"
-              }
-            },
-            "params": [
-              {
-                "params": [],
-                "refClazzName": "java.lang.String",
-                "type": "TypedClass"
-              },
-              {
-                "params": [],
-                "refClazzName": "java.lang.Object",
-                "type": "Unknown"
-              }
-            ],
-            "refClazzName": "java.util.Map",
-            "type": "TypedObjectTypingResult"
-          }
-        },
-        "kafka-avro-sink": {
-          "CONV": {
-            "params": [],
-            "refClazzName": "pl.touk.nussknacker.engine.util.functions.conversion$",
-            "type": "TypedClass"
-          },
-          "DATE": {
-            "params": [],
-            "refClazzName": "pl.touk.nussknacker.engine.util.functions.date$",
-            "type": "TypedClass"
-          },
-          "GEO": {
-            "params": [],
-            "refClazzName": "pl.touk.nussknacker.engine.util.functions.geo$",
-            "type": "TypedClass"
-          },
-          "NUMERIC": {
-            "params": [],
-            "refClazzName": "pl.touk.nussknacker.engine.util.functions.numeric$",
-            "type": "TypedClass"
-          },
-          "input": {
-            "params": [],
-            "refClazzName": "java.lang.Object",
-            "type": "Unknown"
-          },
-          "meta": {
-            "fields": {
-              "processName": {
-                "params": [],
-                "refClazzName": "java.lang.String",
-                "type": "TypedClass"
-              },
-              "properties": {
-                "fields": {},
-                "params": [
-                  {
-                    "params": [],
-                    "refClazzName": "java.lang.String",
-                    "type": "TypedClass"
-                  },
-                  {
-                    "params": [],
-                    "refClazzName": "java.lang.Object",
-                    "type": "Unknown"
-                  }
-                ],
-                "refClazzName": "java.util.Map",
-                "type": "TypedObjectTypingResult"
-              }
-            },
-            "params": [
-              {
-                "params": [],
-                "refClazzName": "java.lang.String",
-                "type": "TypedClass"
-              },
-              {
-                "params": [],
-                "refClazzName": "java.lang.Object",
-                "type": "Unknown"
-              }
-            ],
-            "refClazzName": "java.util.Map",
-            "type": "TypedObjectTypingResult"
-          }
-        },
-        "kafka-avro-source": {
-          "CONV": {
-            "params": [],
-            "refClazzName": "pl.touk.nussknacker.engine.util.functions.conversion$",
-            "type": "TypedClass"
-          },
-          "DATE": {
-            "params": [],
-            "refClazzName": "pl.touk.nussknacker.engine.util.functions.date$",
-            "type": "TypedClass"
-          },
-          "GEO": {
-            "params": [],
-            "refClazzName": "pl.touk.nussknacker.engine.util.functions.geo$",
-            "type": "TypedClass"
-          },
-          "NUMERIC": {
-            "params": [],
-            "refClazzName": "pl.touk.nussknacker.engine.util.functions.numeric$",
-            "type": "TypedClass"
-          },
-          "meta": {
-            "fields": {
-              "processName": {
-                "params": [],
-                "refClazzName": "java.lang.String",
-                "type": "TypedClass"
-              },
-              "properties": {
-                "fields": {},
-                "params": [
-                  {
-                    "params": [],
-                    "refClazzName": "java.lang.String",
-                    "type": "TypedClass"
-                  },
-                  {
-                    "params": [],
-                    "refClazzName": "java.lang.Object",
-                    "type": "Unknown"
-                  }
-                ],
-                "refClazzName": "java.util.Map",
-                "type": "TypedObjectTypingResult"
-              }
-            },
-            "params": [
-              {
-                "params": [],
-                "refClazzName": "java.lang.String",
-                "type": "TypedClass"
-              },
-              {
-                "params": [],
-                "refClazzName": "java.lang.Object",
-                "type": "Unknown"
-              }
-            ],
-            "refClazzName": "java.util.Map",
-            "type": "TypedObjectTypingResult"
-          }
+      "additionalFields": {
+        "description": null,
+        "layoutData": {
+          "x": -3,
+          "y": -90
         }
       },
-      "warnings": {
-        "invalidNodes": {}
-      }
+      "type": "Source"
+    },
+    {
+      "id": "kafka-avro-sink",
+      "ref": {
+        "typ": "kafka-avro",
+        "parameters": [
+          {
+            "name": "Key",
+            "expression": {
+              "language": "spel",
+              "expression": ""
+            }
+          },
+          {
+            "name": "Value",
+            "expression": {
+              "language": "spel",
+              "expression": "#input"
+            }
+          },
+          {
+            "name": "Topic",
+            "expression": {
+              "language": "spel",
+              "expression": "'${KAFKA_NAMESPACE}_${GROUP}.${OUTPUT_TOPIC}'"
+            }
+          },
+          {
+            "name": "Schema version",
+            "expression": {
+              "language": "spel",
+              "expression": "'latest'"
+            }
+          },
+          {
+            "name": "Value validation mode",
+            "expression": {
+              "language": "spel",
+              "expression": "'strict'"
+            }
+          }
+        ]
+      },
+      "endResult": null,
+      "isDisabled": null,
+      "additionalFields": {
+        "description": null,
+        "layoutData": {
+          "x": 0,
+          "y": 135
+        }
+      },
+      "type": "Sink"
     }
-  }
+  ],
+  "additionalBranches": [
+  ]
 }
