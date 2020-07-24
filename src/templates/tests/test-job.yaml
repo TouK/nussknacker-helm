@@ -15,7 +15,7 @@ spec:
       shareProcessNamespace: true
       containers:
         - name: test-job
-          image: docker-gitlab.touk.pl/carpinion/ci/bats-docker
+          image: touk/bats
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command:
             - /main-wrapper.sh

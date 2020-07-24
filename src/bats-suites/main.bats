@@ -11,6 +11,13 @@ function curl() {
 }
 export -f curl
 
+# timeout command has different syntax in Ubuntu and BusyBox
+if [[ $(realpath $(which timeout)) =~ "busybox" ]]; then
+  function timeout() {
+    $(which timeout) -t "$@"
+  }
+fi
+
 function given_a_group() {
   local GROUP="${1:?required}"
 
