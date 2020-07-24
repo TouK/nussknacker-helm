@@ -35,6 +35,10 @@ kafka:
   zookeeper:
     replicaCount: 1
 
+hermes:
+  kafka:
+    namespace: "{{ .Release.Name }}"
+
 flink:
   taskmanager:
     replicaCount: 1

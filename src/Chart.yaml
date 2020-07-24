@@ -3,7 +3,7 @@ name: nussknacker
 version: 0.1.0-SNAPSHOT
 description: A Helm chart for Nussknacker
 type: application
-appVersion: staging-latest
+appVersion: latest
 
 dependencies:
   - name: postgresql
@@ -38,10 +38,14 @@ dependencies:
     version: ^5.0.0
     repository: "@stable"
     condition: grafana.enabled
-  - name: influxdb
-    version: ^4.2.4
-    repository: "@stable"
+  - name: influxdb2
+    version: ^1.0.4
+    repository: "@influxdata"
     condition: influxdb.enabled
+  - name: telegraf
+    version: ^1.7.13
+    repository: "@touk-private"
+    condition: telegraf.enabled
   - name: hermes
     version: ^0.2.2
     repository: "@touk"

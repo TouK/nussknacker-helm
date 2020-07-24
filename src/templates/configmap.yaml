@@ -10,7 +10,12 @@ data:
 
     base.flinkEngineConfig.restUrl: "http://{{ .Release.Name }}-flink-jobmanager-rest:8081"
     base.flinkEngineConfig.queryableStateProxyUrl: "{{ .Release.Name }}-flink-taskmanager:6122"
-    base.streamingModelConfig.kafka.kafkaAddress: "{{ .Release.Name }}-kafka:9092"
+        base.streamingModelConfig.kafka {
+      kafkaAddress: "{{ .Release.Name }}-kafka:9092"
+      kafkaProperties {
+        "schema.registry.url": "http://{{ .Release.Name }}-schema-registry:8081"
+      }
+    }
     {{- with .Values.db }}
     base.db: {{ tpl (toJson .) $ }}
     {{- end }}
@@ -20,33 +25,31 @@ data:
     environment: "demo"
 
     categoriesConfig {
-      "FraudDetection": "streaming",
-      "Recommendations": "streaming",
-      "Default": "streaming-generic",
-      "Hermes": "streaming-hermes",
+      "Default": "hermes-model"
     }
 
     processTypes {
-      "streaming": {
-        engineConfig: ${base.flinkEngineConfig}
-        modelConfig: {
-          classPath: ["model/demoModel.jar"]
-        } ${base.streamingModelConfig}
-      }
-      "streaming-generic": {
-        engineConfig: ${base.flinkEngineConfig}
-        modelConfig = {
-          classPath: [ "model/genericModel.jar" ]
-        } ${base.streamingModelConfig}
-      }
+      "hermes-model": {
+          engineConfig: ${base.flinkEngineConfig}
+          modelConfig: {
+            classPath: ["model/hermesModel.jar"]
+            {{- if .Values.hermes.kafka.namespace }}
+            namespace: {{ tpl .Values.hermes.kafka.namespace . }}
+            {{- end }}
+          } ${base.streamingModelConfig}
+        }
+    }
+
+    environmentAlert: {
+      content: "KUBERNETES ENVIRONMENT"
+      cssClass: "indicator-green"
     }
 
     metricsSettings: {
       url: ${base.grafanaUrl}"/dashboard/db/$dashboard?theme=dark&var-processName=$process&var-env="${environment}
       defaultDashboard: "flink-esp"
       processingTypeToDashboard: {
-        "streaming": "flink-esp"
-        "streaming-generic": "flink-generic"
+        "hermes-model": "flink-esp"
       }
     }
 

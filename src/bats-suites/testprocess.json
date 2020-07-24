@@ -33,7 +33,7 @@
             "name": "Topic",
             "expression": {
               "language": "spel",
-              "expression": "'${KAFKA_NAMESPACE}_${GROUP}.${INPUT_TOPIC}'"
+              "expression": "'${GROUP}.${INPUT_TOPIC}'"
             }
           },
           {
@@ -77,7 +77,7 @@
             "name": "Topic",
             "expression": {
               "language": "spel",
-              "expression": "'${KAFKA_NAMESPACE}_${GROUP}.${OUTPUT_TOPIC}'"
+              "expression": "'${GROUP}.${OUTPUT_TOPIC}'"
             }
           },
           {

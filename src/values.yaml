@@ -5,9 +5,8 @@
 replicaCount: 1
 
 image:
-  repository: touk/nussknacker
-  #TODO: replace with stable staging/master version after NK upgrade to Flink 1.10
-  tag: preview_flink1_10-latest
+  repository: docker-gitlab.touk.pl/carpinion/nussknacker/hermes-model/master
+  tag: latest
   pullPolicy: IfNotPresent
 
 imagePullSecrets: []
@@ -184,7 +183,18 @@ grafana:
   enabled: true
 
 influxdb:
+  enabled: false
+
+telegraf:
   enabled: true
+  image:
+    repo: docker-gitlab.touk.pl/carpinion/nussknacker/telegraf-influxdb2-plugin
+    tag: master
+  imagePullSecrets:
+    - name: gitlab-registry
+  rbac:
+    create: false
+  existingConfigMapName: "{{ .Release.Name }}-telegraf-configuration"
 
 hermes:
   enabled: true
