@@ -70,6 +70,8 @@ grafana:
 kibana:
   enabled: false
 
+logstash:
+  logstashJavaOpts: "-Xmx1g -Xms1g -XX:-AssumeMP"
 schema-registry:
   enabled: true
   kafka:
