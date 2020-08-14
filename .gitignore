@@ -1,2 +1,7 @@
-nussknacker/Chart.lock
 .idea/
+dist/
+src/Chart.lock
+src/charts/
+upgrade.sh
+uninstall.sh
+logintopod.sh

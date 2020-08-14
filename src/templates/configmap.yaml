@@ -64,3 +64,17 @@ data:
     attachmentsPath: ${base.attachmentsPath}
     countsSettings: ${base.countsSettings}
     kibanaSettings: ${base.kibanaSettings}
+
+    {{- if .Values.openapi }}
+    base.streamingModelConfig.openapi: [{
+      url: "{{ .Values.openapi.url }}"
+      {{- if .Values.openapi.apikey }}
+      security: {
+        apikey: {
+          type: "apiKey"
+          apiKeyValue: "{{ .Values.openapi.apikey }}"
+        }
+      }
+      {{- end }}
+    }]
+    {{- end }}
