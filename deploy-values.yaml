@@ -71,7 +71,8 @@ kibana:
   enabled: false
 
 logstash:
-  logstashJavaOpts: "-Xmx1g -Xms1g -XX:-AssumeMP"
+  enabled: false
+
 schema-registry:
   enabled: true
   kafka:
