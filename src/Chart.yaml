@@ -31,7 +31,7 @@ dependencies:
     repository: "@stable"
     condition: kibana.enabled
   - name: logstash
-    version: ^2.4.0
+    version: ^2.4.1
     repository: "@stable"
     condition: logstash.enabled
   - name: grafana
