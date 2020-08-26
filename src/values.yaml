@@ -93,6 +93,11 @@ db:
   user: postgres
   # password: from a postgresql secret by default
 
+modelConfig:
+  classPath:
+    - "model/hermesModel.jar"
+  namespace: "{{ .Release.Name }}"
+
 postgresql:
   enabled: true
   volumePermissions:

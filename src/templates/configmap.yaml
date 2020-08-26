@@ -31,13 +31,8 @@ data:
     processTypes {
       "hermes-model": {
           engineConfig: ${base.flinkEngineConfig}
-          modelConfig: {
-            classPath: ["model/hermesModel.jar"]
-            {{- if .Values.hermes.kafka.namespace }}
-            namespace: {{ tpl .Values.hermes.kafka.namespace . }}
-            {{- end }}
-          } ${base.streamingModelConfig}
-        }
+          modelConfig: {{ tpl ( mustToJson .Values.modelConfig ) . }} ${base.streamingModelConfig}
+      }
     }
 
     environmentAlert: {
