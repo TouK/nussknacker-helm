@@ -47,7 +47,7 @@ dependencies:
     repository: "@touk-private"
     condition: telegraf.enabled
   - name: hermes
-    version: ^0.2.2
+    version: ^0.2.3-SNAPSHOT
     repository: "@touk"
     condition: hermes.enabled
 

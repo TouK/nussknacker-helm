@@ -29,15 +29,13 @@ hermes:
       annotations:
         certmanager.k8s.io/cluster-issuer: "letsencrypt-prod"
       domain: carpinion.touk.pl
+  kafka:
+    namespace: "{{ .Release.Name }}"
 
 kafka:
   replicas: 1
   zookeeper:
     replicaCount: 1
-
-hermes:
-  kafka:
-    namespace: "{{ .Release.Name }}"
 
 flink:
   taskmanager:

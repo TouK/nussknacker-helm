@@ -78,3 +78,9 @@ data:
       {{- end }}
     }]
     {{- end }}
+
+    customTabs: [{
+      name: "Hermes"
+      url: "{{ include "hermes.management.svcExternalUrl" (dict "Chart" (dict "Name" "hermes") "Values" .Values.hermes "Release" .Release "Capabilities" .Capabilities) }}"
+      id: "hermes"
+    }]
