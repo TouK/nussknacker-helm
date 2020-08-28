@@ -61,3 +61,35 @@ Create the name of the service account to use
     {{ default "default" .Values.serviceAccount.name }}
 {{- end -}}
 {{- end -}}
+
+{{- define "nussknacker.kafkaUrl" -}}
+{{- if .Values.kafka.enabled -}}
+    {{ include "kafka.fullname" (dict "Chart" (dict "Name" "kafka") "Values" .Values.hermes "Release" .Release "Capabilities" .Capabilities) }}:9092
+{{- else -}}
+    {{ required "Enable kafka or provide a valid .Values.kafka.url entry!" ( tpl .Values.kafka.url . ) }}
+{{- end -}}
+{{- end -}}
+
+{{- define "nussknacker.schemaRegistryUrl" -}}
+{{- if index .Values "schema-registry" "enabled" -}}
+    http://{{ include "schema-registry.fullname" (dict "Chart" (dict "Name" "schema-registry") "Values" .Values.hermes "Release" .Release "Capabilities" .Capabilities) }}:8081
+{{- else -}}
+    {{ required "Enable schema-registry or provide a valid .Values.schema-registry.url entry!" ( tpl ( index .Values "schema-registry" "url" ) . ) }}
+{{- end -}}
+{{- end -}}
+
+{{- define "nussknacker.flinkJobManagerUrl" -}}
+{{- if .Values.flink.enabled -}}
+    http://{{ include "flink.fullname" (dict "Chart" (dict "Name" "flink") "Values" .Values.hermes "Release" .Release "Capabilities" .Capabilities) }}-jobmanager-rest:8081
+{{- else -}}
+    {{ required "Enable flink or provide a valid .Values.flink.job-manager-url entry!" ( tpl ( index .Values "flink" "job-manager-url" ) . ) }}
+{{- end -}}
+{{- end -}}
+
+{{- define "nussknacker.flinkTaskManagerUrl" -}}
+{{- if .Values.flink.enabled -}}
+    {{ include "flink.fullname" (dict "Chart" (dict "Name" "flink") "Values" .Values.hermes "Release" .Release "Capabilities" .Capabilities) }}-taskmanager:6122
+{{- else -}}
+    {{ required "Enable flink or provide a valid .Values.flink.task-manager-url entry!" ( tpl ( index .Values "flink" "task-manager-url" ) . ) }}
+{{- end -}}
+{{- end -}}

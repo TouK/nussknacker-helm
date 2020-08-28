@@ -8,19 +8,19 @@ data:
   application.conf: |-
     base: { include "/opt/nussknacker/conf/base-application.conf" }
 
-    base.flinkEngineConfig.restUrl: "http://{{ .Release.Name }}-flink-jobmanager-rest:8081"
-    base.flinkEngineConfig.queryableStateProxyUrl: "{{ .Release.Name }}-flink-taskmanager:6122"
-        base.streamingModelConfig.kafka {
-      kafkaAddress: "{{ .Release.Name }}-kafka:9092"
+    base.flinkEngineConfig.restUrl: "{{ include "nussknacker.flinkJobManagerUrl" . }}"
+    base.flinkEngineConfig.queryableStateProxyUrl: "{{ include "nussknacker.flinkTaskManagerUrl" . }}"
+    base.streamingModelConfig.kafka {
+      kafkaAddress: "{{ include "nussknacker.kafkaUrl" . }}"
       kafkaProperties {
-        "schema.registry.url": "http://{{ .Release.Name }}-schema-registry:8081"
+        "schema.registry.url": "{{ include "nussknacker.schemaRegistryUrl" . }}"
       }
     }
     {{- with .Values.db }}
     base.db: {{ tpl (toJson .) $ }}
     {{- end }}
     base.jdbcServer.enabled: false
-    base.schemaRegistryUrl: "http://{{ .Release.Name }}-schema-registry:8081"
+    base.schemaRegistryUrl: "{{ include "nussknacker.schemaRegistryUrl" . }}"
 
     environment: "demo"
 
