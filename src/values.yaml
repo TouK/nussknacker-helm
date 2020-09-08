@@ -192,14 +192,8 @@ influxdb:
 
 telegraf:
   enabled: true
-  image:
-    repo: docker-gitlab.touk.pl/carpinion/nussknacker/telegraf-influxdb2-plugin
-    tag: master
-  imagePullSecrets:
-    - name: gitlab-registry
   rbac:
     create: false
-  existingConfigMapName: "{{ .Release.Name }}-telegraf-configuration"
 
 hermes:
   enabled: true
