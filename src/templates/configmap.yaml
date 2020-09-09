@@ -6,10 +6,10 @@ metadata:
     {{- include "nussknacker.labels" . | nindent 4 }}
 data:
   application.conf: |-
+    #TODO: w miarę sprzątania NK powinno coraz więcej się dać usunąć
+
     base: { include "/opt/nussknacker/conf/base-application.conf" }
 
-    base.flinkEngineConfig.restUrl: "{{ include "nussknacker.flinkJobManagerUrl" . }}"
-    base.flinkEngineConfig.queryableStateProxyUrl: "{{ include "nussknacker.flinkTaskManagerUrl" . }}"
     base.streamingModelConfig.kafka {
       kafkaAddress: "{{ include "nussknacker.kafkaUrl" . }}"
       kafkaProperties {
@@ -17,10 +17,9 @@ data:
       }
     }
     {{- with .Values.db }}
-    base.db: {{ tpl (toJson .) $ }}
+    db: {{ tpl (toJson .) $ }}
     {{- end }}
-    base.jdbcServer.enabled: false
-    base.schemaRegistryUrl: "{{ include "nussknacker.schemaRegistryUrl" . }}"
+    db.password: ${DB_PASSWORD}
 
     environment: "demo"
 
@@ -30,7 +29,10 @@ data:
 
     processTypes {
       "hermes-model": {
-          engineConfig: ${base.flinkEngineConfig}
+          engineConfig: ${base.flinkEngineConfig} {
+             restUrl: "{{ include "nussknacker.flinkJobManagerUrl" . }}"
+             queryableStateProxyUrl: "{{ include "nussknacker.flinkTaskManagerUrl" . }}"
+          }
           modelConfig: {{ tpl ( mustToJson .Values.modelConfig ) . }} ${base.streamingModelConfig}
       }
     }
@@ -50,18 +52,12 @@ data:
 
 
     # TODO: lightbend config can't include files on root level - move nussknacker config on nk level and get rid of this below
-    jdbcServer: ${base.jdbcServer}
-    db: ${base.db}
-    akka: ${base.akka}
-    authentication: ${base.authentication}
-
     commentSettings: ${base.commentSettings}
     attachmentsPath: ${base.attachmentsPath}
     countsSettings: ${base.countsSettings}
-    kibanaSettings: ${base.kibanaSettings}
 
     {{- if .Values.openapi }}
-    base.streamingModelConfig.openapi: [{
+    openapi: [{
       url: "{{ .Values.openapi.url }}"
       {{- if .Values.openapi.apikey }}
       security: {

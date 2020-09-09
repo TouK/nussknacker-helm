@@ -86,7 +86,6 @@ tolerations: []
 affinity: {}
 
 db:
-  type: postgres
   driver: "org.postgresql.Driver"
   url: 'jdbc:postgresql://{{ .Release.Name }}-postgresql/'
   schema: public
@@ -196,7 +195,7 @@ telegraf:
     create: false
 
 hermes:
-  enabled: true
+  enabled: false
   kafka:
     enabled: false
     url: "{{ .Release.Name }}-kafka:9092"

@@ -38,6 +38,9 @@ spec:
               subPath: {{ .Values.persistence.subPath }}
             {{- end }}
           env:
+            #TODO: make it default in NK
+            - name: JDK_JAVA_OPTIONS
+              value: -Dconfig.override_with_env_vars=true
             - name: NUSSKNACKER_CONFIG_FILE
               value: /etc/nussknacker/application.conf
             {{- if .Values.postgresql.enabled }}
