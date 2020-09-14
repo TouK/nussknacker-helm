@@ -15,6 +15,7 @@ persistence:
   storageClass: nfs
 
 hermes:
+  enabled: true
   imagePullSecrets:
     - name: gitlab-registry
   management:
