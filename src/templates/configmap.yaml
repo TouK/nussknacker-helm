@@ -10,12 +10,6 @@ data:
 
     base: { include "/opt/nussknacker/conf/base-application.conf" }
 
-    base.streamingModelConfig.kafka {
-      kafkaAddress: "{{ include "nussknacker.kafkaUrl" . }}"
-      kafkaProperties {
-        "schema.registry.url": "{{ include "nussknacker.schemaRegistryUrl" . }}"
-      }
-    }
     {{- with .Values.db }}
     db: {{ tpl (toJson .) $ }}
     {{- end }}
@@ -33,7 +27,15 @@ data:
              restUrl: "{{ include "nussknacker.flinkJobManagerUrl" . }}"
              queryableStateProxyUrl: "{{ include "nussknacker.flinkTaskManagerUrl" . }}"
           }
-          modelConfig: {{ tpl ( mustToJson .Values.modelConfig ) . }} ${base.streamingModelConfig}
+          modelConfig {
+            kafka {
+              kafkaAddress: "{{ include "nussknacker.kafkaUrl" . }}"
+              kafkaProperties {
+                "schema.registry.url": "{{ include "nussknacker.schemaRegistryUrl" . }}"
+              }
+            }
+          }
+          modelConfig: {{ tpl ( mustToJson .Values.modelConfig ) . }}
       }
     }
 
