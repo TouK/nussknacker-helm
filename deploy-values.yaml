@@ -62,7 +62,7 @@ telegraf:
     tag: master
   imagePullSecrets:
     - name: gitlab-registry
-  args: [ "--config-directory", "/etc/telegraf/telegraf.d" ]
+  args: [ "--config-directory", "/etc/telegraf/telegraf.d", "--plugin-directory", "/usr/lib/telegraf/plugins/" ]
   volumes:
     - name: additional-config
       configMap:
