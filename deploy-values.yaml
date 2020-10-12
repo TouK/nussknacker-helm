@@ -92,6 +92,6 @@ schema-registry:
   kafka:
     enabled: false
 
-openapi:
-  url: "https://rdb-simpledb.restdb.io/rest/_swagger.json"
-  apikey: "560bd47058e7ab1b2648f4e7"
+#openapi:
+#  url: "https://rdb-simpledb.restdb.io/rest/_swagger.json"
+#  apikey: "560bd47058e7ab1b2648f4e7"

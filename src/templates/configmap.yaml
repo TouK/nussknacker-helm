@@ -13,7 +13,7 @@ data:
     {{- with .Values.db }}
     db: {{ tpl (toJson .) $ }}
     {{- end }}
-    db.password: ${DB_PASSWORD}
+    db.password: ${?DB_PASSWORD}
 
     environment: "demo"
 
