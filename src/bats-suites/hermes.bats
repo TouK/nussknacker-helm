@@ -113,7 +113,7 @@ _END
 function then_the_message_is_received_by_the_subscriber() {
   local SUBSCRIBER_NAME="${1:?required}"
 
-  cat << _END | timeout 90 bash -c "until curl -d '$(cat)' ${WIREMOCK_URL%/}/__admin/requests/count | tee >(cat 1>&3) | grep '\"count\" : 1'; do sleep 10; done"
+  cat << _END | timeout 90 bash -c "until curl -d '$(cat)' ${WIREMOCK_URL%/}/__admin/requests/count | grep '\"count\" : 1'; do sleep 10; done"
 {
     "method": "POST",
     "url": "/${SUBSCRIBER_NAME}"
@@ -145,15 +145,15 @@ function setup() {
 }
 _END
 )
-  INPUT_TOPIC=input
+  INPUT_TOPIC=inputHermes
   given_a_topic $GROUP $INPUT_TOPIC "$SCHEMA"
-  OUTPUT_TOPIC=output
+  OUTPUT_TOPIC=outputHermes
   given_a_topic $GROUP $OUTPUT_TOPIC "$SCHEMA"
 
   SUBSCRIBER_NAME=$(head /dev/urandom | tr -dc a-z | head -c 16)
   given_a_subscriber $GROUP $OUTPUT_TOPIC $SUBSCRIBER_NAME
 
-  given_a_proxy_process "test proxy process"
+  given_a_proxy_process "test proxy process for hermes"
 }
 
 @test "message should pass through the proxy process" {

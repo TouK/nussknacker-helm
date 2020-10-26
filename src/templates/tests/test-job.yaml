@@ -1,4 +1,3 @@
-{{- if .Values.hermes.enabled -}}
 apiVersion: batch/v1
 kind: Job
 metadata:
@@ -16,31 +15,40 @@ spec:
       shareProcessNamespace: true
       containers:
         - name: test-job
-          image: touk/bats
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          image: touk/kafka-bats
+          imagePullPolicy: Always
           command:
             - /main-wrapper.sh
-            - /usr/sbin/bats
+            - /usr/local/bin/bats
           args:
             - -t
-            - /suites
+            - //suites/kafka-only.bats
+            {{- if .Values.hermes.enabled }}
+            - //suites/hermes.bats
+          {{- end }}
           env:
-            - name: MANAGEMENT_URL
-              value: "http://{{ include "hermes.management.fullname" (dict "Chart" (dict "Name" "hermes") "Values" .Values.hermes "Release" .Release "Capabilities" .Capabilities) }}:{{ .Values.hermes.management.service.port }}"
-            - name: FRONTEND_URL
-              value: "http://{{ include "hermes.frontend.fullname" (dict "Chart" (dict "Name" "hermes") "Values" .Values.hermes "Release" .Release "Capabilities" .Capabilities) }}:{{ .Values.hermes.frontend.service.port }}"
             - name: NUSSKNACKER_URL
               value: "http://{{ include "nussknacker.fullname" . }}:{{ .Values.service.port }}"
             - name: AUTHORIZATION
               value: "Basic YWRtaW46YWRtaW4="
+            - name: KAFKA_NAMESPACE
+              value: {{ .Release.Name }}
+            - name: KAFKA_BOOTSTRAP_SERVER
+              value: "{{ include "nussknacker.kafkaUrl" . }}"
+            - name: SCHEMA_REGISTRY_URL
+              value: "{{ include "nussknacker.schemaRegistryUrl" . }}"
+            {{- if .Values.hermes.enabled }}
+            - name: MANAGEMENT_URL
+              value: "http://{{ include "hermes.management.fullname" (dict "Chart" (dict "Name" "hermes") "Values" .Values.hermes "Release" .Release "Capabilities" .Capabilities) }}:{{ .Values.hermes.management.service.port }}"
+            - name: FRONTEND_URL
+              value: "http://{{ include "hermes.frontend.fullname" (dict "Chart" (dict "Name" "hermes") "Values" .Values.hermes "Release" .Release "Capabilities" .Capabilities) }}:{{ .Values.hermes.frontend.service.port }}"
             - name: POD_IP
               valueFrom:
                 fieldRef:
                   fieldPath: status.podIP
             - name: WIREMOCK_URL
               value: "http://$(POD_IP):8080"
-            - name: KAFKA_NAMESPACE
-              value: {{ .Release.Name }}
+            {{- end }}
           volumeMounts:
             - name: suites
               mountPath: /suites
@@ -49,6 +57,7 @@ spec:
               subPath: main-wrapper.sh
             - name: pids
               mountPath: /var/run/sidecars
+        {{- if .Values.hermes.enabled }}
         - name: test-wiremock
           image: rodolpheche/wiremock
           command:
@@ -61,6 +70,7 @@ spec:
               subPath: sidecar-wrapper.sh
             - name: pids
               mountPath: /var/run/sidecars
+        {{- end }}
       restartPolicy: Never
       volumes:
         - name: pids
@@ -72,4 +82,3 @@ spec:
           configMap:
             name: {{ include "nussknacker.fullname" . }}-test-scripts
             defaultMode: 0744
-{{- end }}

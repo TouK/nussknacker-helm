@@ -10,7 +10,11 @@ RELEASE="${1?usage: $(basename $0) [NAME]}"
 cd "$(dirname "$0")" && rm -r dist/
 
 helm package -d dist/ src/
-helm upgrade -i "${RELEASE}" dist/*.tgz --set postgresql.existingSecret="${RELEASE}-postgresql" --set telegraf.existingConfigMapName="${RELEASE}-telegraf-configuration" -f deploy-values.yaml
+helm upgrade -i "${RELEASE}" dist/*.tgz \
+  --wait \
+  --set postgresql.existingSecret="${RELEASE}-postgresql" \
+  --set telegraf.volumes[0].configMap.name="${RELEASE}-telegraf-configuration" \
+  -f deploy-values.yaml
 
 kubectl delete jobs --all
 helm test "${RELEASE}"
