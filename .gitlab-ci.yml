@@ -21,7 +21,7 @@ deploy:
     - kubectl get secret "$CI_ENVIRONMENT_SLUG-postgresql" || kubectl create secret generic "$CI_ENVIRONMENT_SLUG-postgresql" --from-literal postgresql-password=`date +%s | sha256sum | base64 | head -c 32`
     - kubectl create configmap "$CI_ENVIRONMENT_SLUG-telegraf-configuration" --from-file=telegraf.conf -o yaml --dry-run | kubectl replace -n "$KUBE_NAMESPACE" --force -f -
     - |
-      helm upgrade -i --wait --devel "$CI_ENVIRONMENT_SLUG" ./dist/$NAME-$VERSION.tgz \
+      helm upgrade -i --wait --devel "$CI_ENVIRONMENT_SLUG" touk/$NAME --version $VERSION \
         --set postgresql.existingSecret="$CI_ENVIRONMENT_SLUG-postgresql" \
         --set telegraf.volumes[0].configMap.name="$CI_ENVIRONMENT_SLUG-telegraf-configuration" \
         -f deploy-values.yaml
