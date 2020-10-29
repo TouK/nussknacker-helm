@@ -1,4 +1,5 @@
 image:
+  repository: docker-gitlab.touk.pl/carpinion/nussknacker/nk-cloud-model/master
   pullPolicy: Always
 
 imagePullSecrets:
@@ -41,57 +42,37 @@ kafka:
 flink:
   taskmanager:
     replicaCount: 1
+    #zeby cokolwiek dalo sie zrobic ...
+    numberOfTaskSlots: 4
     resources:
       limits:
         memory: 3Gi
       requests:
         memory: 2560Mi
 
-elasticsearch:
-  enabled: false
-  master:
-    replicas: 2
-  data:
-    replicas: 1
-  client:
-    replicas: 1
+nussknacker:
+  modelConfig:
+    classPath:
+      - "model/hermesModel.jar"
+    namespace: "{{ .Release.Name }}"
+#TODO: problem z wersja commons-io, konieczny upgrade NK... :/
+#    openapi:
+#      - url: "https://rdb-simpledb.restdb.io/rest/_swagger.json"
+#        security:
+#          apikey:
+#            type: "apiKey"
+#            apiKeyValue: "560bd47058e7ab1b2648f4e7"
 
 telegraf:
-  image:
-    repo: docker-gitlab.touk.pl/carpinion/nussknacker/telegraf-influxdb2-plugin
-    tag: master
-  imagePullSecrets:
-    - name: gitlab-registry
-  args: [ "--config-directory", "/etc/telegraf/telegraf.d", "--plugin-directory", "/usr/lib/telegraf/plugins/" ]
-  volumes:
-    - name: additional-config
-      configMap:
-        name: ""
-  volumeMounts:
-    - name: additional-config
-      mountPath: /etc/telegraf/telegraf.d
+  enabled: true
 
 influxdb:
-  enabled: false
+  enabled: true
 
 grafana:
-  enabled: false
-  rbac:
-    create: false
-    namespaced: true
-    pspEnabled: false
-
-kibana:
-  enabled: false
-
-logstash:
-  enabled: false
+  enabled: true
 
 schema-registry:
   enabled: true
   kafka:
     enabled: false
-
-#openapi:
-#  url: "https://rdb-simpledb.restdb.io/rest/_swagger.json"
-#  apikey: "560bd47058e7ab1b2648f4e7"

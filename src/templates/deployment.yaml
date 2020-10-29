@@ -50,6 +50,9 @@ spec:
                   name: '{{- include "postgresql.secretName" (dict "Chart" (dict "Name" "postgresql") "Values" .Values.postgresql "Release" .Release "Capabilities" .Capabilities) }}'
                   key: postgresql-password
             {{- end }}
+          {{- if .Values.extraEnv }}
+            {{- .Values.extraEnv | toYaml | indent 12 }}
+          {{- end }}
           ports:
             - name: http
               containerPort: 8080

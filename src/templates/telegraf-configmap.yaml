@@ -1,0 +1,78 @@
+{{- if .Values.telegraf.enabled -}}
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: telegraf-nussknacker
+  labels:
+    {{- include "nussknacker.labels" . | nindent 4 }}
+data:
+  nussknacker.conf: |-
+    # Flink reporters for Prometheus or InfluxDB are somewhat limited:
+    # - no possibility of adding own tags
+    # - no possitility of removing Flink internal tags (like job_id, task_id, etc.)
+    # - metric name has all tags encoded inside
+    # NOTE: Prometheus has different field names than e.g. InfluxDB reporter, (count -> gauge, different percentile names, etc.)
+
+    [global_tags]
+      env = "{{ .Values.nussknacker.uiConfig.environment }}"
+
+    #FIXME: handle case where Flink is disabled but telegraf *is* enabled
+    [[inputs.prometheus]]
+      urls=[
+          "http://{{ include "flink.fullname" (dict "Chart" (dict "Name" "flink") "Values" .Values.flink "Release" .Release "Capabilities" .Capabilities) }}-jobmanager-headless:9999/metrics",
+          "http://{{ include "flink.fullname" (dict "Chart" (dict "Name" "flink") "Values" .Values.flink "Release" .Release "Capabilities" .Capabilities) }}-taskmanager:9999/metrics"
+      ]
+
+    [[processors.rename]]
+
+      [[processors.rename.replace]]
+        tag = "job_name"
+        dest = "process"
+
+      [[processors.rename.replace]]
+        tag = "subtask_index"
+        dest = "slot"
+
+      #TODO: this is test model specific, figure out way to remove it...
+      [[processors.rename.replace]]
+        tag = "originalProcessName"
+        dest = "process"
+
+    #We remove tag names from measurement names to have more stable measurement names
+    [[processors.strings]]
+      [[processors.strings.replace]]
+       measurement = "*"
+       old = "taskmanager_job_task_operator_"
+       new = ""
+
+      [[processors.strings.replace]]
+        measurement = "*"
+        old = "flink_"
+        new = ""
+
+      [[processors.strings.replace]]
+        measurement = "*"
+        old = "nodeId_"
+        new = ""
+
+      [[processors.strings.replace]]
+        measurement = "*"
+        old = "serviceName_"
+        new = ""
+
+      [[processors.strings.replace]]
+        measurement = "*"
+        old = "namespace_"
+        new = ""
+      [[processors.strings.replace]]
+        measurement = "*"
+        old = "originalProcessName_"
+        new = ""
+
+    [[outputs.influxdb]]
+      urls = ["{{ include "nussknacker.influxUrl" . }}"]
+      skip_database_creation = true
+      database = "nussknacker"
+
+{{- end }}

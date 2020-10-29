@@ -22,28 +22,16 @@ dependencies:
     version: 0.1.16
     repository: "@riskfocus"
     condition: flink.enabled
-  - name: elasticsearch
-    version: ^1.32.3
-    repository: "@stable"
-    condition: elasticsearch.enabled
-  - name: kibana
-    version: ^3.2.6
-    repository: "@stable"
-    condition: kibana.enabled
-  - name: logstash
-    version: ^2.4.1
-    repository: "@stable"
-    condition: logstash.enabled
   - name: grafana
-    version: ^5.0.0
-    repository: "@stable"
+    version: ^5.7.2
+    repository: "@grafana"
     condition: grafana.enabled
-  - name: influxdb2
-    version: ^1.0.6
+  - name: influxdb
+    version: ^4.8.6
     repository: "@influxdata"
     condition: influxdb.enabled
   - name: telegraf
-    version: ^1.7.23
+    version: ^1.7.27
     repository: "@influxdata"
     condition: telegraf.enabled
   - name: hermes

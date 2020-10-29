@@ -6,76 +6,60 @@ metadata:
     {{- include "nussknacker.labels" . | nindent 4 }}
 data:
   application.conf: |-
-    #TODO: w miarę sprzątania NK powinno coraz więcej się dać usunąć
-
-    base: { include "/opt/nussknacker/conf/base-application.conf" }
 
     {{- with .Values.db }}
     db: {{ tpl (toJson .) $ }}
     {{- end }}
     db.password: ${?DB_PASSWORD}
 
-    environment: "demo"
-
-    categoriesConfig {
-      "Default": "hermes-model"
-    }
-
     processTypes {
-      "hermes-model": {
-          engineConfig: ${base.flinkEngineConfig} {
+      "default": {
+          engineConfig: {
+             type: "flinkStreaming"
+             {{/* Find easier way of passing it through values */}}
              restUrl: "{{ include "nussknacker.flinkJobManagerUrl" . }}"
              queryableStateProxyUrl: "{{ include "nussknacker.flinkTaskManagerUrl" . }}"
-          }
-          modelConfig {
+          } {{ tpl (.Values.nussknacker.flinkConfig | mustToJson) . }}
+
+          modelConfig: {
             kafka {
               kafkaAddress: "{{ include "nussknacker.kafkaUrl" . }}"
               kafkaProperties {
                 "schema.registry.url": "{{ include "nussknacker.schemaRegistryUrl" . }}"
               }
             }
-          }
-          modelConfig: {{ tpl ( mustToJson .Values.modelConfig ) . }}
+          }{{ tpl ( mustToJson .Values.nussknacker.modelConfig ) . }}
       }
     }
 
-    environmentAlert: {
-      content: "KUBERNETES ENVIRONMENT"
-      cssClass: "indicator-green"
-    }
+    {{- if .Values.influxdb.enabled }}
+    countsSettings: {{ include "nussknacker.influxDbConfig" .}}
+    {{- end }}
 
-    metricsSettings: {
-      url: ${base.grafanaUrl}"/dashboard/db/$dashboard?theme=dark&var-processName=$process&var-env="${environment}
-      defaultDashboard: "flink-esp"
-      processingTypeToDashboard: {
-        "hermes-model": "flink-esp"
-      }
-    }
-
-
-    # TODO: lightbend config can't include files on root level - move nussknacker config on nk level and get rid of this below
-    commentSettings: ${base.commentSettings}
-    attachmentsPath: ${base.attachmentsPath}
-    countsSettings: ${base.countsSettings}
-
-    {{- if .Values.openapi }}
-    openapi: [{
-      url: "{{ .Values.openapi.url }}"
-      {{- if .Values.openapi.apikey }}
-      security: {
-        apikey: {
-          type: "apiKey"
-          apiKeyValue: "{{ .Values.openapi.apikey }}"
+    {{- if .Values.grafana.enabled }}
+        metricsSettings: {
+          url: "{{ include "nussknacker.grafanaUrl" .}}/dashboard/db/$dashboard?theme=dark&var-processName=$process&var-env="${environment}
+          defaultDashboard: "flink-esp"
         }
-      }
-      {{- end }}
-    }]
     {{- end }}
 
-    {{- if .Values.hermes.enabled }}
-    customTabs: [{
-      name: "Hermes"
-      url: "{{ include "hermes.management.svcExternalUrl" (dict "Chart" (dict "Name" "hermes") "Values" .Values.hermes "Release" .Release "Capabilities" .Capabilities) }}"
-      id: "hermes"
-    }]
+    {{/* We have to iterate over first level to embed in .conf properly... */}}
+    {{- range $key, $val := .Values.nussknacker.uiConfig }}
+      {{ $key }}: {{ tpl ( mustToJson $val ) $ }}
     {{- end }}
+
+    {{/* Find easier way of passing it through values */}}
+    customTabs: [ {{ include "nussknacker.hermesUiManagementTab" . }} ] {{ tpl ( mustToJson (.Values.nussknacker.uiConfig.customTabs | default list) ) . }}
+
+    #Due to bug in NK, akka settings are not taken from defaults: https://github.com/TouK/nussknacker/pull/1259
+    akka {
+       http {
+         server {
+           parsing.max-content-length = 300000000 #300MB
+           # Longer mainly for invoking tests on processes
+           request-timeout = 1 minute
+         }
+       }
+    }
+
+

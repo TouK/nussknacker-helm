@@ -64,7 +64,7 @@ Create the name of the service account to use
 
 {{- define "nussknacker.kafkaUrl" -}}
 {{- if .Values.kafka.enabled -}}
-    {{ include "kafka.fullname" (dict "Chart" (dict "Name" "kafka") "Values" .Values.hermes "Release" .Release "Capabilities" .Capabilities) }}:9092
+    {{ include "kafka.fullname" (dict "Chart" (dict "Name" "kafka") "Values" .Values.kafka "Release" .Release "Capabilities" .Capabilities) }}:9092
 {{- else -}}
     {{ required "Enable kafka or provide a valid .Values.kafka.url entry!" ( tpl .Values.kafka.url . ) }}
 {{- end -}}
@@ -72,7 +72,7 @@ Create the name of the service account to use
 
 {{- define "nussknacker.schemaRegistryUrl" -}}
 {{- if index .Values "schema-registry" "enabled" -}}
-    http://{{ include "schema-registry.fullname" (dict "Chart" (dict "Name" "schema-registry") "Values" .Values.hermes "Release" .Release "Capabilities" .Capabilities) }}:8081
+    http://{{ include "schema-registry.fullname" (dict "Chart" (dict "Name" "schema-registry") "Values" ( index .Values "schema-registry" ) "Release" .Release "Capabilities" .Capabilities) }}:8081
 {{- else -}}
     {{ required "Enable schema-registry or provide a valid .Values.schema-registry.url entry!" ( tpl ( index .Values "schema-registry" "url" ) . ) }}
 {{- end -}}
@@ -80,16 +80,50 @@ Create the name of the service account to use
 
 {{- define "nussknacker.flinkJobManagerUrl" -}}
 {{- if .Values.flink.enabled -}}
-    http://{{ include "flink.fullname" (dict "Chart" (dict "Name" "flink") "Values" .Values.hermes "Release" .Release "Capabilities" .Capabilities) }}-jobmanager-rest:8081
+    http://{{ include "flink.fullname" (dict "Chart" (dict "Name" "flink") "Values" .Values.flink "Release" .Release "Capabilities" .Capabilities) }}-jobmanager-rest:8081
 {{- else -}}
-    {{ required "Enable flink or provide a valid .Values.flink.job-manager-url entry!" ( tpl ( index .Values "flink" "job-manager-url" ) . ) }}
+    {{ required "Enable flink or provide a valid .Values.nussknacker.job-manager-url entry!" ( tpl ( index .Values "nussknacker" "job-manager-url" ) . ) }}
 {{- end -}}
 {{- end -}}
 
 {{- define "nussknacker.flinkTaskManagerUrl" -}}
 {{- if .Values.flink.enabled -}}
-    {{ include "flink.fullname" (dict "Chart" (dict "Name" "flink") "Values" .Values.hermes "Release" .Release "Capabilities" .Capabilities) }}-taskmanager:6122
+    {{ include "flink.fullname" (dict "Chart" (dict "Name" "flink") "Values" .Values.flink "Release" .Release "Capabilities" .Capabilities) }}-taskmanager:6122
 {{- else -}}
-    {{ required "Enable flink or provide a valid .Values.flink.task-manager-url entry!" ( tpl ( index .Values "flink" "task-manager-url" ) . ) }}
+    {{ required "Enable flink or provide a valid .Values.nussknacker.task-manager-url entry!" ( tpl ( index .Values "nussknacker" "task-manager-url" ) . ) }}
+{{- end -}}
+{{- end -}}
+
+{{- define "nussknacker.grafanaUrl" -}}
+    {{/* TODO: configurable path, proper ingress configuration   */}}
+    {{- $domain := required "Provide a domain name for grafana" .Values.ingress.domain -}}
+    {{- $fullName := default (include "nussknacker.fullname" .) .Values.ingress.host -}}
+    {{- printf "https://%s.%s/grafana" $fullName $domain -}}
+{{- end -}}
+
+{{/* TODO: handling custom port */}}
+{{- define "nussknacker.influxUrl" -}}
+    http://{{ include "influxdb.fullname" (dict "Chart" (dict "Name" "influxdb") "Values" .Values.influxdb "Release" .Release "Capabilities" .Capabilities) }}:8086
+{{- end -}}
+
+{{- define "nussknacker.influxDbConfig" -}}
+    {
+      "user": "admin"
+      "password": "admin"
+      "influxUrl": "{{- include "nussknacker.influxUrl" . -}}/query"
+      "database": "nussknacker"
+      {{/* We use prometheus reporter     */}}
+      metricsConfig: {  "countField": "gauge"}
+    }
+{{- end -}}
+
+
+{{- define "nussknacker.hermesUiManagementTab" -}}
+{{- if .Values.hermes.enabled -}}
+    {
+      "name": "Hermes"
+      "id": "hermes"
+      "url": "{{ include "hermes.management.svcExternalUrl" (dict "Chart" (dict "Name" "hermes") "Values" .Values.hermes "Release" .Release "Capabilities" .Capabilities) }}"
+    }
 {{- end -}}
 {{- end -}}

@@ -5,11 +5,11 @@
 replicaCount: 1
 
 image:
-  repository: docker-gitlab.touk.pl/carpinion/nussknacker/nk-cloud-model/master
+  repository: touk/nussknacker
   tag: latest
   pullPolicy: IfNotPresent
 
-imagePullSecrets: []
+imagePullSecrets: [ ]
 nameOverride: ""
 fullnameOverride: ""
 
@@ -57,17 +57,17 @@ persistence:
 
   accessMode: ReadWriteOnce
   size: 1Gi
-  annotations: {}
+  annotations: { }
 
 ingress:
   enabled: true
-  annotations: 
+  annotations:
     certmanager.k8s.io/cluster-issuer: "letsencrypt-prod"
   domain: carpinion.touk.pl
   # host: .Release.Name-nussknacker
   # tlsSecretName: .Release.Name-nussknacker-tls
 
-resources: {}
+resources: { }
   # We usually recommend not to specify default resources and to leave this as a conscious
   # choice for the user. This also increases chances charts run on environments with little
   # resources, such as Minikube. If you do want to specify resources, uncomment the following
@@ -79,23 +79,37 @@ resources: {}
   #   cpu: 100m
   #   memory: 128Mi
 
-nodeSelector: {}
+nodeSelector: { }
 
-tolerations: []
+tolerations: [ ]
 
-affinity: {}
+affinity: { }
 
 db:
   driver: "org.postgresql.Driver"
   url: 'jdbc:postgresql://{{ .Release.Name }}-postgresql/'
   schema: public
   user: postgres
-  # password: from a postgresql secret by default
+  # password: from a postgresql secret via env variable (see deployment.yaml) by default
 
-modelConfig:
-  classPath:
-    - "model/hermesModel.jar"
-  namespace: "{{ .Release.Name }}"
+nussknacker:
+  modelConfig:
+    classPath:
+      #Generic NK model
+      - "model/genericModel.jar"
+  flinkConfig:
+    jobManagerTimeout: "1m"
+    #Have to be provided if Flink not enabled
+    #restUrl:
+    #queryableStateProxyUrl:
+  uiConfig:
+    environment: "default"
+    environmentAlert:
+      content: "{{ .Values.nussknacker.uiConfig.environment }}"
+      cssClass: "indicator-green"
+    categoriesConfig:
+      #NOTE: all categories have to point to 'default' processType!
+      Default: "default"
 
 postgresql:
   enabled: true
@@ -129,73 +143,59 @@ flink:
     numberOfTaskSlots: 3
   jobmanager:
     statefulset: true
-  prometheus:
-    serviceMonitor:
-      enabled: false
-
-elasticsearch:
-  enabled: true
-
-kibana:
-  enabled: true
-  env:
-    ELASTICSEARCH_HOSTS: http://{{ .Release.Name }}-elasticsearch-client:9200
-
-logstash:
-  enabled: true
-  extraEnv:
-    - name: HELM_RELEASE_NAME
-      valueFrom:
-        fieldRef:
-          fieldPath: metadata.labels['release']
-  inputs:
-    main: |-
-      input {
-        kafka {
-        codec => "json"
-        bootstrap_servers => "http://${HELM_RELEASE_NAME}-kafka:9092"
-        topics_pattern => ".*"
-        auto_offset_reset => "latest"
-        client_id => "logstash"
-        group_id => "logstash"
-        decorate_events => "true"
-        }
-      }
-  filters:
-    main: |-
-      filter {
-        if [eventTime] {
-          date {
-            match => [ "eventTime", "ISO8601" ]
-            target => [ "parsedEventTime" ]
-          }
-        }
-        mutate {
-          add_field => { "topic" => "%{[@metadata][kafka][topic]}"}
-        }
-      }
-  outputs:
-    main: |-
-      output {
-        elasticsearch {
-          index => "events.%{[@metadata][kafka][topic]}-%{+YYYY.MM}"
-          hosts => ["http://${HELM_RELEASE_NAME}-elasticsearch-client:9200"]
-        }
-      }   
-  elasticsearch:
-    host: http://{{ .Release.Name }}-elasticsearch-client
-    port: 9200
+#  prometheus:
+#    serviceMonitor:
+#      enabled: false
 
 grafana:
   enabled: true
+  grafana.ini:
+    server:
+      root_url: "%(protocol)s://%(domain)s/grafana"
+      serve_from_sub_path: true
+    security:
+      allow_embedding: true
+    #TODO: just for demo purposes
+    "auth.anonymous":
+      enabled: true
+  #TODO: authentication
+  adminUser: admin
+  adminPassword: admin
+  rbac:
+    create: true
+    namespaced: true
+    pspEnabled: false
+  sidecar:
+    dashboards:
+      enabled: true
+    datasources:
+      enabled: true
+  ingress:
+    enabled: false
 
 influxdb:
-  enabled: false
+  enabled: true
+  env:
+    - name: INFLUXDB_DB
+      value: "nussknacker"
 
 telegraf:
   enabled: true
   rbac:
     create: false
+  args:
+    - "--config-directory"
+    - "/etc/telegraf/telegraf.d"
+  volumes:
+    - name: telegraf-nussknacker
+      configMap:
+        name: "telegraf-nussknacker"
+  mountPoints:
+    - name: telegraf-nussknacker
+      mountPath: /etc/telegraf/telegraf.d
+  config:
+    #We suppress default influxDB configuration from chart, as we cannot easily template influxdb url
+    outputs: []
 
 hermes:
   enabled: false

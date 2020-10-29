@@ -26,6 +26,12 @@ spec:
     - host: {{ $fqdn | quote }}
       http:
         paths:
+          {{- if .Values.grafana.enabled }}
+          - path: /grafana
+            backend:
+              serviceName: {{ include "grafana.fullname" (dict "Chart" (dict "Name" "grafana") "Values" .Values.grafana "Release" .Release "Capabilities" .Capabilities) }}
+              servicePort: {{ .Values.grafana.service.port }}
+          {{- end }}
           - path: /
             backend:
               serviceName: {{ $fullName }}

@@ -1,0 +1,25 @@
+{{- if .Values.grafana.enabled -}}
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: influx-grafana-datasource
+  labels:
+     grafana_datasource: "influx"
+data:
+  datasource.yaml: |-
+    apiVersion: 1
+    datasources:
+    - name: influx
+      type: influxdb
+      access: proxy
+      orgId: 1
+      url: {{ include "nussknacker.influxUrl" .}}
+      database: nussknacker
+      basicAuth: false
+      withCredentials: false
+      isDefault: true
+      version: 1
+      editable: false
+
+{{- end }}

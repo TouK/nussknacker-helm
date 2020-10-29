@@ -1,0 +1,12 @@
+{{- if .Values.grafana.enabled -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nussknacker-grafana-dashboard
+  labels:
+     grafana_dashboard: "nussknacker"
+data:
+    {{- tpl ((.Files.Glob "grafana/dashboard.json").AsConfig) . | nindent 2 }}
+
+{{- end }}
+
