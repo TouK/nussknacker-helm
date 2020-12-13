@@ -1,5 +1,6 @@
 image:
-  repository: docker-gitlab.touk.pl/carpinion/nussknacker/nk-cloud-model/master
+  repository: touk/nussknacker
+  tag: staging-latest
   pullPolicy: Always
 
 imagePullSecrets:
@@ -52,8 +53,6 @@ flink:
 
 nussknacker:
   modelConfig:
-    classPath:
-      - "model/hermesModel.jar"
     namespace: "{{ .Release.Name }}"
 #TODO: problem z wersja commons-io, konieczny upgrade NK... :/
 #    openapi:

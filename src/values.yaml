@@ -137,7 +137,7 @@ schema-registry:
 flink:
   enabled: true
   image:
-    tag: 1.10.2-scala_2.12
+    tag: 1.11.2-scala_2.12
   taskmanager:
     statefulset: false
     numberOfTaskSlots: 3
