@@ -16,6 +16,12 @@ persistence:
   accessMode: ReadWriteMany
   storageClass: nfs
 
+ingress:
+  enabled: true
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+  domain: carpinion.touk.pl
+
 hermes:
   enabled: true
   imagePullSecrets:

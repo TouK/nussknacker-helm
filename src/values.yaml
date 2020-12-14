@@ -60,10 +60,8 @@ persistence:
   annotations: { }
 
 ingress:
-  enabled: true
-  annotations:
-    certmanager.k8s.io/cluster-issuer: "letsencrypt-prod"
-  domain: carpinion.touk.pl
+  enabled: false
+  # domain: <a TLD must be set>
   # host: .Release.Name-nussknacker
   # tlsSecretName: .Release.Name-nussknacker-tls
 
