@@ -2,6 +2,9 @@ include:
   - project: 'carpinion/ci/templates'
     file: 'vanilla-helm.yaml'
 
+variables:
+  CHART_REPOSITORY_AUTH: "${CHARTS_PUBLIC_AUTH}"
+
 build:
   script:
     - helm repo add stable https://charts.helm.sh/stable/
@@ -15,7 +18,17 @@ build:
     - helm dependencies build ./src
     - helm package ./src -d dist --version $VERSION
 
+publish.release:
+  variables:
+    CHART_REPOSITORY_URL: ${CHARTS_PUBLIC_RELEASES_URL}
+
+publish.snapshot:
+  variables:
+    CHART_REPOSITORY_URL: ${CHARTS_PUBLIC_SNAPSHOTS_URL}
+
 deploy:
+  variables:
+    CHART_REPOSITORY_URL: ${CHARTS_PUBLIC_SNAPSHOTS_URL}
   services:
     - docker:dind
   script:
