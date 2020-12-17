@@ -81,4 +81,4 @@ spec:
         - name: scripts
           configMap:
             name: {{ include "nussknacker.fullname" . }}-test-scripts
-            defaultMode: 0744
+            defaultMode: 0755
