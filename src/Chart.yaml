@@ -1,7 +1,15 @@
 apiVersion: v2
 name: nussknacker
 version: 0.1.4-SNAPSHOT
-description: A Helm chart for Nussknacker
+description: Nussknacker - a design, development, and deployment tool for stream processing
+home: https://nussknacker.io/
+icon: https://raw.githubusercontent.com/TouK/nussknacker/staging/docs/img/nussknacker_logo_256_b.png
+keywords:
+  - flink
+  - kafka
+  - event stream
+  - stream processing
+  - event stream processing
 type: application
 appVersion: 0.3.0
 
