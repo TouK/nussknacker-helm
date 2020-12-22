@@ -1,6 +1,6 @@
 apiVersion: v2
 name: nussknacker
-version: 0.1.4-SNAPSHOT
+version: 0.1.4
 description: Nussknacker - a design, development, and deployment tool for stream processing
 home: https://nussknacker.io/
 icon: https://raw.githubusercontent.com/TouK/nussknacker/staging/docs/img/nussknacker_logo_256_b.png
