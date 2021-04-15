@@ -55,9 +55,9 @@
       "type": "Source"
     },
     {
-      "id": "kafka-avro-sink",
+      "id": "kafka-avro-sink-raw",
       "ref": {
-        "typ": "kafka-avro",
+        "typ": "kafka-avro-raw",
         "parameters": [
           {
             "name": "Key",
