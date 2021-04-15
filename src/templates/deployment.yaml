@@ -42,7 +42,7 @@ spec:
             - name: JDK_JAVA_OPTIONS
               value: -Dconfig.override_with_env_vars=true
             - name: NUSSKNACKER_CONFIG_FILE
-              value: /etc/nussknacker/application.conf
+              value: {{ .Values.nussknacker.configFile }}
             {{- if .Values.postgresql.enabled }}
             - name: DB_PASSWORD
               valueFrom:

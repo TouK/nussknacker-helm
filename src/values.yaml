@@ -92,6 +92,8 @@ db:
   # password: from a postgresql secret via env variable (see deployment.yaml) by default
 
 nussknacker:
+  #override it if you want to provide own config file and ignore one provided via configmap.yaml
+  configFile: /etc/nussknacker/application.conf
   modelConfig:
     classPath:
       #Generic NK model
