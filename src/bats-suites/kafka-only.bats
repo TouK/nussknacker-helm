@@ -39,15 +39,14 @@ function given_a_proxy_process() {
   local PROCESS_OBJECT="${2:?required}"
   local PROCESS_URL=$(echo ${NUSSKNACKER_URL%/}/api/processes/${PROCESS_NAME} | sed -e 's/ /%20/g')
   local PROCESS_DEPLOY_URL=$(echo ${NUSSKNACKER_URL%/}/api/processManagement/deploy/${PROCESS_NAME} | sed -e 's/ /%20/g')
+  local PROCESS_CANCEL_URL=$(echo ${NUSSKNACKER_URL%/}/api/processManagement/cancel/${PROCESS_NAME} | sed -e 's/ /%20/g')
   local PROCESS_IMPORT_URL=$(echo ${NUSSKNACKER_URL%/}/api/processes/import/${PROCESS_NAME} | sed -e 's/ /%20/g')
 
-  curl ${PROCESS_URL} || (
-    curl -X POST ${PROCESS_URL%/}/Default
-    echo ${PROCESS_OBJECT} | /usr/bin/curl -f -k -v -H "Authorization: ${AUTHORIZATION}" ${PROCESS_IMPORT_URL} -F process=@- | (echo '{ "comment": "created by a bats test", "process": '; cat; echo '}') | curl -X PUT ${PROCESS_URL} -d @-
-  )
+  curl ${PROCESS_URL} || curl -X POST ${PROCESS_URL%/}/Default
+  echo ${PROCESS_OBJECT} | /usr/bin/curl -f -k -v -H "Authorization: ${AUTHORIZATION}" ${PROCESS_IMPORT_URL} -F process=@- | (echo '{ "comment": "created by a bats test", "process": '; cat; echo '}') | curl -X PUT ${PROCESS_URL} -d @-
 
-  [[ $(curl ${PROCESS_URL%/}/status | jq -r .status.name) = RUNNING ]] ||
-    curl -X POST ${PROCESS_DEPLOY_URL}
+  [[ $(curl ${PROCESS_URL%/}/status | jq -r .status.name) = RUNNING ]] && curl -X POST ${PROCESS_CANCEL_URL}
+  curl -X POST ${PROCESS_DEPLOY_URL}
 }
 
 function when_a_message_has_been_posted_on_the_topic() {
