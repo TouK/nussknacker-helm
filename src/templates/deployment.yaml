@@ -47,7 +47,7 @@ spec:
             - name: DB_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: '{{- include "postgresql.secretName" (dict "Chart" (dict "Name" "postgresql") "Values" .Values.postgresql "Release" .Release "Capabilities" .Capabilities) }}'
+                  name: '{{- include "postgresql.secretName" .Subcharts.postgresql }}'
                   key: postgresql-password
             {{- end }}
           {{- if .Values.extraEnv }}

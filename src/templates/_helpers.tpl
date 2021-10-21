@@ -62,20 +62,64 @@ Create the name of the service account to use
 {{- end -}}
 {{- end -}}
 
-{{- define "nussknacker.kafkaUrl" -}}
-{{- if .Values.kafka.enabled -}}
-    {{ include "kafka.fullname" (dict "Chart" (dict "Name" "kafka") "Values" .Values.kafka "Release" .Release "Capabilities" .Capabilities) }}:9092
+{{- define "nussknacker.kafkaBootstrapServers" -}}
+{{- if .Values.kafka.enabled }}
+{{- include "kafka.fullname" .Subcharts.kafka }}:{{- .Values.kafka.service.port }}
 {{- else -}}
-    {{ required "Enable kafka or provide a valid .Values.kafka.url entry!" ( tpl .Values.kafka.url . ) }}
+{{- required "Enable Kafka or provide global values for bootstrap servers." (include "nussknacker.globalKafkaBootstrapServers" . | trim) }}
+{{- end }}
+{{- end }}
+
+{{- define "nussknacker.globalKafkaBootstrapServers" -}}
+{{- if .Values.global.kafka.bootstrapServers }}
+{{- tpl (join "," .Values.global.kafka.bootstrapServers) . }}
+{{- else }}
+{{- if .Values.global.kafka.fullname }}
+{{- .Values.global.kafka.fullname | trunc 63 | trimSuffix "-" }}
+{{- else }}
+{{- if .Values.global.kafka.name }}
+{{- $name := .Values.global.kafka.name }}
+{{- if contains $name .Release.Name }}
+{{- .Release.Name | trunc 63 | trimSuffix "-" }}
+{{- else }}
+{{- printf "%s-%s" .Release.Name $name | trunc 63 | trimSuffix "-" }}
+{{- end }}
+{{- end }}
+{{- end }}
+{{- if .Values.global.kafka.port }}
+{{- printf ":%v" .Values.global.kafka.port }}
+{{- end }}
+{{- end }}
+{{- end }}
+
+{{- define "nussknacker.schemaRegistryUrl" -}}
+{{- if index .Values "apicurio-registry" "enabled" -}}
+http://{{ include "apicurio-registry.fullname" ( index .Subcharts "apicurio-registry" ) }}:{{ index .Values "apicurio-registry" "service" "port" }}/apis/ccompat/v6/
+{{- else -}}
+{{- required "Enable apicurio-registry or provide global values for a scheme registry url." (include "nussknacker.globalSchemaRegistryUrl" . | trim) }}
 {{- end -}}
 {{- end -}}
 
-{{- define "nussknacker.schemaRegistryUrl" -}}
-{{- if index .Values "schema-registry" "enabled" -}}
-    http://{{ include "schema-registry.fullname" (dict "Chart" (dict "Name" "schema-registry") "Values" ( index .Values "schema-registry" ) "Release" .Release "Capabilities" .Capabilities) }}:8081
-{{- else -}}
-    {{ required "Enable schema-registry or provide a valid .Values.schema-registry.url entry!" ( tpl ( index .Values "schema-registry" "url" ) . ) }}
-{{- end -}}
+{{- define "nussknacker.globalSchemaRegistryUrl" -}}
+{{- if .Values.global.schemaRegistry.url }}
+{{- .Values.global.schemaRegistry.url }}
+{{- else }}
+{{- if .Values.global.schemaRegistry.fullname }}
+{{- .Values.global.schemaRegistry.fullname | trunc 63 | trimSuffix "-" | printf "http://%s" }}
+{{- else }}
+{{- if .Values.global.schemaRegistry.name }}
+{{- $name := .Values.global.schemaRegistry.name }}
+{{- if contains $name .Release.Name }}
+{{- .Release.Name | trunc 63 | trimSuffix "-" | printf "http://%s" }}
+{{- else }}
+{{- printf "%s-%s" .Release.Name $name | trunc 63 | trimSuffix "-" | printf "http://%s" }}
+{{- end }}
+{{- end }}
+{{- end }}
+{{- if .Values.global.schemaRegistry.port }}
+{{- printf ":%d" .Values.global.schemaRegistry.port }}
+{{- end }}
+{{- end }}
 {{- end -}}
 
 {{- define "nussknacker.flinkJobManagerUrl" -}}

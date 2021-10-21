@@ -23,7 +23,7 @@ data:
 
           modelConfig: {
             kafka {
-              kafkaAddress: "{{ include "nussknacker.kafkaUrl" . }}"
+              kafkaAddress: "{{ include "nussknacker.kafkaBootstrapServers" . }}"
               kafkaProperties {
                 "schema.registry.url": "{{ include "nussknacker.schemaRegistryUrl" . }}"
               }
@@ -64,5 +64,3 @@ data:
          }
        }
     }
-
-

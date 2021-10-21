@@ -1,6 +1,4 @@
 image:
-  repository: touk/nussknacker
-  tag: 0.5.0-release_1.0-2021-09-13-3989-2e6cdbfef0a7b0ffa946f1b2bd69bc1e61c0aadc-SNAPSHOT
   pullPolicy: Always
 
 imagePullSecrets:
@@ -38,8 +36,7 @@ hermes:
       annotations:
         cert-manager.io/cluster-issuer: "letsencrypt-prod"
       domain: carpinion.touk.pl
-  kafka:
-    namespace: "{{ .Release.Name }}"
+  kafkaNamespace: "{{ .Release.Name }}"
 
 kafka:
   replicas: 1
@@ -82,7 +79,5 @@ influxdb:
 grafana:
   enabled: true
 
-schema-registry:
+apicurio-registry:
   enabled: true
-  kafka:
-    enabled: false

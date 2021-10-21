@@ -119,19 +119,14 @@ postgresql:
 
 kafka:
   enabled: true
-  imageTag: 5.4.2
-  testsEnabled: false
   peristence:
     enabled: true
   zookeeper:
     persistence:
       enabled: true
-    image:
-      tag: 3.6.0
 
-schema-registry:
+apicurio-registry:
   enabled: true
-  imageTag: 5.4.2
   kafka:
     enabled: false
 
@@ -202,11 +197,16 @@ hermes:
   enabled: false
   kafka:
     enabled: false
-    url: "{{ .Release.Name }}-kafka:9092"
-    zookeeper:
-      enabled: false
-      url: "{{ .Release.Name }}-zookeeper:2181"
-    namespace: "{{ .Release.Name }}"
-  schema-registry:
+  apicurio-registry:
     enabled: false
-    url: "http://{{ .Release.Name }}-schema-registry:8081"
+
+global:
+  kafka:
+    name: kafka
+    port: 9092
+  zookeeper:
+    name: zookeeper
+    port: 2181
+  schemaRegistry:
+    name: apicurio-registry
+    path: /apis/ccompat/v6/

@@ -29,7 +29,7 @@ function given_a_topic() {
     --topic "${TOPIC_FULL_NAME}" \
     --group helm_test --reset-offsets --to-latest --execute
 
-  cat << _END | curl -d @- "${SCHEMA_REGISTRY_URL}/subjects/${TOPIC_FULL_NAME}-value/versions"
+  cat << _END | curl -d @- "${SCHEMA_REGISTRY_URL%/}/subjects/${TOPIC_FULL_NAME}-value/versions"
 { "schema": "$(echo $SCHEMA | sed -e 's/"/\\"/g')" }
 _END
 }
@@ -53,7 +53,7 @@ function when_a_message_has_been_posted_on_the_topic() {
   local TOPIC_FULL_NAME="${1:?required}"
   local ID=${2:?required}
 
-  local SCHEMA_ID=$(curl "${SCHEMA_REGISTRY_URL}/subjects/${TOPIC_FULL_NAME}-value/versions/latest" | jq '.id')
+  local SCHEMA_ID=$(curl "${SCHEMA_REGISTRY_URL%/}/subjects/${TOPIC_FULL_NAME}-value/versions/latest" | jq '.id')
 
   cat << _END | kafka-avro-console-producer \
     --bootstrap-server $KAFKA_BOOTSTRAP_SERVER \
@@ -104,7 +104,7 @@ _END
 
   given_a_topic "${KAFKA_NAMESPACE}_${GROUP}.$INPUT_TOPIC" "$(echo $SCHEMA | TOPIC=${INPUT_TOPIC} envsubst)"
   given_a_topic "${KAFKA_NAMESPACE}_${GROUP}.$OUTPUT_TOPIC" "$(echo $SCHEMA | TOPIC=${OUTPUT_TOPIC} envsubst)"
-  given_a_proxy_process "${PROCESS_NAME}" "$(cat ${BATS_TEST_DIRNAME}/testprocess.json | envsubst)"
+  given_a_proxy_process "${PROCESS_NAME}" "$(cat ${BATS_TEST_DIRNAME%/}/testprocess.json | envsubst)"
 }
 
 @test "message should pass through the proxy process" {

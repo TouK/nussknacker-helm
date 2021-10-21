@@ -7,16 +7,15 @@ variables:
 
 build:
   script:
-    - helm repo add stable https://charts.helm.sh/stable/
-    - helm repo add incubator https://charts.helm.sh/incubator/
-    - helm repo add riskfocus https://riskfocus.github.io/helm-charts-public/
     - helm repo add touk $CHARTS_PUBLIC_RELEASES_URL
     - helm repo add touk-private $CHARTS_PRIVATE_RELEASES_URL
     - helm repo add touk-snapshots $CHARTS_PRIVATE_SNAPSHOTS_URL
     - helm repo add influxdata https://helm.influxdata.com/
     - helm repo add grafana https://grafana.github.io/helm-charts
-    - helm dependencies build ./src
-    - helm package ./src -d dist --version $VERSION
+    - helm repo add bitnami https://charts.bitnami.com/bitnami
+    - helm repo add riskfocus https://riskfocus.github.io/helm-charts-public/
+    - helm dependencies build "$CHART_SRC_DIR"
+    - helm package "$CHART_SRC_DIR" -d dist --version "$VERSION" ${APP_VERSION:+--app-version "${APP_VERSION}"}
 
 publish.release:
   variables:

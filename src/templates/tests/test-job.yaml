@@ -34,7 +34,7 @@ spec:
             - name: KAFKA_NAMESPACE
               value: {{ .Release.Name }}
             - name: KAFKA_BOOTSTRAP_SERVER
-              value: "{{ include "nussknacker.kafkaUrl" . }}"
+              value: "{{ include "nussknacker.kafkaBootstrapServers" . }}"
             - name: SCHEMA_REGISTRY_URL
               value: "{{ include "nussknacker.schemaRegistryUrl" . }}"
             {{- if .Values.hermes.enabled }}
