@@ -1,6 +1,6 @@
 image:
   repository: touk/nussknacker
-  tag: staging-latest
+  tag: 0.5.0-release_1.0-2021-09-13-3989-2e6cdbfef0a7b0ffa946f1b2bd69bc1e61c0aadc-SNAPSHOT
   pullPolicy: Always
 
 imagePullSecrets:
@@ -60,13 +60,18 @@ flink:
 nussknacker:
   modelConfig:
     namespace: "{{ .Release.Name }}"
-#TODO: problem z wersja commons-io, konieczny upgrade NK... :/
-#    openapi:
-#      - url: "https://rdb-simpledb.restdb.io/rest/_swagger.json"
-#        security:
-#          apikey:
-#            type: "apiKey"
-#            apiKeyValue: "560bd47058e7ab1b2648f4e7"
+    classPath:
+      - "model/genericModel.jar"
+      - "components/openapi.jar"
+    components:
+      openAPI:
+        url: "https://rdb-simpledb.restdb.io/rest/_swagger.json"
+        security:
+          apikey:
+            type: "apiKey"
+            apiKeyValue: "560bd47058e7ab1b2648f4e7"
+        categories:
+          - "Default"
 
 telegraf:
   enabled: true

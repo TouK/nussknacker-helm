@@ -12,9 +12,9 @@ data:
     {{- end }}
     db.password: ${?DB_PASSWORD}
 
-    processTypes {
+    scenarioTypes {
       "default": {
-          engineConfig: {
+          deploymentConfig: {
              type: "flinkStreaming"
              {{/* Find easier way of passing it through values */}}
              restUrl: "{{ include "nussknacker.flinkJobManagerUrl" . }}"
@@ -28,6 +28,9 @@ data:
                 "schema.registry.url": "{{ include "nussknacker.schemaRegistryUrl" . }}"
               }
             }
+            rocksDB {
+              enable: true
+            }
           }{{ tpl ( mustToJson .Values.nussknacker.modelConfig ) . }}
       }
     }
@@ -38,8 +41,8 @@ data:
 
     {{- if .Values.grafana.enabled }}
         metricsSettings: {
-          url: "{{ include "nussknacker.grafanaUrl" .}}/dashboard/db/$dashboard?theme=dark&var-processName=$process&var-env="${environment}
-          defaultDashboard: "flink-esp"
+          url: "{{ include "nussknacker.grafanaUrl" .}}/d/$dashboard?theme=dark&var-processName=$process&var-env="${environment}
+          defaultDashboard: "nussknacker-scenario"
         }
     {{- end }}
 

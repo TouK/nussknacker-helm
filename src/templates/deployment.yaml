@@ -41,7 +41,7 @@ spec:
             #TODO: make it default in NK
             - name: JDK_JAVA_OPTIONS
               value: -Dconfig.override_with_env_vars=true
-            - name: NUSSKNACKER_CONFIG_FILE
+            - name: CONFIG_FILE
               value: {{ .Values.nussknacker.configFile }}
             {{- if .Values.postgresql.enabled }}
             - name: DB_PASSWORD

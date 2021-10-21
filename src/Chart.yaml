@@ -11,7 +11,7 @@ keywords:
   - stream processing
   - event stream processing
 type: application
-appVersion: 0.3.0
+appVersion: 0.5.0-release_1.0-2021-09-13-3989-2e6cdbfef0a7b0ffa946f1b2bd69bc1e61c0aadc-SNAPSHOT
 
 dependencies:
   - name: postgresql
@@ -27,7 +27,7 @@ dependencies:
     repository: "@incubator"
     condition: schema-registry.enabled
   - name: flink
-    version: 0.1.19
+    version: 0.2.0
     repository: "@riskfocus"
     condition: flink.enabled
   - name: grafana
@@ -43,7 +43,7 @@ dependencies:
     repository: "@influxdata"
     condition: telegraf.enabled
   - name: hermes
-    version: ^0.3.1
+    version: ^0.3.2
     repository: "@touk"
     condition: hermes.enabled
 

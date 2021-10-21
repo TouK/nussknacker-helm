@@ -85,7 +85,7 @@ tolerations: [ ]
 affinity: { }
 
 db:
-  driver: "org.postgresql.Driver"
+  driver: "org.postgresql.Driver" 
   url: 'jdbc:postgresql://{{ .Release.Name }}-postgresql/'
   schema: public
   user: postgres
@@ -109,7 +109,7 @@ nussknacker:
       content: "{{ .Values.nussknacker.uiConfig.environment }}"
       cssClass: "indicator-green"
     categoriesConfig:
-      #NOTE: all categories have to point to 'default' processType!
+      #NOTE: all categories have to point to 'default' scenarioType!
       Default: "default"
 
 postgresql:
@@ -138,7 +138,7 @@ schema-registry:
 flink:
   enabled: true
   image:
-    tag: 1.11.2-scala_2.12
+    tag: 1.13.1-scala_2.12-java11
   taskmanager:
     statefulset: false
     numberOfTaskSlots: 3
