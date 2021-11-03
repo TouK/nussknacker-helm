@@ -99,20 +99,16 @@ function given_a_proxy_process() {
 function when_a_message_has_been_posted_on_the_topic() {
   GROUP=${1:?required}
   TOPIC=${2:?required}
+  MESSAGE="${3:?required}"
 
-  cat << _END | curl -d @- ${FRONTEND_URL%/}/topics/${GROUP}.${TOPIC}
-{
-  "id": "an id",
-  "content": "a content",
-  "tags": []
-}
-_END
+  echo $MESSAGE | curl -d @- ${FRONTEND_URL%/}/topics/${GROUP}.${TOPIC}
 }
 
 function then_the_message_is_received_by_the_subscriber() {
   local SUBSCRIBER_NAME="${1:?required}"
+  MESSAGE="${2:?required}"
 
-  cat << _END | timeout 90 bash -c "until curl -d '$(cat)' ${WIREMOCK_URL%/}/__admin/requests/count | grep '\"count\" : 1'; do sleep 10; done"
+  cat << _END | timeout 90 bash -c "until curl -d '$(cat)' ${WIREMOCK_URL%/}/__admin/requests/find | jq -r '.requests[].body' | jq -e 'contains($MESSAGE)'; do sleep 10; done"
 {
     "method": "POST",
     "url": "/${SUBSCRIBER_NAME}"
@@ -156,8 +152,9 @@ _END
 }
 
 @test "message should pass through the proxy process" {
-  when_a_message_has_been_posted_on_the_topic ${GROUP} ${INPUT_TOPIC}
-  then_the_message_is_received_by_the_subscriber ${SUBSCRIBER_NAME}
+  MESSAGE='{ "id": "an id", "content": "a content", "tags": [] }'
+  when_a_message_has_been_posted_on_the_topic ${GROUP} ${INPUT_TOPIC} "${MESSAGE}"
+  then_the_message_is_received_by_the_subscriber ${SUBSCRIBER_NAME} "${MESSAGE}"
 }
 
 function teardown() {
