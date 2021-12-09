@@ -3,7 +3,9 @@
 {{- $svcPort := .Values.service.port -}}
 {{- $tlsSecretName := default (printf "%s-tls" $fullName) .Values.ingress.tlsSecretName -}}
 {{- $fqdn := printf "%s.%s" (default $fullName .Values.ingress.host) .Values.ingress.domain -}}
-{{- if semverCompare ">=1.14-0" .Capabilities.KubeVersion.GitVersion -}}
+{{- if semverCompare ">=1.19-0" .Capabilities.KubeVersion.GitVersion -}}
+apiVersion: networking.k8s.io/v1
+{{- else if semverCompare ">=1.14-0" .Capabilities.KubeVersion.GitVersion -}}
 apiVersion: networking.k8s.io/v1beta1
 {{- else -}}
 apiVersion: extensions/v1beta1
@@ -28,12 +30,32 @@ spec:
         paths:
           {{- if .Values.grafana.enabled }}
           - path: /grafana
+            {{- if semverCompare ">=1.19-0" $.Capabilities.KubeVersion.GitVersion }}
+            pathType: Prefix
+            {{- end }}
             backend:
+              {{- if semverCompare ">=1.19-0" $.Capabilities.KubeVersion.GitVersion }}
+              service:
+                name: {{ include "grafana.fullname" (dict "Chart" (dict "Name" "grafana") "Values" .Values.grafana "Release" .Release "Capabilities" .Capabilities) }}
+                port:
+                  number: 80
+              {{- else }}
               serviceName: {{ include "grafana.fullname" (dict "Chart" (dict "Name" "grafana") "Values" .Values.grafana "Release" .Release "Capabilities" .Capabilities) }}
               servicePort: {{ .Values.grafana.service.port }}
+              {{- end }}
           {{- end }}
           - path: /
+            {{- if semverCompare ">=1.19-0" $.Capabilities.KubeVersion.GitVersion }}
+            pathType: Prefix
+            {{- end }}
             backend:
+              {{- if semverCompare ">=1.19-0" $.Capabilities.KubeVersion.GitVersion }}
+              service:
+                name: {{ $fullName }}
+                port:
+                  number: {{ $svcPort }}
+              {{- else }}
               serviceName: {{ $fullName }}
               servicePort: {{ $svcPort }}
+              {{- end }}
 {{- end }}
