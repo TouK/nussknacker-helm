@@ -108,7 +108,7 @@ function then_the_message_is_received_by_the_subscriber() {
   local SUBSCRIBER_NAME="${1:?required}"
   MESSAGE="${2:?required}"
 
-  cat << _END | timeout 90 bash -c "until curl -d '$(cat)' ${WIREMOCK_URL%/}/__admin/requests/find | jq -r '.requests[].body' | jq -e 'contains($MESSAGE)'; do sleep 10; done"
+  cat << _END | timeout 120 bash -c "until curl -d '$(cat)' ${WIREMOCK_URL%/}/__admin/requests/find | jq -r '.requests[].body' | jq -e 'contains($MESSAGE)'; do sleep 10; done"
 {
     "method": "POST",
     "url": "/${SUBSCRIBER_NAME}"
