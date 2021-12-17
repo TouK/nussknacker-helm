@@ -9,6 +9,30 @@ Requirements
 ------------
 
 - helm 3.7.x
+- PV provisioner support in the underlying infrastructure
+
+Installing the Chart 
+------------
+To install the chart with the release name my-nussknacker:
+```
+helm repo add touk https://helm-charts.touk.pl/public
+helm install my-nussknacker touk/nussknacker --set ingress.enabled=true
+```
+
+Upgrade the Chart
+-------
+```
+kubectl create secret generic nussknacker-postgresql --from-literal postgresql-password=`date +%s | sha256sum | base64 | head -c 32`
+helm upgrade --set postgresql.existingSecret=nussknacker-postgresql my-nussknacker touk/nussknacker
+```
+
+Uninstalling the Chart
+----------------------
+To uninstall the my-nussknacker deployment:
+```
+helm uninstall my-nussknacker
+```
+The command removes all the Kubernetes components associated with the chart and deletes the release.
 
 Components
 ----------
@@ -16,17 +40,17 @@ By default, the chart is "with batteries included" - it installs all that is nee
 Flink itself, Kafka, monitoring, etc. Of course, in production deployment, some of those components will probably be
 provided outside. The table below lists components and their roles
 
-| Component       | Description                                                               | Enabled by default              |
-| ------------    | -----------------                                                         | ------------------------------- |
-| Nussknacker     | Nussknacker UI application                                                | true                            |
-| PostgreSQL      | Nussknacker database                                                      | true                            |
-| Flink           | Runtime for Nussknacker jobs                                              | true                            |
-| Kafka           | Main source and sink of events processed by Nussknacker processes         | true                            |
-| Schema Registry | Registry of AVRO schemas                                                  | true                            |
-| Telegraf        | Relay passing metrics from Flink to InfluxDB                              | true                            |
-| InfluxDB        | Metrics database                                                          | true                            |
-| Grafana         | Metrics frontend                                                          | true                            |
-| Hermes          | Additional component enabling sending/receiving Kafka events via REST API | false                           |
+| Component       | Description                                                               | Enabled by default |
+|-----------------|---------------------------------------------------------------------------|--------------------|
+| Nussknacker     | Nussknacker UI application                                                | true               |
+| PostgreSQL      | Nussknacker database                                                      | true               |
+| Flink           | Runtime for Nussknacker jobs                                              | true               |
+| Kafka           | Main source and sink of events processed by Nussknacker processes         | true               |
+| Schema Registry | Registry of AVRO schemas                                                  | true               |
+| Telegraf        | Relay passing metrics from Flink to InfluxDB                              | true               |
+| InfluxDB        | Metrics database                                                          | true               |
+| Grafana         | Metrics frontend                                                          | true               |
+| Hermes          | Additional component enabling sending/receiving Kafka events via REST API | false              |
 
 Configuration
 -------------
