@@ -111,7 +111,7 @@
           "measurement": "source.instantRate",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT sum(value)\nFROM (\n  SELECT non_negative_derivative(last(\"count\"), 1s) AS value\n  FROM \"source_count\"\n  WHERE process =~ /^$processName$/ AND env = '$env' AND $timeFilter\n  GROUP BY time($__interval), process, nodeId, slot\n)\nGROUP BY time($__interval), process, nodeId\n",
+          "query": "SELECT sum(value)\nFROM (\n  SELECT non_negative_derivative(last(\"gauge\"), 1s) AS value\n  FROM \"source_count\"\n  WHERE process =~ /^$processName$/ AND env = '$env' AND $timeFilter\n  GROUP BY time($__interval), process, nodeId, slot\n)\nGROUP BY time($__interval), process, nodeId\n",
           "rawQuery": true,
           "refId": "A",
           "resultFormat": "time_series",
@@ -271,7 +271,7 @@
           "measurement": "end.instantRate",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT sum(value)\nFROM (\n  SELECT non_negative_derivative(last(\"count\"), 1s) AS value\n  FROM \"end_count\"\n  WHERE process =~ /^$processName$/ AND env = '$env' AND $timeFilter\n  GROUP BY time($__interval), process, nodeId, slot\n)\nGROUP BY time($__interval), process, nodeId\n",
+          "query": "SELECT sum(value)\nFROM (\n  SELECT non_negative_derivative(last(\"gauge\"), 1s) AS value\n  FROM \"end_count\"\n  WHERE process =~ /^$processName$/ AND env = '$env' AND $timeFilter\n  GROUP BY time($__interval), process, nodeId, slot\n)\nGROUP BY time($__interval), process, nodeId\n",
           "rawQuery": true,
           "refId": "A",
           "resultFormat": "time_series",
@@ -431,7 +431,7 @@
           "measurement": "dead_end.instantRate",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT sum(value)\nFROM (\n  SELECT non_negative_derivative(last(\"count\"), 1s) AS value\n  FROM \"dead_end_count\"\n  WHERE process =~ /^$processName$/ AND env = '$env' AND $timeFilter\n  GROUP BY time($__interval), process, nodeId, slot\n)\nGROUP BY time($__interval), process, nodeId\n",
+          "query": "SELECT sum(value)\nFROM (\n  SELECT non_negative_derivative(last(\"gauge\"), 1s) AS value\n  FROM \"dead_end_count\"\n  WHERE process =~ /^$processName$/ AND env = '$env' AND $timeFilter\n  GROUP BY time($__interval), process, nodeId, slot\n)\nGROUP BY time($__interval), process, nodeId\n",
           "rawQuery": true,
           "refId": "A",
           "resultFormat": "time_series",
@@ -585,7 +585,7 @@
           "measurement": "error.instantRateByNode.count.count",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT sum(value)\nFROM (\n  SELECT non_negative_derivative(last(\"count\"), 1s) AS value\n  FROM \"error_instantRateByNode_count\"\n  WHERE process =~ /^$processName$/ AND env = '$env' AND $timeFilter\n  GROUP BY time($__interval), process, nodeId, slot\n)\nGROUP BY time($__interval), process, nodeId\n",
+          "query": "SELECT sum(value)\nFROM (\n  SELECT non_negative_derivative(last(\"gauge\"), 1s) AS value\n  FROM \"error_instantRateByNode_count\"\n  WHERE process =~ /^$processName$/ AND env = '$env' AND $timeFilter\n  GROUP BY time($__interval), process, nodeId, slot\n)\nGROUP BY time($__interval), process, nodeId\n",
           "rawQuery": true,
           "refId": "A",
           "resultFormat": "time_series",
@@ -740,17 +740,17 @@
               "type": "tag"
             }
           ],
-          "measurement": "records-lag-max",
+          "measurement": "records_lag_max",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT max(\"value\") FROM \"records-lag-max\" WHERE \"host\" =~ /$hosts$/ AND \"process\" =~ /$processName$/ AND $timeFilter GROUP BY time($interval), \"process\" fill(none)",
+          "query": "SELECT max(\"gauge\") FROM \"records_lag_max\" WHERE \"host\" =~ /$hosts$/ AND \"process\" =~ /$processName$/ AND $timeFilter GROUP BY time($interval), \"process\" fill(none)",
           "refId": "A",
           "resultFormat": "time_series",
           "select": [
             [
               {
                 "params": [
-                  "value"
+                  "gauge"
                 ],
                 "type": "field"
               },
@@ -1067,14 +1067,14 @@
           "measurement": "eventtimedelay_histogram",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT mean(\"p50\") FROM \"eventtimedelay_histogram\" WHERE \"host\" =~ /$hosts$/ AND \"process\" =~ /$processName$/ AND $timeFilter GROUP BY time($interval), \"process\" fill(null)",
+          "query": "SELECT mean(\"0.5\") FROM \"eventtimedelay_histogram\" WHERE \"host\" =~ /$hosts$/ AND \"process\" =~ /$processName$/ AND $timeFilter GROUP BY time($interval), \"process\" fill(null)",
           "refId": "A",
           "resultFormat": "time_series",
           "select": [
             [
               {
                 "params": [
-                  "p50"
+                  "0.5"
                 ],
                 "type": "field"
               },
@@ -1391,14 +1391,14 @@
           "measurement": "eventtimedelay_minimalDelay",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT min(\"value\") FROM \"eventtimedelay_histogram\" WHERE \"host\" =~ /$hosts$/ AND \"process\" =~ /$processName$/ AND $timeFilter GROUP BY time($interval), \"process\" fill(null)",
+          "query": "SELECT min(\"gauge\") FROM \"eventtimedelay_histogram\" WHERE \"host\" =~ /$hosts$/ AND \"process\" =~ /$processName$/ AND $timeFilter GROUP BY time($interval), \"process\" fill(null)",
           "refId": "A",
           "resultFormat": "time_series",
           "select": [
             [
               {
                 "params": [
-                  "value"
+                  "gauge"
                 ],
                 "type": "field"
               },
@@ -1563,7 +1563,7 @@
               "measurement": "service_OK_histogram",
               "orderByTime": "ASC",
               "policy": "default",
-              "query": "SELECT max(\"p50\") FROM \"service_OK_histogram\" WHERE \"process\" =~ /$processName$/ AND \"env\" =~ /^$env$/ AND $timeFilter GROUP BY time($__interval), \"process\", \"serviceName\" fill(null)",
+              "query": "SELECT max(\"0.5\") FROM \"service_OK_histogram\" WHERE \"process\" =~ /$processName$/ AND \"env\" =~ /^$env$/ AND $timeFilter GROUP BY time($__interval), \"process\", \"serviceName\" fill(null)",
               "rawQuery": false,
               "refId": "A",
               "resultFormat": "time_series",
@@ -1571,7 +1571,7 @@
                 [
                   {
                     "params": [
-                      "p50"
+                      "0.5"
                     ],
                     "type": "field"
                   },
@@ -1727,7 +1727,7 @@
               "measurement": "service_OK_histogram",
               "orderByTime": "ASC",
               "policy": "default",
-              "query": "SELECT max(\"p99\") FROM \"service_OK_histogram\" WHERE \"process\" =~ /$processName$/ AND \"env\" =~ /^$env$/ AND $timeFilter GROUP BY time($__interval), \"process\", \"serviceName\" fill(null)",
+              "query": "SELECT max(\"0.99\") FROM \"service_OK_histogram\" WHERE \"process\" =~ /$processName$/ AND \"env\" =~ /^$env$/ AND $timeFilter GROUP BY time($__interval), \"process\", \"serviceName\" fill(null)",
               "rawQuery": false,
               "refId": "A",
               "resultFormat": "time_series",
@@ -1735,7 +1735,7 @@
                 [
                   {
                     "params": [
-                      "p99"
+                      "0.99"
                     ],
                     "type": "field"
                   },
@@ -1885,7 +1885,7 @@
               "measurement": "serviceInstant.OK",
               "orderByTime": "ASC",
               "policy": "default",
-              "query": "SELECT sum(mean)\nFROM (\n  SELECT mean(value)\n  FROM \"service_OK_instantRate\"\n  WHERE process =~ /^$processName$/ AND env = '$env' AND $timeFilter\n  GROUP BY time($__interval), process, serviceName, slot\n)\nGROUP BY time($__interval), process, serviceName",
+              "query": "SELECT sum(mean)\nFROM (\n  SELECT mean(gauge)\n  FROM \"service_OK_instantRate\"\n  WHERE process =~ /^$processName$/ AND env = '$env' AND $timeFilter\n  GROUP BY time($__interval), process, serviceName, slot\n)\nGROUP BY time($__interval), process, serviceName",
               "rawQuery": true,
               "refId": "A",
               "resultFormat": "time_series",
@@ -1893,7 +1893,7 @@
                 [
                   {
                     "params": [
-                      "value"
+                      "gauge"
                     ],
                     "type": "field"
                   },
@@ -2049,7 +2049,7 @@
               "measurement": "service_FAIL_histogram",
               "orderByTime": "ASC",
               "policy": "default",
-              "query": "SELECT max(\"p50\") FROM \"service_FAIL_histogram\" WHERE \"process\" =~ /$processName$/ AND \"env\" =~ /^$env$/ AND $timeFilter GROUP BY time($__interval), \"process\", \"serviceName\" fill(null)",
+              "query": "SELECT max(\"0.5\") FROM \"service_FAIL_histogram\" WHERE \"process\" =~ /$processName$/ AND \"env\" =~ /^$env$/ AND $timeFilter GROUP BY time($__interval), \"process\", \"serviceName\" fill(null)",
               "rawQuery": false,
               "refId": "A",
               "resultFormat": "time_series",
@@ -2057,7 +2057,7 @@
                 [
                   {
                     "params": [
-                      "p50"
+                      "0.5"
                     ],
                     "type": "field"
                   },
@@ -2213,7 +2213,7 @@
               "measurement": "service_FAIL_histogram",
               "orderByTime": "ASC",
               "policy": "default",
-              "query": "SELECT max(\"p99\") FROM \"service_FAIL_histogram\" WHERE \"process\" =~ /$processName$/ AND \"env\" =~ /^$env$/ AND $timeFilter GROUP BY time($__interval), \"process\", \"serviceName\" fill(null)",
+              "query": "SELECT max(\"0.99\") FROM \"service_FAIL_histogram\" WHERE \"process\" =~ /$processName$/ AND \"env\" =~ /^$env$/ AND $timeFilter GROUP BY time($__interval), \"process\", \"serviceName\" fill(null)",
               "rawQuery": false,
               "refId": "A",
               "resultFormat": "time_series",
@@ -2221,7 +2221,7 @@
                 [
                   {
                     "params": [
-                      "p99"
+                      "0.99"
                     ],
                     "type": "field"
                   },
@@ -2372,7 +2372,7 @@
               "measurement": "serviceInstant.FAIL",
               "orderByTime": "ASC",
               "policy": "default",
-              "query": "SELECT sum(mean)\nFROM (\n  SELECT mean(value)\n  FROM \"service_FAIL_instantRate\"\n  WHERE process =~ /^$processName$/ AND env = '$env' AND $timeFilter\n  GROUP BY time($__interval), process, serviceName, slot\n)\nGROUP BY time($__interval), process, serviceName",
+              "query": "SELECT sum(mean)\nFROM (\n  SELECT mean(gauge)\n  FROM \"service_FAIL_instantRate\"\n  WHERE process =~ /^$processName$/ AND env = '$env' AND $timeFilter\n  GROUP BY time($__interval), process, serviceName, slot\n)\nGROUP BY time($__interval), process, serviceName",
               "rawQuery": true,
               "refId": "A",
               "resultFormat": "time_series",
@@ -2380,7 +2380,7 @@
                 [
                   {
                     "params": [
-                      "value"
+                      "gauge"
                     ],
                     "type": "field"
                   },
@@ -2535,7 +2535,7 @@
               "measurement": "/^.*.cur-size-all-mem-tables/",
               "orderByTime": "ASC",
               "policy": "default",
-              "query": "\nSELECT sum(\"value\")\nFROM (\n   SELECT mean(\"value\") AS \"value\"\n   FROM /^.*.cur-size-all-mem-tables/ \n   WHERE process =~ /^$processName$/ AND env = '$env' AND $timeFilter \n   GROUP BY time($__interval), \"process\", \"operator_name\", \"slot\"\n) GROUP BY time($__interval), \"process\", \"operator_name\" fill(linear)",
+              "query": "\nSELECT sum(\"value\")\nFROM (\n   SELECT mean(\"gauge\") AS \"value\"\n   FROM /^.*.cur-size-all-mem-tables/ \n   WHERE process =~ /^$processName$/ AND env = '$env' AND $timeFilter \n   GROUP BY time($__interval), \"process\", \"operator_name\", \"slot\"\n) GROUP BY time($__interval), \"process\", \"operator_name\" fill(linear)",
               "rawQuery": true,
               "refId": "A",
               "resultFormat": "time_series",
@@ -2543,7 +2543,7 @@
                 [
                   {
                     "params": [
-                      "value"
+                      "gauge"
                     ],
                     "type": "field"
                   },
@@ -2676,7 +2676,7 @@
               "measurement": "/^.*.cur-size-all-mem-tables/",
               "orderByTime": "ASC",
               "policy": "default",
-              "query": "SELECT sum(\"value\")\nFROM (\n   SELECT mean(\"value\") AS \"value\"\n   FROM /^.*.estimate-live-data-size/ \n   WHERE process =~ /^$processName$/ AND env = '$env' AND $timeFilter\n   GROUP BY time($__interval), \"process\", \"operator_name\", \"slot\"\n) GROUP BY time($__interval), \"process\", \"operator_name\" fill(linear)\n",
+              "query": "SELECT sum(\"value\")\nFROM (\n   SELECT mean(\"gauge\") AS \"value\"\n   FROM /^.*.estimate-live-data-size/ \n   WHERE process =~ /^$processName$/ AND env = '$env' AND $timeFilter\n   GROUP BY time($__interval), \"process\", \"operator_name\", \"slot\"\n) GROUP BY time($__interval), \"process\", \"operator_name\" fill(linear)\n",
               "rawQuery": true,
               "refId": "A",
               "resultFormat": "time_series",
@@ -2684,7 +2684,7 @@
                 [
                   {
                     "params": [
-                      "value"
+                      "gauge"
                     ],
                     "type": "field"
                   },
@@ -2811,7 +2811,7 @@
               "measurement": "/^.*.estimate-num-keys/",
               "orderByTime": "ASC",
               "policy": "default",
-              "query": "SELECT sum(\"value\")\nFROM (\n   SELECT mean(\"value\") AS \"value\"\n   FROM /^.*.estimate-num-keys/ \n   WHERE process =~ /^$processName$/ AND env = '$env' AND $timeFilter \n   GROUP BY time($__interval), \"process\", \"operator_name\", \"slot\"\n) GROUP BY time($__interval), \"process\", \"operator_name\" fill(linear)",
+              "query": "SELECT sum(\"value\")\nFROM (\n   SELECT mean(\"gauge\") AS \"value\"\n   FROM /^.*.estimate-num-keys/ \n   WHERE process =~ /^$processName$/ AND env = '$env' AND $timeFilter \n   GROUP BY time($__interval), \"process\", \"operator_name\", \"slot\"\n) GROUP BY time($__interval), \"process\", \"operator_name\" fill(linear)",
               "rawQuery": true,
               "refId": "A",
               "resultFormat": "time_series",
@@ -2819,7 +2819,7 @@
                 [
                   {
                     "params": [
-                      "value"
+                      "gauge"
                     ],
                     "type": "field"
                   },
