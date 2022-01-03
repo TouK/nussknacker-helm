@@ -1,0 +1,42 @@
+name: Nussknacker helm CI
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+env:
+  CHART_SRC_DIR: ./src
+  XDG_CACHE_HOME: $GITHUB_WORKSPACE/.cache/
+  CHARTS_PUBLIC_RELEASES_URL: "https://helm-charts.touk.pl/public/"
+
+jobs:
+  nussknacker-helm:
+    name: Nussknacker helm
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: setVersion
+        id: setVersion
+        run: echo "::set-output name=version::$(helm show chart ${{env.CHART_SRC_DIR}} | grep ^version | sed -e "s/.*:\ //;s/SNAPSHOT/SNAPSHOT.${{github.run_id}}/")"
+      - name: touk
+        run: helm repo add touk ${{env.CHARTS_PUBLIC_RELEASES_URL}}
+      - name: influxdata
+        run: helm repo add influxdata https://helm.influxdata.com/
+      - name: grafana
+        run: helm repo add grafana https://grafana.github.io/helm-charts
+      - name: bitnami
+        run: helm repo add bitnami https://charts.bitnami.com/bitnami
+      - name: riskfocus
+        run: helm repo add riskfocus https://riskfocus.github.io/helm-charts-public/
+      - name: buildAll
+        run: helm dependencies build "${{env.CHART_SRC_DIR}}"
+      - name: packageAll
+        run: helm package ${{env.CHART_SRC_DIR}} -d dist --version "${{steps.setVersion.outputs.version}}"
