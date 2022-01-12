@@ -7,6 +7,7 @@ metadata:
      grafana_dashboard: "nussknacker"
 data:
     {{- tpl ((.Files.Glob "grafana/dashboard.json").AsConfig) . | nindent 2 }}
+    {{- tpl ((.Files.Glob "grafana/nussknacker-lite-scenario.json").AsConfig) . | nindent 2 }}
 
 {{- end }}
 

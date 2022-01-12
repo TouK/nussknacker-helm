@@ -150,6 +150,16 @@ http://{{ include "apicurio-registry.fullname" ( index .Subcharts "apicurio-regi
     http://{{ include "influxdb.fullname" (dict "Chart" (dict "Name" "influxdb") "Values" .Values.influxdb "Release" .Release "Capabilities" .Capabilities) }}:8086
 {{- end -}}
 
+{{- define "nussknacker.defaultDashboard" -}}
+{{- if eq .Values.nussknacker.mode "flink" -}}
+nussknacker-scenario
+{{- else if eq .Values.nussknacker.mode "lite-streaming" -}}
+nussknacker-lite-scenario
+{{- else -}}
+{{- .Values.nussknacker.defaultDashboard }}
+{{- end -}}
+{{- end -}}
+
 {{- define "nussknacker.influxDbConfig" -}}
     {
       "user": "admin"
@@ -171,3 +181,4 @@ http://{{ include "apicurio-registry.fullname" ( index .Subcharts "apicurio-regi
     }
 {{- end -}}
 {{- end -}}
+
