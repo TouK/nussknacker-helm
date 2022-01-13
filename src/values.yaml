@@ -7,7 +7,7 @@ replicaCount: 1
 image:
   repository: touk/nussknacker
   # By default, the tag is taken from the chart's appVersion, but you can override it with this property.
-  # tag: latest
+#  tag: latest
   pullPolicy: IfNotPresent
 
 imagePullSecrets: [ ]
@@ -85,7 +85,7 @@ tolerations: [ ]
 affinity: { }
 
 db:
-  driver: "org.postgresql.Driver" 
+  driver: "org.postgresql.Driver"
   url: 'jdbc:postgresql://{{ .Release.Name }}-postgresql/'
   schema: public
   user: postgres
@@ -135,7 +135,7 @@ apicurio-registry:
 flink:
   enabled: true
   image:
-    tag: 1.13.1-scala_2.12-java11
+    tag: 1.14.2-scala_2.12-java11
   taskmanager:
     statefulset: false
     numberOfTaskSlots: 3
