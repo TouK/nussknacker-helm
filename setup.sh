@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -e
+
 helm repo add touk https://helm-charts.touk.pl/public/
 helm repo add influxdata https://helm.influxdata.com/
 helm repo add grafana https://grafana.github.io/helm-charts
