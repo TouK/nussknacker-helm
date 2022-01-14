@@ -8,12 +8,8 @@ flink:
   enabled: false
 
 nussknacker:
-  mode: "lite-streaming"
+  mode: "streaming-lite"
   modelConfig:
-    classPath:
-      - "model/defaultModel.jar"
-      - "components/lite/liteBase.jar"
-      - "components/lite/liteKafka.jar"
     #TODO: test for addding components to runtime...  
     #  - "components/openapi.jar"
     components:

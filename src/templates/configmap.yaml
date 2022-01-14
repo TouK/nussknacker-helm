@@ -22,7 +22,7 @@ data:
              queryableStateProxyUrl: "{{ include "nussknacker.flinkTaskManagerUrl" . }}"
           } {{ tpl (.Values.nussknacker.flinkConfig | mustToJson) . }}
 
-          {{- else if eq .Values.nussknacker.mode "lite-streaming" }}
+          {{- else if eq .Values.nussknacker.mode "streaming-lite" }}
           deploymentConfig: {
              type: "lite-streaming-k8s"
              configExecutionOverrides {
@@ -40,6 +40,7 @@ data:
           {{- end }}
 
           modelConfig: {
+            classPath: {{ include "nussknacker.modelClassPath" . }}
             kafka {
               kafkaAddress: "{{ include "nussknacker.kafkaBootstrapServers" . }}"
               kafkaProperties {
