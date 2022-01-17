@@ -7,11 +7,11 @@ options:
   k3d:
     wait: true
     timeout: "60s"
-    disableLoadbalancer: true
+    disableLoadbalancer: false
     disableRollback: true
   k3s:
     extraArgs:
-      - arg: --no-deploy=traefik,servicelb,metrics-server
+      - arg: --no-deploy=metrics-server
         nodeFilters:
           - server:*
   kubeconfig:
