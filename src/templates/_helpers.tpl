@@ -206,3 +206,11 @@ nussknacker-lite-scenario
 {{- end -}}
 {{- end -}}
 
+{{- define "nussknacker.scenarioType" -}}
+{{- if eq .Values.nussknacker.mode "flink" -}}
+StreamMetaData
+{{- else if eq .Values.nussknacker.mode "streaming-lite" -}}
+LiteStreamMetaData
+{{- .Values.nussknacker.scenarioType }}
+{{- end -}}
+{{- end -}}

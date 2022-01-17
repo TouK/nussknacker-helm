@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: nussknacker-grafana-dashboard
+  name: "{{- printf "%s-%s" .Release.Name "nussknacker-grafana-dashboard" | trunc 63 | trimSuffix "-" -}}"
   labels:
      grafana_dashboard: "nussknacker"
 data:

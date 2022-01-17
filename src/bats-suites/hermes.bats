@@ -5,6 +5,7 @@
 : "${WIREMOCK_URL:?required environment value not set}"
 : "${NUSSKNACKER_URL:?required environment value not set}"
 : "${AUTHORIZATION:?required environment value not set}"
+: "${SCENARIO_TYPE:?required environment value not set}"
 
 function curl() {
   /usr/bin/curl -f -k -v -H "Content-type: application/json" -H "Authorization: ${AUTHORIZATION}" "$@"

@@ -41,7 +41,8 @@ data:
 
           modelConfig: {
             classPath: {{ include "nussknacker.modelClassPath" . }}
-            kafka {
+            {{- if eq .Values.nussknacker.mode "flink" }}  
+            components.kafka.config {
               kafkaAddress: "{{ include "nussknacker.kafkaBootstrapServers" . }}"
               kafkaProperties {
                 "schema.registry.url": "{{ include "nussknacker.schemaRegistryUrl" . }}"
@@ -50,6 +51,14 @@ data:
             rocksDB {
               enable: true
             }
+            {{- else if eq .Values.nussknacker.mode "streaming-lite" }}
+            kafka {
+              kafkaAddress: "{{ include "nussknacker.kafkaBootstrapServers" . }}"
+              kafkaProperties {
+                "schema.registry.url": "{{ include "nussknacker.schemaRegistryUrl" . }}"
+              }
+            }
+            {{- end }}
           }{{ tpl ( mustToJson .Values.nussknacker.modelConfig ) . }}
       }
     }

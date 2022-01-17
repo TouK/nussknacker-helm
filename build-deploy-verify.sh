@@ -16,9 +16,8 @@ helm package -d dist/ src/
 kubectl get secret "$RELEASE-postgresql" || kubectl create secret generic "$RELEASE-postgresql" --from-literal postgresql-password=`date +%s | sha256sum | base64 | head -c 32`
 helm upgrade -i "${RELEASE}" dist/*.tgz \
   --wait \
-  --set telegraf.volumes[0].configMap.name="${RELEASE}-telegraf-configuration" \
   --set postgresql.existingSecret="${RELEASE}-postgresql" \
-  -f deploy-values.yaml $VALUES
+  -f deploy-values.yaml $VALUES 
 
 kubectl delete jobs --all
 helm test "${RELEASE}"
