@@ -7,11 +7,13 @@ on:
   push:
     branches:
       - main
+      - github-actions-deploy
 
 env:
   CHART_SRC_DIR: ./src
   XDG_CACHE_HOME: $GITHUB_WORKSPACE/.cache/
   CHARTS_PUBLIC_RELEASES_URL: "https://helm-charts.touk.pl/public/"
+  RELEASE_NAME: nu-helm-release-1
 
 jobs:
   nussknacker-helm:
@@ -40,3 +42,10 @@ jobs:
         run: helm dependencies build "${{env.CHART_SRC_DIR}}"
       - name: packageAll
         run: helm package ${{env.CHART_SRC_DIR}} -d dist --version "${{steps.setVersion.outputs.version}}"
+# some values below are temporary
+      - name: createK3dCluster
+        run: k3d cluster create --api-port 6550 -p "8081:80@loadbalancer" --agents 2
+      - name: helmUpgrade
+        run: helm upgrade -i "${{env.RELEASE_NAME}}" ${{env.CHART_SRC_DIR}}  --version "${{steps.setVersion.outputs.version}}" -f deploy-values.yaml
+      - name: helmTestRelease
+        run:  helm test "${{env.RELEASE_NAME}}"
