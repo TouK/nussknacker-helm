@@ -49,9 +49,7 @@ jobs:
           args: >-
             --config=.k3d/single-cluster.yml
             --trace
-      - name: createK3dCluster
-        run: k3d cluster create --api-port 6550 -p "8081:80@loadbalancer" --agents 2
       - name: helmUpgrade
-        run: helm upgrade -i "${{env.RELEASE_NAME}}" ${{env.CHART_SRC_DIR}}  --version "${{steps.setVersion.outputs.version}}" -f deploy-values.yaml
+        run: helm upgrade -i "${{env.RELEASE_NAME}}" ${{env.CHART_SRC_DIR}} --version "${{steps.setVersion.outputs.version}}" -f deploy-values.yaml
       - name: helmTestRelease
         run:  helm test "${{env.RELEASE_NAME}}"
