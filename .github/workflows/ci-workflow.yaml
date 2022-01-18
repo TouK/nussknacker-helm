@@ -7,19 +7,17 @@ on:
   push:
     branches:
       - main
-      - github-actions-deploy
 
 env:
   CHART_SRC_DIR: ./src
   XDG_CACHE_HOME: $GITHUB_WORKSPACE/.cache/
   CHARTS_PUBLIC_RELEASES_URL: "https://helm-charts.touk.pl/public/"
-  RELEASE_NAME: nu-helm-release-1
+  RELEASE_NAME: nu-helm-release-${{github.run_id}}
 
 jobs:
   nussknacker-helm:
     name: Nussknacker helm
     runs-on: ubuntu-latest
-    #continue-on-error: true
     defaults:
       run:
         shell: bash
@@ -43,22 +41,11 @@ jobs:
         run: helm dependencies build "${{env.CHART_SRC_DIR}}"
       - name: packageAll
         run: helm package ${{env.CHART_SRC_DIR}} -d dist --version "${{steps.setVersion.outputs.version}}"
-# some values below are temporary
       - uses: AbsaOSS/k3d-action@v2
         with:
           cluster-name: "k3s-default"
-          k3d-version: v5.1.0
           args: >-
             --config=.k3d/single-cluster.yml
             --trace
       - name: helmUpgrade
         run: helm upgrade -i "${{env.RELEASE_NAME}}" ${{env.CHART_SRC_DIR}} --version "${{steps.setVersion.outputs.version}}" -f deploy-values.yaml
-      - name: helmTestRelease
-        run:  helm test "${{env.RELEASE_NAME}}" --logs
-        continue-on-error: true
-      - run: kubectl get pod
-      - name: podApicurioDescribe
-        run: kubectl describe pods nu-helm-release-1-apicurio-registry-test-connection
-      - run: kubectl describe pods nu-helm-release-1-nussknacker-test-job
-
-

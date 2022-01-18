@@ -10,10 +10,6 @@ resources:
   requests:
     memory: 512Mi
 
-#persistence:
-#  accessMode: ReadWriteMany
-#  storageClass: nfs
-
 ingress:
   enabled: true
   annotations:
@@ -55,8 +51,6 @@ flink:
         memory: 2560Mi
 
 nussknacker:
-  persistence:
-    enabled: true
   modelConfig:
     namespace: "{{ .Release.Name }}"
     classPath:
