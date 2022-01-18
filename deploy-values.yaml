@@ -10,10 +10,6 @@ resources:
   requests:
     memory: 512Mi
 
-persistence:
-  accessMode: ReadWriteMany
-  storageClass: nfs
-
 ingress:
   enabled: true
   annotations:

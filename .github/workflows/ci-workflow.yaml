@@ -12,6 +12,7 @@ env:
   CHART_SRC_DIR: ./src
   XDG_CACHE_HOME: $GITHUB_WORKSPACE/.cache/
   CHARTS_PUBLIC_RELEASES_URL: "https://helm-charts.touk.pl/public/"
+  RELEASE_NAME: nu-helm-release-${{github.run_id}}
 
 jobs:
   nussknacker-helm:
@@ -40,3 +41,11 @@ jobs:
         run: helm dependencies build "${{env.CHART_SRC_DIR}}"
       - name: packageAll
         run: helm package ${{env.CHART_SRC_DIR}} -d dist --version "${{steps.setVersion.outputs.version}}"
+      - uses: AbsaOSS/k3d-action@v2
+        with:
+          cluster-name: "k3s-default"
+          args: >-
+            --config=.k3d/single-cluster.yml
+            --trace
+      - name: helmUpgrade
+        run: helm upgrade -i "${{env.RELEASE_NAME}}" ${{env.CHART_SRC_DIR}} --version "${{steps.setVersion.outputs.version}}" -f deploy-values.yaml
