@@ -19,6 +19,7 @@ jobs:
   nussknacker-helm:
     name: Nussknacker helm
     runs-on: ubuntu-latest
+    #continue-on-error: true
     defaults:
       run:
         shell: bash
@@ -53,4 +54,11 @@ jobs:
       - name: helmUpgrade
         run: helm upgrade -i "${{env.RELEASE_NAME}}" ${{env.CHART_SRC_DIR}} --version "${{steps.setVersion.outputs.version}}" -f deploy-values.yaml
       - name: helmTestRelease
-        run:  helm test "${{env.RELEASE_NAME}}"
+        run:  helm test "${{env.RELEASE_NAME}}" --logs
+        continue-on-error: true
+      - run: kubectl get pod
+      - name: podApicurioDescribe
+        run: kubectl describe pods nu-helm-release-1-apicurio-registry-test-connection
+      - run: kubectl describe pods nu-helm-release-1-nussknacker-test-job
+
+
