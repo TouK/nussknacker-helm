@@ -7,6 +7,7 @@ on:
   push:
     branches:
       - main
+      - actions-helm-test
 
 env:
   CHART_SRC_DIR: ./src
@@ -23,7 +24,7 @@ jobs:
     name: build
     runs-on: ubuntu-latest
     outputs:
-      version: ${{ steps.setVersion.outputs.version }}    
+      version: ${{ steps.setVersion.outputs.version }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -38,7 +39,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: helm-build
-          path: "dist/nussknacker-${{steps.setVersion.outputs.version}}.tgz"  
+          path: "dist/nussknacker-${{steps.setVersion.outputs.version}}.tgz"
   test-flink:
     name: test flink mode
     runs-on: ubuntu-latest
@@ -72,8 +73,18 @@ jobs:
       - uses: AbsaOSS/k3d-action@v2
         with:
           cluster-name: "k3s-default"
+          k3d-version: v5.1.0
           args: >-
             --config=.k3d/single-cluster.yml
             --trace
       - name: helmUpgrade
+        run: helm upgrade -i "${{env.RELEASE_NAME}}" ${{env.CHART_SRC_DIR}} --version "${{steps.setVersion.outputs.version}}" -f deploy-values.yaml
+      - name: helmTestRelease
+        run:  helm test "${{env.RELEASE_NAME}}"
+        continue-on-error: true
+      - run: kubectl logs ${{env.RELEASE_NAME}}-apicurio-registry-test-connection -n default
+      - run: kubectl get pod
+      - run: kubectl get pod ${{env.RELEASE_NAME}}-apicurio-registry-test-connection --output=yaml
+      - name: podApicurioDescribe
+        run: kubectl describe pods ${{env.RELEASE_NAME}}-apicurio-registry-test-connection
         run: helm upgrade -i "${{env.RELEASE_NAME}}" dist/*.tgz --version "${{needs.build.outputs.version}}"  --wait  --debug -f deploy-values.yaml -f deploy-values-lite.yaml

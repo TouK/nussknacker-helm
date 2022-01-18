@@ -115,7 +115,7 @@ http://{{ include "apicurio-registry.fullname" ( index .Subcharts "apicurio-regi
 
 {{- define "nussknacker.globalSchemaRegistryUrl" -}}
 {{- if .Values.global.schemaRegistry.url }}
-{{- .Values.global.schemaRegistry.url }}
+{{- .Values.global.schemaRegistry.url }}nu-helm-release-1713445629-grafana-test
 {{- else }}
 {{- if .Values.global.schemaRegistry.fullname }}
 {{- .Values.global.schemaRegistry.fullname | trunc 63 | trimSuffix "-" | printf "http://%s" }}
