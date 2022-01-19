@@ -14,6 +14,7 @@ data:
 
     scenarioTypes {
       "default": {
+          {{- if eq .Values.nussknacker.mode "flink" }}  
           deploymentConfig: {
              type: "flinkStreaming"
              {{/* Find easier way of passing it through values */}}
@@ -21,8 +22,27 @@ data:
              queryableStateProxyUrl: "{{ include "nussknacker.flinkTaskManagerUrl" . }}"
           } {{ tpl (.Values.nussknacker.flinkConfig | mustToJson) . }}
 
+          {{- else if eq .Values.nussknacker.mode "streaming-lite" }}
+          deploymentConfig: {
+             type: "lite-streaming-k8s"
+             configExecutionOverrides {
+               {{- if .Values.influxdb.enabled }}
+               metrics {
+                 environment: ${environment},
+                 influx {
+                   url: "{{ include "nussknacker.influxUrl" .}}/write",
+                   database: "nussknacker"
+                 }
+               }
+               {{- end }}
+             }
+          }
+          {{- end }}
+
           modelConfig: {
-            kafka {
+            classPath: {{ include "nussknacker.modelClassPath" . }}
+            {{- if eq .Values.nussknacker.mode "flink" }}  
+            components.kafka.config {
               kafkaAddress: "{{ include "nussknacker.kafkaBootstrapServers" . }}"
               kafkaProperties {
                 "schema.registry.url": "{{ include "nussknacker.schemaRegistryUrl" . }}"
@@ -31,6 +51,14 @@ data:
             rocksDB {
               enable: true
             }
+            {{- else if eq .Values.nussknacker.mode "streaming-lite" }}
+            kafka {
+              kafkaAddress: "{{ include "nussknacker.kafkaBootstrapServers" . }}"
+              kafkaProperties {
+                "schema.registry.url": "{{ include "nussknacker.schemaRegistryUrl" . }}"
+              }
+            }
+            {{- end }}
           }{{ tpl ( mustToJson .Values.nussknacker.modelConfig ) . }}
       }
     }
@@ -41,30 +69,19 @@ data:
 
     {{- if .Values.grafana.enabled }}
         metricsSettings: {
-          url: "{{ include "nussknacker.grafanaUrl" .}}/d/$dashboard?theme=dark&var-processName=$process&var-env="${environment}
-          defaultDashboard: "nussknacker-scenario"
+          url: "{{ include "nussknacker.grafanaUrl" .}}/d/$dashboard?theme=dark&var-processName=$process&var-env="${environment}          
+          defaultDashboard: "{{ include "nussknacker.defaultDashboard" .}}"
         }
-    {{- end }}
-
-    {{/* We have to iterate over first level to embed in .conf properly... */}}
-    {{- range $key, $val := .Values.nussknacker.uiConfig }}
-      {{ $key }}: {{ tpl ( mustToJson $val ) $ }}
     {{- end }}
 
     {{/* Find easier way of passing it through values */}}
     customTabs: [ {{ include "nussknacker.hermesUiManagementTab" . }} ] {{ tpl ( mustToJson (.Values.nussknacker.uiConfig.customTabs | default list) ) . }}
 
-    #Due to bug in NK, akka settings are not taken from defaults: https://github.com/TouK/nussknacker/pull/1259
-    akka {
-       http {
-         server {
-           parsing.max-content-length = 300000000 #300MB
-           # Longer mainly for invoking tests on processes
-           request-timeout = 1 minute
-         }
-       }
-    }
-
     {{- if .Values.nussknacker.authentication }}
     authentication: {{ tpl ( mustToJson .Values.nussknacker.authentication ) . }}
+    {{- end }}
+
+    {{/* We have to iterate over first level to embed in .conf properly... */}}
+    {{- range $key, $val := .Values.nussknacker.uiConfig }}
+      {{ $key }}: {{ tpl ( mustToJson $val ) $ }}
     {{- end }}

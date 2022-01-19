@@ -3,10 +3,7 @@
     "id": "${PROCESS_NAME}",
     "typeSpecificData": {
       "parallelism": 1,
-      "splitStateToDisk": true,
-      "useAsyncInterpretation": null,
-      "checkpointIntervalInSeconds": null,
-      "type": "StreamMetaData"
+      "type": "${SCENARIO_TYPE}"
     },
     "isSubprocess": false,
     "additionalFields": {

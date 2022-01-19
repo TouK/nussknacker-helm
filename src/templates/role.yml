@@ -1,0 +1,14 @@
+{{- if and .Values.rbac.create (not .Values.rbac.useExistingRole) -}}
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: {{ template "nussknacker.fullname" . }}
+  namespace: {{ template "nussknacker.namespace" . }}
+rules:
+- apiGroups: [""]
+  resources: ["configmaps"]
+  verbs: ["get", "list", "watch", "create", "update", "patch", "delete", "deletecollection"]
+- apiGroups: ["apps"]
+  resources: ["deployments"]
+  verbs: ["get", "list", "watch", "create", "update", "patch", "delete", "deletecollection"]  
+{{- end }}

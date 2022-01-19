@@ -7,6 +7,19 @@ Expand the name of the chart.
 {{- end -}}
 
 {{/*
+Allow the release namespace to be overridden for multi-namespace deployments in combined charts
+*/}}
+{{- define "nussknacker.namespace" -}}
+  {{- if .Values.namespaceOverride -}}
+    {{- .Values.namespaceOverride -}}
+  {{- else -}}
+    {{- .Release.Namespace -}}
+  {{- end -}}
+{{- end -}}
+
+
+
+{{/*
 Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 If release name contains chart name it will be used as a full name.
@@ -150,6 +163,27 @@ http://{{ include "apicurio-registry.fullname" ( index .Subcharts "apicurio-regi
     http://{{ include "influxdb.fullname" (dict "Chart" (dict "Name" "influxdb") "Values" .Values.influxdb "Release" .Release "Capabilities" .Capabilities) }}:8086
 {{- end -}}
 
+{{- define "nussknacker.defaultDashboard" -}}
+{{- if eq .Values.nussknacker.mode "flink" -}}
+nussknacker-scenario
+{{- else if eq .Values.nussknacker.mode "streaming-lite" -}}
+nussknacker-lite-scenario
+{{- else -}}
+{{- .Values.nussknacker.defaultDashboard }}
+{{- end -}}
+{{- end -}}
+
+
+{{- define "nussknacker.modelClassPath" -}}
+{{- if eq .Values.nussknacker.mode "flink" -}}
+["model/defaultModel.jar", "model/flinkExecutor.jar", "components/flink/flinkBase.jar", "components/flink/flinkKafka.jar", "components/openapi.jar", "components/sql.jar"]
+{{- else if eq .Values.nussknacker.mode "streaming-lite" -}}
+["model/defaultModel.jar", "components/lite/liteBase.jar", "components/lite/liteKafka.jar", "components/openapi.jar", "components/sql.jar"]
+{{- .Values.nussknacker.modelClassPath }}
+{{- end -}}
+{{- end -}}
+
+
 {{- define "nussknacker.influxDbConfig" -}}
     {
       "user": "admin"
@@ -169,5 +203,14 @@ http://{{ include "apicurio-registry.fullname" ( index .Subcharts "apicurio-regi
       "id": "hermes"
       "url": "{{ include "hermes.management.svcExternalUrl" (dict "Chart" (dict "Name" "hermes") "Values" .Values.hermes "Release" .Release "Capabilities" .Capabilities) }}"
     }
+{{- end -}}
+{{- end -}}
+
+{{- define "nussknacker.scenarioType" -}}
+{{- if eq .Values.nussknacker.mode "flink" -}}
+StreamMetaData
+{{- else if eq .Values.nussknacker.mode "streaming-lite" -}}
+LiteStreamMetaData
+{{- .Values.nussknacker.scenarioType }}
 {{- end -}}
 {{- end -}}

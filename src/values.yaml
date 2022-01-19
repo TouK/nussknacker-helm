@@ -14,6 +14,11 @@ imagePullSecrets: [ ]
 nameOverride: ""
 fullnameOverride: ""
 
+rbac:
+  create: true
+  ## Use an existing ClusterRole/Role (depending on rbac.namespaced false/true)
+  # useExistingRole: name-of-some-(cluster)role
+
 serviceAccount:
   # Specifies whether a service account should be created
   create: true
@@ -92,12 +97,9 @@ db:
   # password: from a postgresql secret via env variable (see deployment.yaml) by default
 
 nussknacker:
+  mode: "flink"
   #override it if you want to provide own config file and override one provided via configmap.yaml
   configFile: /etc/nussknacker/application.conf
-  modelConfig:
-    classPath:
-      #Generic NK model
-      - "model/genericModel.jar"
   flinkConfig:
     jobManagerTimeout: "1m"
     #Have to be provided if Flink not enabled

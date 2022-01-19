@@ -3,7 +3,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: influx-grafana-datasource
+  name: "{{- printf "%s-%s" .Release.Name "influx-grafana-datasource" | trunc 63 | trimSuffix "-" -}}"
   labels:
      grafana_datasource: "influx"
 data:

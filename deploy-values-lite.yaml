@@ -1,0 +1,26 @@
+image:
+  tag: staging-latest
+
+persistence:
+  enabled: false
+
+flink:
+  enabled: false
+
+nussknacker:
+  mode: "streaming-lite"
+  modelConfig:
+    #TODO: test for addding components to runtime...  
+    #  - "components/openapi.jar"
+    components:
+      # openAPI:
+      #   url: "https://rdb-simpledb.restdb.io/rest/_swagger.json"
+      #   security:
+      #     apikey:
+      #       type: "apiKey"
+      #       apiKeyValue: "560bd47058e7ab1b2648f4e7"
+      #   categories:
+      #     - "Default"
+
+telegraf:
+  enabled: false
