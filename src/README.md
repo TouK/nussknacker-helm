@@ -57,7 +57,7 @@ Modes
 By default, the chart runs Nussknacker which is configured to deploy scenarios on Flink 
 (either installed directly by the chart, or external one). 
 
-It is also possible to run Nussknacker in lite-streaming mode:
+It is also possible to run Nussknacker in streaming-lite mode:
 `nussknacker:
    mode: streaming-lite
  flink:
@@ -116,7 +116,7 @@ By default, this chart is installed with the official Nussknacker image, which c
 - base aggregations (accessible only in flink mode)
 
 Should you need to run Nussknacker with your own components/customizations, the best way is to create an image based on the official one and
-install the chart with appropriate image configuration. Please note that in lite-streaming mode you also have to create image of lite runtime with 
+install the chart with appropriate image configuration. Please note that in streaming-lite mode you also have to create image of lite runtime with 
 components (see [nussknacker-sample-components](https://github.com/TouK/nussknacker-sample-components) for the details). Using custom images can
 be configured in following way: 
 ```
@@ -128,7 +128,7 @@ image:
   repository: nussknacker-sample-components
   tag: 1.15
 ```  
-For flink mode, only `image.repository` configuration is needed.
+For flink mode, only `image.repository` configuration is needed, as Designer itself prepares fatjar with dependencies of the Flink job.
 
 Other way of installing custom components is direct configuration of classpath, adding URL accessible in the K8s cluster. Below sample 
 configuration adding additional JDBC driver for [SQL enrichers](https://docs.nussknacker.io/documentation/docs/scenarios_authoring/Enrichers#sql-enricher):
@@ -154,7 +154,7 @@ Security/RBAC
 -------------
 For flink mode Nussknacker doesn't have any special requirements, except for settings specific for dependencies. 
 
-For lite-streaming mode, Nussknacker Designer manages deployments and configMaps for each scenario. 
+For streaming-lite mode, Nussknacker Designer manages deployments and configMaps for each scenario. 
 Default service account, role and rolebinding will be created, if you want to use existing role, you can specify it with
 `rbac.useExistingRole`
 
@@ -192,7 +192,7 @@ The chart comes with the following monitoring components:
 - Telegraf (used in flink mode)
 
 In the flink mode, the metrics from Nussknacker are exposed via Prometheus interface. They are read (and preprocessed)
-with Telegraf and sent to InfluxDB. In the lite-streaming mode, the metrics are sent directly from pods running scenarios to InfluxDB.
+with Telegraf and sent to InfluxDB. In the streaming-lite mode, the metrics are sent directly from pods running scenarios to InfluxDB.
 Grafana with a predefined dashboard is used to visualize process data in Nussknacker.
 
 It is of course possible to replace built-in components with your own. Please look at:
