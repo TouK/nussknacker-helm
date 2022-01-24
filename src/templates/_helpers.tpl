@@ -151,11 +151,18 @@ http://{{ include "apicurio-registry.fullname" ( index .Subcharts "apicurio-regi
 {{- end -}}
 {{- end -}}
 
-{{- define "nussknacker.grafanaUrl" -}}
-    {{/* TODO: configurable path, proper ingress configuration   */}}
-    {{- $domain := required "Provide a domain name for grafana" .Values.ingress.domain -}}
+
+{{- define "nussknacker.fqdn" -}}
+    {{- $domain := required "Provide a domain name" .Values.ingress.domain -}}
     {{- $fullName := default (include "nussknacker.fullname" .) .Values.ingress.host -}}
-    {{- printf "https://%s.%s/grafana" $fullName $domain -}}
+    {{- printf "%s.%s" $fullName $domain -}}
+{{- end -}}
+
+{{/* TODO: configurable path, proper ingress configuration   */}}
+{{- define "nussknacker.grafanaUrl" -}}
+    {{- if not .Values.ingress.skipHost -}}
+    https://{{- include "nussknacker.fqdn" . -}}
+    {{- end -}}/grafana
 {{- end -}}
 
 {{/* TODO: handling custom port */}}

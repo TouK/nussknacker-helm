@@ -10,7 +10,7 @@ subjects:
 - kind: ServiceAccount
   name: {{ include "nussknacker.serviceAccountName" . }}
 roleRef:
-  kind: Role #this must be Role or ClusterRole
+  kind: Role 
   apiGroup: rbac.authorization.k8s.io
   {{- if (not .Values.rbac.useExistingRole) }}
   name: {{ template "nussknacker.fullname" . }}

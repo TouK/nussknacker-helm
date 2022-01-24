@@ -66,6 +66,7 @@ persistence:
   annotations: { }
 
 ingress:
+  skipHost: false
   enabled: false
   # domain: <a TLD must be set>
   # host: .Release.Name-nussknacker
