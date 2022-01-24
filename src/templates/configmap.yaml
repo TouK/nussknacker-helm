@@ -25,6 +25,10 @@ data:
           {{- else if eq .Values.nussknacker.mode "streaming-lite" }}
           deploymentConfig: {
              type: "lite-streaming-k8s"
+             {{- if .Values.nussknacker.runtimeImage }}
+             dockerImageName: {{- .Values.nussknacker.runtimeImage.repository }}
+             dockerImageTag: {{- .Values.nussknacker.runtimeImage.tag }}
+             {{- end }}
              configExecutionOverrides {
                {{- if .Values.influxdb.enabled }}
                metrics {
@@ -81,7 +85,7 @@ data:
     authentication: {{ tpl ( mustToJson .Values.nussknacker.authentication ) . }}
     {{- end }}
 
-    {{/* We have to iterate over first level to embed in .conf properly... */}}
+    {{/* We have to iterate over first level of passed uiConfig to embed in .conf properly...  */}}
     {{- range $key, $val := .Values.nussknacker.uiConfig }}
       {{ $key }}: {{ tpl ( mustToJson $val ) $ }}
     {{- end }}

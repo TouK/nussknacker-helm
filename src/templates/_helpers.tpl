@@ -173,13 +173,13 @@ nussknacker-lite-scenario
 {{- end -}}
 {{- end -}}
 
-
 {{- define "nussknacker.modelClassPath" -}}
-{{- if eq .Values.nussknacker.mode "flink" -}}
-["model/defaultModel.jar", "model/flinkExecutor.jar", "components/flink/flinkBase.jar", "components/flink/flinkKafka.jar", "components/openapi.jar", "components/sql.jar"]
+{{- if .Values.nussknacker.modelClassPath -}}
+{{ tpl ( mustToJson .Values.nussknacker.modelClassPath) . }}
+{{- else if eq .Values.nussknacker.mode "flink" -}}
+["model/defaultModel.jar", "model/flinkExecutor.jar", "components/flink", "components/common"]
 {{- else if eq .Values.nussknacker.mode "streaming-lite" -}}
-["model/defaultModel.jar", "components/lite/liteBase.jar", "components/lite/liteKafka.jar", "components/openapi.jar", "components/sql.jar"]
-{{- .Values.nussknacker.modelClassPath }}
+["model/defaultModel.jar", "components/lite/liteBase.jar", "components/lite/liteKafka.jar", "components/common"]
 {{- end -}}
 {{- end -}}
 

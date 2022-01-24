@@ -8,16 +8,14 @@
 set -e
 RELEASE="${1?usage: $(basename $0) [NAME] [ADDITIONAL VALUES]}"
 shift 
-VALUES=("${@/#/-f}")
 
 cd "$(dirname "$0")" && rm -rf dist/
-
 helm package -d dist/ src/
 kubectl get secret "$RELEASE-postgresql" || kubectl create secret generic "$RELEASE-postgresql" --from-literal postgresql-password=`date +%s | sha256sum | base64 | head -c 32`
 helm upgrade -i "${RELEASE}" dist/*.tgz \
   --wait \
   --set postgresql.existingSecret="${RELEASE}-postgresql" \
-  -f deploy-values.yaml $VALUES 
+  -f deploy-values.yaml $@ 
 
 kubectl delete jobs --all
 helm test "${RELEASE}"
