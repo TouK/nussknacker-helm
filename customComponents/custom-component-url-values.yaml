@@ -1,0 +1,29 @@
+#This configuration shows how to use custom components/libs by custom URL for streaming-lite mode (for Flink mode you only have to configure nussknacker.modelClasspath)
+#This assumes that URL points to location accessible from container, which contains jar with all needed dependencies
+#Here we add custom DB driver, as it's easy to use 
+nussknacker:
+  #At the moment one has to override whole classPath to add custom entries
+  modelClassPath: &modelClassPath
+    - "model/defaultModel.jar"
+    - "components/lite/liteBase.jar"
+    - "components/lite/liteKafka.jar"
+    - "components/common"
+    - "https://repo1.maven.org/maven2/org/hsqldb/hsqldb/2.6.1/hsqldb-2.6.1.jar"
+
+  modelConfig:  
+    components:
+      databaseEnricher:
+        config:
+          databaseQueryEnricher:
+            name: "hsqlDBTables"
+            dbPool: 
+              driverClassName: "org.hsqldb.jdbc.JDBCDriver"
+              url: "jdbc:hsqldb:mem:db1"
+              username: "sa"
+              password: "sa"
+  uiConfig:
+    scenarioTypes:
+      default:
+        deploymentConfig:
+          configExecutionOverrides: 
+            modelClassPath: *modelClassPath

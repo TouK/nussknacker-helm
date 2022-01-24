@@ -43,7 +43,7 @@ kafka:
 flink:
   taskmanager:
     replicaCount: 1
-    #zeby cokolwiek dalo sie zrobic ...
+    #to be able to do anything...
     numberOfTaskSlots: 4
     resources:
       limits:
@@ -55,14 +55,9 @@ nussknacker:
   modelConfig:
     namespace: "{{ .Release.Name }}"
     components:
-      openAPI:
-        url: "https://rdb-simpledb.restdb.io/rest/_swagger.json"
-        security:
-          apikey:
-            type: "apiKey"
-            apiKeyValue: "560bd47058e7ab1b2648f4e7"
-        categories:
-          - "Default"
+       openAPI:
+         #TODO: find working OpenAPI 3.0 definition
+         url: "https://app.swaggerhub.com/apiproxy/registry/TKJ/CurrencyConverter/FINAL"
 
 telegraf:
   enabled: true
