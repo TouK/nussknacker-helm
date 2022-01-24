@@ -15,7 +15,9 @@ Adds necessary repositories and prepares dependencies
 
 ### Local setup/development
 
-Use `./build-deploy-verify.sh` script, which upgrades and verifies release. By default it uses `deploy-values.yaml`, you can add
+Use `./build-deploy-verify.sh` script, which upgrades and verifies release. 
+It sets `ingress.skipHost=true`, so it's suitable for local K8s like k3d, minikube without decent domain support. 
+By default the script uses `deploy-values.yaml`, you can add
 other files appending `-f [path]` as many times as needed. Samples:
 - `./build-deploy-verify.sh release_name` - deploy chart in flink mode
 - `./build-deploy-verify.sh release_name -f deploy-values-lite-yaml` - deploy chart in streaming-lite mode

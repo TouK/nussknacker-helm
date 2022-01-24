@@ -1,8 +1,8 @@
 {{- if .Values.ingress.enabled -}}
 {{- $fullName := include "nussknacker.fullname" . -}}
+
 {{- $svcPort := .Values.service.port -}}
 {{- $tlsSecretName := default (printf "%s-tls" $fullName) .Values.ingress.tlsSecretName -}}
-{{- $fqdn := printf "%s.%s" (default $fullName .Values.ingress.host) .Values.ingress.domain -}}
 {{- if semverCompare ">=1.19-0" .Capabilities.KubeVersion.GitVersion -}}
 apiVersion: networking.k8s.io/v1
 {{- else if semverCompare ">=1.14-0" .Capabilities.KubeVersion.GitVersion -}}
@@ -22,11 +22,12 @@ metadata:
 spec:
   tls:
     - secretName: {{ $tlsSecretName }}
+      {{- if not .Values.ingress.skipHost }}
       hosts:
-        - {{ $fqdn | quote }}
+        - {{ include "nussknacker.fqdn" . | quote }}
+      {{- end }}  
   rules:
-    - host: {{ $fqdn | quote }}
-      http:
+    - http:
         paths:
           {{- if .Values.grafana.enabled }}
           - path: /grafana
@@ -58,4 +59,8 @@ spec:
               serviceName: {{ $fullName }}
               servicePort: {{ $svcPort }}
               {{- end }}
+      {{- if not .Values.ingress.skipHost }}
+      host: {{ include "nussknacker.fqdn" . | quote }}
+      {{- end }}  
+
 {{- end }}
