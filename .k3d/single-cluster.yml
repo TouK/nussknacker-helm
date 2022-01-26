@@ -7,7 +7,7 @@ options:
   k3d:
     wait: true
     timeout: "60s"
-    disableLoadbalancer: false
+    disableLoadbalancer: true
     disableRollback: true
   k3s:
     extraArgs:
