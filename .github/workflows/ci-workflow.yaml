@@ -82,7 +82,7 @@ jobs:
         run: helm upgrade -i "${{env.RELEASE_NAME}}" dist/*.tgz --version "${{needs.build.outputs.version}}" --wait --debug -f deploy-values.yaml -f deploy-values-lite.yaml
       - name: helmTestRelease
         continue-on-error: true
-        run: helm test "${{env.RELEASE_NAME}}"
+        run: helm test "${{env.RELEASE_NAME}}" --filter !name=${{env.RELEASE_NAME}}-hermes-test-job
       - run: kubectl get pod
       - run: kubectl get deployments
       - run: kubectl logs deploy/scenario-1-test-proxy-process-for-kafka-only
