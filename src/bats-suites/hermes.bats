@@ -95,6 +95,10 @@ function given_a_proxy_process() {
 
   [[ $(curl ${PROCESS_URL%/}/status | jq -r .status.name) = RUNNING ]] && curl -X POST ${PROCESS_CANCEL_URL}
   curl -X POST ${PROCESS_DEPLOY_URL}
+  #on smaller ci envs deployment may last some time...
+  timeout 60 /bin/sh -c "until [ `curl ${PROCESS_URL%/}/status | jq -r .status.name` = "RUNNING" ]; do sleep 1 && echo -n .; done;" || true
+  echo "Checking after waiting for status..."
+  curl ${PROCESS_URL%/}/status   
 }
 
 function when_a_message_has_been_posted_on_the_topic() {
