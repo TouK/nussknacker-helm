@@ -79,7 +79,7 @@ data:
     {{- end }}
 
     {{/* Find easier way of passing it through values */}}
-    customTabs: [ {{ include "nussknacker.hermesUiManagementTab" . }} ] {{ tpl ( mustToJson (.Values.nussknacker.uiConfig.customTabs | default list) ) . }}
+    tabs: ${tabs} [ {{ include "nussknacker.hermesUiManagementTab" . }} ] {{ tpl ( mustToJson (.Values.nussknacker.customTabs | default list) ) . }}
 
     {{- if .Values.nussknacker.authentication }}
     authentication: {{ tpl ( mustToJson .Values.nussknacker.authentication ) . }}
@@ -89,3 +89,4 @@ data:
     {{- range $key, $val := .Values.nussknacker.uiConfig }}
       {{ $key }}: {{ tpl ( mustToJson $val ) $ }}
     {{- end }}
+
