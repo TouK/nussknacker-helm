@@ -14,6 +14,7 @@ env:
   XDG_CACHE_HOME: $GITHUB_WORKSPACE/.cache/
   CHARTS_PUBLIC_RELEASES_URL: "https://helm-charts.touk.pl/public/"
   RELEASE_NAME: nu-helm-release-${{github.run_id}}
+  NAME: nussknacker
 
 defaults:
   run:
@@ -87,3 +88,9 @@ jobs:
       - run: kubectl get deployments
       - run: kubectl logs deploy/scenario-1-test-proxy-process-for-kafka-only
       - run: kubectl logs job/${{env.RELEASE_NAME}}-nussknacker-test-job test-job
+  publish:
+    name: publish
+    runs-on: ubuntu-latest
+    needs: [ test-flink, test-streaming-lite ]
+    steps:
+      - run: curl ${{CHART_REPOSITORY_AUTH:+-u "CHART_REPOSITORY_AUTH}} --fail --upload-file "dist/${{env.NAME}}-${{needs.build.outputs.version}}.tgz" ${CHART_REPOSITORY_URL}
