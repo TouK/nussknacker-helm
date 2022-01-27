@@ -16,7 +16,7 @@ helm upgrade -i "${RELEASE}" dist/*.tgz \
   --wait \
   --set ingress.skipHost=true \
   --set postgresql.existingSecret="${RELEASE}-postgresql" \
-  -f deploy-values.yaml $@ 
+  -f deploy-values.yaml $@  --debug
 
 kubectl delete jobs --all
 helm test "${RELEASE}"

@@ -38,6 +38,11 @@ spec:
               subPath: {{ .Values.persistence.subPath }}
             {{- end }}
           env:
+            - name: CONFIG_FORCE_nussknacker_modelConfig_components_openAPI_security_apikey_apiKeyValue
+              valueFrom:
+                secretKeyRef:
+                  name: 'sec-nu-designer'
+                  key: OPEN_API_KEY
             #TODO: make it default in NK
             - name: JDK_JAVA_OPTIONS
               value: -Dconfig.override_with_env_vars=true
