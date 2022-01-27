@@ -14,6 +14,7 @@ env:
   XDG_CACHE_HOME: $GITHUB_WORKSPACE/.cache/
   CHARTS_PUBLIC_RELEASES_URL: "https://helm-charts.touk.pl/public/"
   RELEASE_NAME: nu-helm-release-${{github.run_id}}
+  NAME: nussknacker
 
 defaults:
   run:
@@ -59,6 +60,8 @@ jobs:
             --trace
       - name: helmUpgrade
         run: helm upgrade -i "${{env.RELEASE_NAME}}" dist/*.tgz --version "${{needs.build.outputs.version}}"  --wait --debug -f deploy-values.yaml
+      - name: helmTestRelease
+        run: helm test "${{env.RELEASE_NAME}}" --filter !name=${{env.RELEASE_NAME}}-hermes-test-job
   test-streaming-lite:
     name: test streaming-lite mode
     runs-on: ubuntu-latest
@@ -73,18 +76,15 @@ jobs:
       - uses: AbsaOSS/k3d-action@v2
         with:
           cluster-name: "k3s-default"
-          k3d-version: v5.1.0
           args: >-
             --config=.k3d/single-cluster.yml
             --trace
       - name: helmUpgrade
-        run: helm upgrade -i "${{env.RELEASE_NAME}}" ${{env.CHART_SRC_DIR}} --version "${{steps.setVersion.outputs.version}}" -f deploy-values.yaml
+        run: helm upgrade -i "${{env.RELEASE_NAME}}" dist/*.tgz --version "${{needs.build.outputs.version}}" --wait --debug -f deploy-values.yaml -f deploy-values-lite.yaml
       - name: helmTestRelease
-        run:  helm test "${{env.RELEASE_NAME}}"
         continue-on-error: true
-      - run: kubectl logs ${{env.RELEASE_NAME}}-apicurio-registry-test-connection -n default
+        run: helm test "${{env.RELEASE_NAME}}" --filter !name=${{env.RELEASE_NAME}}-hermes-test-job
       - run: kubectl get pod
-      - run: kubectl get pod ${{env.RELEASE_NAME}}-apicurio-registry-test-connection --output=yaml
-      - name: podApicurioDescribe
-        run: kubectl describe pods ${{env.RELEASE_NAME}}-apicurio-registry-test-connection
-        run: helm upgrade -i "${{env.RELEASE_NAME}}" dist/*.tgz --version "${{needs.build.outputs.version}}"  --wait  --debug -f deploy-values.yaml -f deploy-values-lite.yaml
+      - run: kubectl get deployments
+      - run: kubectl logs deploy/scenario-1-test-proxy-process-for-kafka-only
+      - run: kubectl logs job/${{env.RELEASE_NAME}}-nussknacker-test-job test-job
