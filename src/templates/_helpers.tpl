@@ -197,8 +197,10 @@ nussknacker-lite-scenario
       "password": "admin"
       "influxUrl": "{{- include "nussknacker.influxUrl" . -}}/query"
       "database": "nussknacker"
+      {{- if eq .Values.nussknacker.mode "flink" -}}
       {{/* We use prometheus reporter     */}}
       metricsConfig: {  "countField": "gauge"}
+      {{- end -}}
     }
 {{- end -}}
 
@@ -206,8 +208,9 @@ nussknacker-lite-scenario
 {{- define "nussknacker.hermesUiManagementTab" -}}
 {{- if .Values.hermes.enabled -}}
     {
-      "name": "Hermes"
+      "title": "Hermes"
       "id": "hermes"
+      "type": "IFrame"
       "url": "{{ include "hermes.management.svcExternalUrl" (dict "Chart" (dict "Name" "hermes") "Values" .Values.hermes "Release" .Release "Capabilities" .Capabilities) }}"
     }
 {{- end -}}
