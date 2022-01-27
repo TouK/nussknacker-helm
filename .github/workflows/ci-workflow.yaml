@@ -59,9 +59,10 @@ jobs:
             --config=.k3d/single-cluster.yml
             --trace
       - name: helmUpgrade
-        run: helm upgrade -i "${{env.RELEASE_NAME}}" dist/*.tgz --version "${{needs.build.outputs.version}}"  --wait --debug -f deploy-values.yaml
+
+        run: helm upgrade -i "${{env.RELEASE_NAME}}" dist/*.tgz --version "${{needs.build.outputs.version}}"  --wait --debug -f deploy-values.yaml --set hermes.enabled=false
       - name: helmTestRelease
-        run: helm test "${{env.RELEASE_NAME}}" --filter !name=${{env.RELEASE_NAME}}-hermes-test-job
+        run: ./test.sh "${{env.RELEASE_NAME}}"
   test-streaming-lite:
     name: test streaming-lite mode
     runs-on: ubuntu-latest
@@ -80,11 +81,7 @@ jobs:
             --config=.k3d/single-cluster.yml
             --trace
       - name: helmUpgrade
-        run: helm upgrade -i "${{env.RELEASE_NAME}}" dist/*.tgz --version "${{needs.build.outputs.version}}" --wait --debug -f deploy-values.yaml -f deploy-values-lite.yaml
+        run: helm upgrade -i "${{env.RELEASE_NAME}}" dist/*.tgz --version "${{needs.build.outputs.version}}" --wait --debug -f deploy-values.yaml -f deploy-values-lite.yaml  --set hermes.enabled=false
       - name: helmTestRelease
-        continue-on-error: true
-        run: helm test "${{env.RELEASE_NAME}}" --filter !name=${{env.RELEASE_NAME}}-hermes-test-job
-      - run: kubectl get pod
-      - run: kubectl get deployments
-      - run: kubectl logs deploy/scenario-1-test-proxy-process-for-kafka-only
-      - run: kubectl logs job/${{env.RELEASE_NAME}}-nussknacker-test-job test-job
+        run: ./test.sh "${{env.RELEASE_NAME}}"
+
