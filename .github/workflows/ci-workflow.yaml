@@ -23,7 +23,7 @@ jobs:
     name: build
     runs-on: ubuntu-latest
     outputs:
-      version: ${{ steps.setVersion.outputs.version }}    
+      version: ${{ steps.setVersion.outputs.version }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -38,7 +38,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: helm-build
-          path: "dist/nussknacker-${{steps.setVersion.outputs.version}}.tgz"  
+          path: "dist/nussknacker-${{steps.setVersion.outputs.version}}.tgz"
   test-flink:
     name: test flink mode
     runs-on: ubuntu-latest
@@ -57,7 +57,10 @@ jobs:
             --config=.k3d/single-cluster.yml
             --trace
       - name: helmUpgrade
-        run: helm upgrade -i "${{env.RELEASE_NAME}}" dist/*.tgz --version "${{needs.build.outputs.version}}"  --wait --debug -f deploy-values.yaml
+
+        run: helm upgrade -i "${{env.RELEASE_NAME}}" dist/*.tgz --version "${{needs.build.outputs.version}}"  --wait --debug -f deploy-values.yaml --set hermes.enabled=false
+      - name: helmTestRelease
+        run: ./test.sh "${{env.RELEASE_NAME}}"
   test-streaming-lite:
     name: test streaming-lite mode
     runs-on: ubuntu-latest
@@ -76,4 +79,7 @@ jobs:
             --config=.k3d/single-cluster.yml
             --trace
       - name: helmUpgrade
-        run: helm upgrade -i "${{env.RELEASE_NAME}}" dist/*.tgz --version "${{needs.build.outputs.version}}"  --wait  --debug -f deploy-values.yaml -f deploy-values-lite.yaml
+        run: helm upgrade -i "${{env.RELEASE_NAME}}" dist/*.tgz --version "${{needs.build.outputs.version}}" --wait --debug -f deploy-values.yaml -f deploy-values-lite.yaml  --set hermes.enabled=false
+      - name: helmTestRelease
+        run: ./test.sh "${{env.RELEASE_NAME}}"
+

@@ -48,6 +48,11 @@ function given_a_proxy_process() {
 
   [[ $(curl ${PROCESS_URL%/}/status | jq -r .status.name) = RUNNING ]] && curl -X POST ${PROCESS_CANCEL_URL}
   curl -X POST ${PROCESS_DEPLOY_URL}
+  #on smaller ci envs deployment may last some time...
+  timeout 60 /bin/sh -c "until [ `curl ${PROCESS_URL%/}/status | jq -r .status.name` = "RUNNING" ]; do sleep 1 && echo -n .; done;" || true
+  echo "Checking after waiting for status..."
+  curl ${PROCESS_URL%/}/status   
+
 }
 
 function when_a_message_has_been_posted_on_the_topic() {
@@ -74,7 +79,7 @@ function then_the_message_can_be_consumed_from_the_topic() {
     --topic "${TOPIC_FULL_NAME}" \
     --group helm_test \
     --property "schema.registry.url=${SCHEMA_REGISTRY_URL}" \
-    --timeout-ms 5000 \
+    --timeout-ms 60000 \
     | (while : ; do
         read MSG;
         echo $MSG
