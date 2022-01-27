@@ -14,6 +14,7 @@ env:
   XDG_CACHE_HOME: $GITHUB_WORKSPACE/.cache/
   CHARTS_PUBLIC_RELEASES_URL: "https://helm-charts.touk.pl/public/"
   RELEASE_NAME: nu-helm-release-${{github.run_id}}
+  NAME: nussknacker
 
 defaults:
   run:
