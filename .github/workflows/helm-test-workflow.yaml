@@ -7,12 +7,14 @@ on:
   push:
     branches:
       - main
-
 env:
   CHART_SRC_DIR: ./src
   XDG_CACHE_HOME: $GITHUB_WORKSPACE/.cache/
   CHARTS_PUBLIC_RELEASES_URL: "https://helm-charts.touk.pl/public/"
   RELEASE_NAME: nu-helm-release-${{github.run_id}}
+  NAME: nussknacker
+  CHART_REPOSITORY_AUTH: "${{ secrets.CHARTS_PUBLIC_AUTH}}"
+  CHARTS_PUBLIC_SNAPSHOTS_URL: "https://helm-charts.touk.pl/nexus/repository/helm-snapshots/"
 
 defaults:
   run:
@@ -57,7 +59,6 @@ jobs:
             --config=.k3d/single-cluster.yml
             --trace
       - name: helmUpgrade
-
         run: helm upgrade -i "${{env.RELEASE_NAME}}" dist/*.tgz --version "${{needs.build.outputs.version}}"  --wait --debug -f deploy-values.yaml --set hermes.enabled=false
       - name: helmTestRelease
         run: ./test.sh "${{env.RELEASE_NAME}}"
@@ -82,4 +83,14 @@ jobs:
         run: helm upgrade -i "${{env.RELEASE_NAME}}" dist/*.tgz --version "${{needs.build.outputs.version}}" --wait --debug -f deploy-values.yaml -f deploy-values-lite.yaml  --set hermes.enabled=false
       - name: helmTestRelease
         run: ./test.sh "${{env.RELEASE_NAME}}"
-
+  publish-snapshot:
+    name: publish-snapshot
+    if: ${{ github.ref == 'refs/heads/main' }}
+    runs-on: ubuntu-latest
+    needs: [ build, test-flink, test-streaming-lite ]
+    steps:
+      - uses: actions/download-artifact@v2
+        with:
+          name: helm-build
+          path: dist
+      - run: curl -u ${{env.CHART_REPOSITORY_AUTH}} --fail --upload-file "dist/${{env.NAME}}-${{needs.build.outputs.version}}.tgz" ${{env.CHARTS_PUBLIC_SNAPSHOTS_URL}}
