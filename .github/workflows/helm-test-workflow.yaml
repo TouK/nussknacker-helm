@@ -7,14 +7,16 @@ on:
   push:
     branches:
       - main
+    tags:
+      - '*'
 env:
   CHART_SRC_DIR: ./src
   XDG_CACHE_HOME: $GITHUB_WORKSPACE/.cache/
-  CHARTS_PUBLIC_RELEASES_URL: "https://helm-charts.touk.pl/public/"
   RELEASE_NAME: nu-helm-release-${{github.run_id}}
   NAME: nussknacker
   CHART_REPOSITORY_AUTH: "${{ secrets.CHARTS_PUBLIC_AUTH}}"
   CHARTS_PUBLIC_SNAPSHOTS_URL: "https://helm-charts.touk.pl/nexus/repository/helm-snapshots/"
+  CHARTS_PUBLIC_RELEASES_URL: "https://helm-charts.touk.pl/nexus/repository/helm-releases/"
 
 defaults:
   run:
@@ -40,7 +42,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: helm-build
-          path: "dist/nussknacker-${{steps.setVersion.outputs.version}}.tgz"
+          path: "dist/${{env.NAME}}-${{steps.setVersion.outputs.version}}.tgz"
   test-flink:
     name: test flink mode
     runs-on: ubuntu-latest
@@ -85,7 +87,7 @@ jobs:
         run: ./test.sh "${{env.RELEASE_NAME}}"
   publish-snapshot:
     name: publish-snapshot
-    if: ${{ github.ref == 'refs/heads/main' }}
+    if: ${{ github.ref == 'refs/heads/main'}}
     runs-on: ubuntu-latest
     needs: [ build, test-flink, test-streaming-lite ]
     steps:
@@ -94,3 +96,14 @@ jobs:
           name: helm-build
           path: dist
       - run: curl -u ${{env.CHART_REPOSITORY_AUTH}} --fail --upload-file "dist/${{env.NAME}}-${{needs.build.outputs.version}}.tgz" ${{env.CHARTS_PUBLIC_SNAPSHOTS_URL}}
+  publish-release:
+    name: publish-release
+    if: ${{ startsWith(github.ref, 'refs/tags') }}
+    runs-on: ubuntu-latest
+    needs: [ build, test-flink, test-streaming-lite ]
+    steps:
+      - uses: actions/download-artifact@v2
+        with:
+          name: helm-build
+          path: dist
+      - run: curl -u ${{env.CHART_REPOSITORY_AUTH}} --fail --upload-file "dist/${{env.NAME}}-${{needs.build.outputs.version}}.tgz" ${{env.CHARTS_PUBLIC_RELEASES_URL}}
