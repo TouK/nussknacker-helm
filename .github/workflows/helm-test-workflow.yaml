@@ -42,7 +42,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: helm-build
-          path: "dist/nussknacker-${{steps.setVersion.outputs.version}}.tgz"
+          path: "dist/${{env.NAME}}-${{steps.setVersion.outputs.version}}.tgz"
   test-flink:
     name: test flink mode
     runs-on: ubuntu-latest
