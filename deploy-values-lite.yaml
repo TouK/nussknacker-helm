@@ -3,17 +3,6 @@ flink:
 
 nussknacker:
   mode: "streaming-lite"
-#  here its just base64 for secret
-  openApiKey: ZTc2ZDc3ZDk3NGQ0MDExMjQ2ODljYzlhY2NkMTRhNmIyOGNiMAo=
-  modelConfig:
-    components:
-      openAPI:
-        url: "https://litesecrettest-47e0.restdb.io/rest/_swagger.json"
-        security:
-          apikey:
-            type: "apiKey"
-#            this one is passed by secret which is binded to CONFIG_FORCE_ env
-            apiKeyValue: "dummy value just for the sake designer need it at startup"
 
 telegraf:
   enabled: false
