@@ -14,7 +14,7 @@ data:
 
     scenarioTypes {
       "default": {
-          {{- if eq .Values.nussknacker.mode "flink" }}  
+          {{- if eq .Values.nussknacker.mode "flink" }}
           deploymentConfig: {
              type: "flinkStreaming"
              {{/* Find easier way of passing it through values */}}
@@ -29,6 +29,7 @@ data:
              dockerImageName: {{- .Values.nussknacker.runtimeImage.repository }}
              dockerImageTag: {{- .Values.nussknacker.runtimeImage.tag }}
              {{- end }}
+             nussknackerInstanceName: ${?NUSSKNACKER_INSTANCE_NAME}
              configExecutionOverrides {
                {{- if .Values.influxdb.enabled }}
                metrics {
@@ -45,7 +46,7 @@ data:
 
           modelConfig: {
             classPath: {{ include "nussknacker.modelClassPath" . }}
-            {{- if eq .Values.nussknacker.mode "flink" }}  
+            {{- if eq .Values.nussknacker.mode "flink" }}
             components.kafka.config {
               kafkaAddress: "{{ include "nussknacker.kafkaBootstrapServers" . }}"
               kafkaProperties {
@@ -73,7 +74,7 @@ data:
 
     {{- if .Values.grafana.enabled }}
         metricsSettings: {
-          url: "{{ include "nussknacker.grafanaUrl" .}}/d/$dashboard?theme=dark&var-processName=$process&var-env="${environment}          
+          url: "{{ include "nussknacker.grafanaUrl" .}}/d/$dashboard?theme=dark&var-processName=$process&var-env="${environment}
           defaultDashboard: "{{ include "nussknacker.defaultDashboard" .}}"
         }
     {{- end }}

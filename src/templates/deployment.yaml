@@ -43,6 +43,10 @@ spec:
               value: -Dconfig.override_with_env_vars=true
             - name: CONFIG_FILE
               value: {{ .Values.nussknacker.configFile }}
+            - name: NUSSKNACKER_INSTANCE_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.labels['app.kubernetes.io/instance']
             {{- if .Values.postgresql.enabled }}
             - name: DB_PASSWORD
               valueFrom:
