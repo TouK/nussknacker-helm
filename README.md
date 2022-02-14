@@ -26,4 +26,4 @@ other files appending `-f [path]` as many times as needed. Samples:
 - `./build-deploy-verify.sh release-name -f deploy-values-lite.yaml` - deploy chart in streaming-lite mode
 - `./build-deploy-verify.sh release-name -f deploy-values-lite.yaml -f customComponents/custom-component-docker-values.yaml` - deploy chart in streaming-lite mode, with custom image (see description in `custom-component-docker-values.yaml`)
 - `./build-deploy-verify.sh release-name -f deploy-values-lite.yaml -f customComponents/custom-component-url-values.yaml` - deploy chart in streaming-lite mode, with custom component URL (see description in `custom-component-url-values.yaml`)
-- `./build-deploy-verify.sh release_name -f deploy-values-lite.yaml -f customSecret/custom-secret-values.yaml` - deploy chart in streaming-lite mode, passing secret to both designer and runtime container (see description in `custom-secret-values.yaml`)
+- `./build-deploy-verify.sh release-name -f deploy-values-lite.yaml -f customSecret/custom-secret-values.yaml` - deploy chart in streaming-lite mode, passing secret to both designer and runtime container (see description in `custom-secret-values.yaml`)
