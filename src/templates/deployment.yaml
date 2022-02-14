@@ -43,6 +43,8 @@ spec:
               value: -Dconfig.override_with_env_vars=true
             - name: CONFIG_FILE
               value: {{ .Values.nussknacker.configFile }}
+            - name: HELM_RELEASE_NAME
+              value: {{ .Release.Name }}
             {{- if .Values.postgresql.enabled }}
             - name: DB_PASSWORD
               valueFrom:
