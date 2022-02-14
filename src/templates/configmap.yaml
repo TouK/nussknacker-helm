@@ -25,6 +25,9 @@ data:
           {{- else if eq .Values.nussknacker.mode "streaming-lite" }}
           deploymentConfig: {
              type: "streaming-lite-k8s"
+             {{- if .Values.nussknacker.k8sDeploymentConfig }}
+             k8sDeploymentConfig: {{ tpl ( mustToJson .Values.nussknacker.k8sDeploymentConfig ) . }}
+             {{- end }}
              {{- if .Values.nussknacker.runtimeImage }}
              dockerImageName: {{- .Values.nussknacker.runtimeImage.repository }}
              dockerImageTag: {{- .Values.nussknacker.runtimeImage.tag }}

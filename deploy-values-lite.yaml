@@ -3,6 +3,6 @@ flink:
 
 nussknacker:
   mode: "streaming-lite"
-         
+
 telegraf:
   enabled: false
