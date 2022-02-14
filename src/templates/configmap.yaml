@@ -29,7 +29,7 @@ data:
              dockerImageName: {{- .Values.nussknacker.runtimeImage.repository }}
              dockerImageTag: {{- .Values.nussknacker.runtimeImage.tag }}
              {{- end }}
-             nussknackerInstanceName: ${?NUSSKNACKER_INSTANCE_NAME}
+             nussknackerInstanceName: ${?HELM_RELEASE_NAME}
              configExecutionOverrides {
                {{- if .Values.influxdb.enabled }}
                metrics {
