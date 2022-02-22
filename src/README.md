@@ -5,6 +5,12 @@ This [Helm](https://github.com/kubernetes/helm) chart installs [Nussknacker](htt
 in a Kubernetes cluster. This chart makes an opinionated choice of additional components installed with Nussknacker, but
 it is highly configurable.
 
+Quickstart
+----------
+To go through the whole process of installation, configuration of messages schemas and defining of scenarios,
+see [Quickstart guide](https://nussknacker.io/documentation/quickstart/helm/)
+or `k8s-help` directory in [nussknacker-quickstart repository](https://github.com/TouK/nussknacker-quickstart)
+
 Requirements
 ------------
 
