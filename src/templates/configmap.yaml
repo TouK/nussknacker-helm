@@ -32,6 +32,9 @@ data:
              dockerImageName: {{- .Values.nussknacker.runtimeImage.repository }}
              dockerImageTag: {{- .Values.nussknacker.runtimeImage.tag }}
              {{- end }}
+             {{- if .Values.nussknacker.scalingConfig }}
+             scalingConfig: {{ tpl ( mustToJson .Values.nussknacker.scalingConfig  ) . }}
+             {{- end }}
              nussknackerInstanceName: ${?HELM_RELEASE_NAME}
              configExecutionOverrides {
                {{- if .Values.influxdb.enabled }}
