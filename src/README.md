@@ -109,7 +109,7 @@ There are three major parts of Nussknacker configuration in ```values.yaml```
   of ```application.conf```
 - flinkConfig - here Flink cluster URL can be overridden. These settings are included in ```engineConfig``` section
   of ```application.conf ```
-- k8sDeploymentConfig - here you can specify your own k8s runtime deployment config in streaming-lite mode
+- k8sDeploymentConfig - here you can specify your own k8s runtime deployment yaml config in streaming-lite mode
 
 #### Overriding via environment variables
 
