@@ -6,3 +6,4 @@ upgrade.sh
 uninstall.sh
 logintopod.sh
 nussknacker-helm-chart.iml
+*.iml

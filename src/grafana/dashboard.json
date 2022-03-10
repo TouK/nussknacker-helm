@@ -86,7 +86,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "alias": "[[tag_process]] - [[tag_nodeId]]",
+          "alias": "[[tag_scenario]] - [[tag_nodeId]]",
           "dsType": "influxdb",
           "groupBy": [
             {
@@ -97,7 +97,7 @@
             },
             {
               "params": [
-                "process"
+                "scenario"
               ],
               "type": "tag"
             },
@@ -111,7 +111,7 @@
           "measurement": "source.instantRate",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT sum(value)\nFROM (\n  SELECT non_negative_derivative(last(\"gauge\"), 1s) AS value\n  FROM \"source_count\"\n  WHERE process =~ /^$processName$/ AND env = '$env' AND $timeFilter\n  GROUP BY time($__interval), process, nodeId, slot\n)\nGROUP BY time($__interval), process, nodeId\n",
+          "query": "SELECT sum(value)\nFROM (\n  SELECT non_negative_derivative(last(\"gauge\"), 1s) AS value\n  FROM \"source_count\"\n  WHERE scenario =~ /^$scenarioName$/ AND env = '$env' AND $timeFilter\n  GROUP BY time($__interval), scenario, nodeId, slot\n)\nGROUP BY time($__interval), scenario, nodeId\n",
           "rawQuery": true,
           "refId": "A",
           "resultFormat": "time_series",
@@ -131,9 +131,9 @@
           ],
           "tags": [
             {
-              "key": "process",
+              "key": "scenario",
               "operator": "=~",
-              "value": "/$processName$/"
+              "value": "/$scenarioName$/"
             },
             {
               "condition": "AND",
@@ -239,7 +239,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "alias": "[[tag_process]] - [[tag_nodeId]]",
+          "alias": "[[tag_scenario]] - [[tag_nodeId]]",
           "dsType": "influxdb",
           "groupBy": [
             {
@@ -250,7 +250,7 @@
             },
             {
               "params": [
-                "process"
+                "scenario"
               ],
               "type": "tag"
             },
@@ -271,7 +271,7 @@
           "measurement": "end.instantRate",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT sum(value)\nFROM (\n  SELECT non_negative_derivative(last(\"gauge\"), 1s) AS value\n  FROM \"end_count\"\n  WHERE process =~ /^$processName$/ AND env = '$env' AND $timeFilter\n  GROUP BY time($__interval), process, nodeId, slot\n)\nGROUP BY time($__interval), process, nodeId\n",
+          "query": "SELECT sum(value)\nFROM (\n  SELECT non_negative_derivative(last(\"gauge\"), 1s) AS value\n  FROM \"end_count\"\n  WHERE scenario =~ /^$scenarioName$/ AND env = '$env' AND $timeFilter\n  GROUP BY time($__interval), scenario, nodeId, slot\n)\nGROUP BY time($__interval), scenario, nodeId\n",
           "rawQuery": true,
           "refId": "A",
           "resultFormat": "time_series",
@@ -291,9 +291,9 @@
           ],
           "tags": [
             {
-              "key": "process",
+              "key": "scenario",
               "operator": "=~",
-              "value": "/$processName$/"
+              "value": "/$scenarioName$/"
             },
             {
               "condition": "AND",
@@ -308,7 +308,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Events that passed whole process /s",
+      "title": "Events that passed whole scenario /s",
       "tooltip": {
         "msResolution": false,
         "shared": true,
@@ -399,7 +399,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "alias": "[[tag_process]] - [[tag_nodeId]]",
+          "alias": "[[tag_scenario]] - [[tag_nodeId]]",
           "dsType": "influxdb",
           "groupBy": [
             {
@@ -410,7 +410,7 @@
             },
             {
               "params": [
-                "process"
+                "scenario"
               ],
               "type": "tag"
             },
@@ -431,7 +431,7 @@
           "measurement": "dead_end.instantRate",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT sum(value)\nFROM (\n  SELECT non_negative_derivative(last(\"gauge\"), 1s) AS value\n  FROM \"dead_end_count\"\n  WHERE process =~ /^$processName$/ AND env = '$env' AND $timeFilter\n  GROUP BY time($__interval), process, nodeId, slot\n)\nGROUP BY time($__interval), process, nodeId\n",
+          "query": "SELECT sum(value)\nFROM (\n  SELECT non_negative_derivative(last(\"gauge\"), 1s) AS value\n  FROM \"dead_end_count\"\n  WHERE scenario =~ /^$scenarioName$/ AND env = '$env' AND $timeFilter\n  GROUP BY time($__interval), scenario, nodeId, slot\n)\nGROUP BY time($__interval), scenario, nodeId\n",
           "rawQuery": true,
           "refId": "A",
           "resultFormat": "time_series",
@@ -451,9 +451,9 @@
           ],
           "tags": [
             {
-              "key": "process",
+              "key": "scenario",
               "operator": "=~",
-              "value": "/$processName$/"
+              "value": "/$scenarioName$/"
             },
             {
               "condition": "AND",
@@ -560,7 +560,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "alias": "[[tag_process]] - [[tag_nodeId]]",
+          "alias": "[[tag_scenario]] - [[tag_nodeId]]",
           "dsType": "influxdb",
           "groupBy": [
             {
@@ -571,7 +571,7 @@
             },
             {
               "params": [
-                "process"
+                "scenario"
               ],
               "type": "tag"
             },
@@ -585,7 +585,7 @@
           "measurement": "error.instantRateByNode.count.count",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT sum(value)\nFROM (\n  SELECT non_negative_derivative(last(\"gauge\"), 1s) AS value\n  FROM \"error_instantRateByNode_count\"\n  WHERE process =~ /^$processName$/ AND env = '$env' AND $timeFilter\n  GROUP BY time($__interval), process, nodeId, slot\n)\nGROUP BY time($__interval), process, nodeId\n",
+          "query": "SELECT sum(value)\nFROM (\n  SELECT non_negative_derivative(last(\"gauge\"), 1s) AS value\n  FROM \"error_instantRateByNode_count\"\n  WHERE scenario =~ /^$scenarioName$/ AND env = '$env' AND $timeFilter\n  GROUP BY time($__interval), scenario, nodeId, slot\n)\nGROUP BY time($__interval), scenario, nodeId\n",
           "rawQuery": true,
           "refId": "A",
           "resultFormat": "time_series",
@@ -605,9 +605,9 @@
           ],
           "tags": [
             {
-              "key": "process",
+              "key": "scenario",
               "operator": "=~",
-              "value": "/$processName$/"
+              "value": "/$scenarioName$/"
             },
             {
               "condition": "AND",
@@ -712,7 +712,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "alias": "[[tag_process]] - [[tag_operator_name]] (slot [[tag_slot]])",
+          "alias": "[[tag_scenario]] - [[tag_operator_name]] (slot [[tag_slot]])",
           "dsType": "influxdb",
           "groupBy": [
             {
@@ -723,7 +723,7 @@
             },
             {
               "params": [
-                "process"
+                "scenario"
               ],
               "type": "tag"
             },
@@ -743,7 +743,7 @@
           "measurement": "records_lag_max",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT max(\"gauge\") FROM \"records_lag_max\" WHERE \"host\" =~ /$hosts$/ AND \"process\" =~ /$processName$/ AND $timeFilter GROUP BY time($interval), \"process\" fill(none)",
+          "query": "SELECT max(\"gauge\") FROM \"records_lag_max\" WHERE \"host\" =~ /$hosts$/ AND \"scenario\" =~ /$scenarioName$/ AND $timeFilter GROUP BY time($interval), \"scenario\" fill(none)",
           "refId": "A",
           "resultFormat": "time_series",
           "select": [
@@ -768,9 +768,9 @@
             },
             {
               "condition": "AND",
-              "key": "process",
+              "key": "scenario",
               "operator": "=~",
-              "value": "/$processName$/"
+              "value": "/$scenarioName$/"
             }
           ]
         }
@@ -868,7 +868,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "alias": "[[tag_process]] - [[tag_nodeId]] (slot [[tag_slot]])",
+          "alias": "[[tag_scenario]] - [[tag_nodeId]] (slot [[tag_slot]])",
           "dsType": "influxdb",
           "groupBy": [
             {
@@ -879,7 +879,7 @@
             },
             {
               "params": [
-                "process"
+                "scenario"
               ],
               "type": "tag"
             },
@@ -905,7 +905,7 @@
           "measurement": "eventtimedelay_histogram",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT min(\"min\") FROM \"eventtimedelay_histogram\" WHERE \"host\" =~ /$hosts$/ AND \"process\" =~ /$processName$/ AND $timeFilter GROUP BY time($interval), \"process\" fill(null)",
+          "query": "SELECT min(\"min\") FROM \"eventtimedelay_histogram\" WHERE \"host\" =~ /$hosts$/ AND \"scenario\" =~ /$scenarioName$/ AND $timeFilter GROUP BY time($interval), \"scenario\" fill(null)",
           "refId": "A",
           "resultFormat": "time_series",
           "select": [
@@ -930,9 +930,9 @@
             },
             {
               "condition": "AND",
-              "key": "process",
+              "key": "scenario",
               "operator": "=~",
-              "value": "/$processName$/"
+              "value": "/$scenarioName$/"
             }
           ]
         }
@@ -1030,7 +1030,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "alias": "[[tag_process]] - [[tag_nodeId]] (slot [[tag_slot]])",
+          "alias": "[[tag_scenario]] - [[tag_nodeId]] (slot [[tag_slot]])",
           "dsType": "influxdb",
           "groupBy": [
             {
@@ -1041,7 +1041,7 @@
             },
             {
               "params": [
-                "process"
+                "scenario"
               ],
               "type": "tag"
             },
@@ -1067,7 +1067,7 @@
           "measurement": "eventtimedelay_histogram",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT mean(\"0.5\") FROM \"eventtimedelay_histogram\" WHERE \"host\" =~ /$hosts$/ AND \"process\" =~ /$processName$/ AND $timeFilter GROUP BY time($interval), \"process\" fill(null)",
+          "query": "SELECT mean(\"0.5\") FROM \"eventtimedelay_histogram\" WHERE \"host\" =~ /$hosts$/ AND \"scenario\" =~ /$scenarioName$/ AND $timeFilter GROUP BY time($interval), \"scenario\" fill(null)",
           "refId": "A",
           "resultFormat": "time_series",
           "select": [
@@ -1092,9 +1092,9 @@
             },
             {
               "condition": "AND",
-              "key": "process",
+              "key": "scenario",
               "operator": "=~",
-              "value": "/$processName$/"
+              "value": "/$scenarioName$/"
             }
           ]
         }
@@ -1192,7 +1192,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "alias": "[[tag_process]] - [[tag_nodeId]] (slot [[tag_slot]])",
+          "alias": "[[tag_scenario]] - [[tag_nodeId]] (slot [[tag_slot]])",
           "dsType": "influxdb",
           "groupBy": [
             {
@@ -1203,7 +1203,7 @@
             },
             {
               "params": [
-                "process"
+                "scenario"
               ],
               "type": "tag"
             },
@@ -1229,7 +1229,7 @@
           "measurement": "eventtimedelay_histogram",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT max(\"max\") FROM \"eventtimedelay_histogram\" WHERE \"host\" =~ /$hosts$/ AND \"process\" =~ /$processName$/ AND $timeFilter GROUP BY time($interval), \"process\" fill(null)",
+          "query": "SELECT max(\"max\") FROM \"eventtimedelay_histogram\" WHERE \"host\" =~ /$hosts$/ AND \"scenario\" =~ /$scenarioName$/ AND $timeFilter GROUP BY time($interval), \"scenario\" fill(null)",
           "refId": "A",
           "resultFormat": "time_series",
           "select": [
@@ -1254,9 +1254,9 @@
             },
             {
               "condition": "AND",
-              "key": "process",
+              "key": "scenario",
               "operator": "=~",
-              "value": "/$processName$/"
+              "value": "/$scenarioName$/"
             }
           ]
         }
@@ -1354,7 +1354,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "alias": "[[tag_process]] - [[tag_nodeId]] (slot [[tag_slot]])",
+          "alias": "[[tag_scenario]] - [[tag_nodeId]] (slot [[tag_slot]])",
           "dsType": "influxdb",
           "groupBy": [
             {
@@ -1365,7 +1365,7 @@
             },
             {
               "params": [
-                "process"
+                "scenario"
               ],
               "type": "tag"
             },
@@ -1391,7 +1391,7 @@
           "measurement": "eventtimedelay_minimalDelay",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT min(\"gauge\") FROM \"eventtimedelay_histogram\" WHERE \"host\" =~ /$hosts$/ AND \"process\" =~ /$processName$/ AND $timeFilter GROUP BY time($interval), \"process\" fill(null)",
+          "query": "SELECT min(\"gauge\") FROM \"eventtimedelay_histogram\" WHERE \"host\" =~ /$hosts$/ AND \"scenario\" =~ /$scenarioName$/ AND $timeFilter GROUP BY time($interval), \"scenario\" fill(null)",
           "refId": "A",
           "resultFormat": "time_series",
           "select": [
@@ -1416,9 +1416,9 @@
             },
             {
               "condition": "AND",
-              "key": "process",
+              "key": "scenario",
               "operator": "=~",
-              "value": "/$processName$/"
+              "value": "/$scenarioName$/"
             }
           ]
         }
@@ -1526,7 +1526,7 @@
           "steppedLine": false,
           "targets": [
             {
-              "alias": "[[tag_process]] - [[tag_serviceName]] (slot [[tag_slot]])",
+              "alias": "[[tag_scenario]] - [[tag_serviceName]] (slot [[tag_slot]])",
               "dsType": "influxdb",
               "groupBy": [
                 {
@@ -1537,7 +1537,7 @@
                 },
                 {
                   "params": [
-                    "process"
+                    "scenario"
                   ],
                   "type": "tag"
                 },
@@ -1563,7 +1563,7 @@
               "measurement": "service_OK_histogram",
               "orderByTime": "ASC",
               "policy": "default",
-              "query": "SELECT max(\"0.5\") FROM \"service_OK_histogram\" WHERE \"process\" =~ /$processName$/ AND \"env\" =~ /^$env$/ AND $timeFilter GROUP BY time($__interval), \"process\", \"serviceName\" fill(null)",
+              "query": "SELECT max(\"0.5\") FROM \"service_OK_histogram\" WHERE \"scenario\" =~ /$scenarioName$/ AND \"env\" =~ /^$env$/ AND $timeFilter GROUP BY time($__interval), \"scenario\", \"serviceName\" fill(null)",
               "rawQuery": false,
               "refId": "A",
               "resultFormat": "time_series",
@@ -1589,9 +1589,9 @@
                 },
                 {
                   "condition": "AND",
-                  "key": "process",
+                  "key": "scenario",
                   "operator": "=~",
-                  "value": "/^$processName$/"
+                  "value": "/^$scenarioName$/"
                 }
               ]
             }
@@ -1690,7 +1690,7 @@
           "steppedLine": false,
           "targets": [
             {
-              "alias": "[[tag_process]] - [[tag_serviceName]] (slot [[tag_slot]])",
+              "alias": "[[tag_scenario]] - [[tag_serviceName]] (slot [[tag_slot]])",
               "dsType": "influxdb",
               "groupBy": [
                 {
@@ -1701,7 +1701,7 @@
                 },
                 {
                   "params": [
-                    "process"
+                    "scenario"
                   ],
                   "type": "tag"
                 },
@@ -1727,7 +1727,7 @@
               "measurement": "service_OK_histogram",
               "orderByTime": "ASC",
               "policy": "default",
-              "query": "SELECT max(\"0.99\") FROM \"service_OK_histogram\" WHERE \"process\" =~ /$processName$/ AND \"env\" =~ /^$env$/ AND $timeFilter GROUP BY time($__interval), \"process\", \"serviceName\" fill(null)",
+              "query": "SELECT max(\"0.99\") FROM \"service_OK_histogram\" WHERE \"scenario\" =~ /$scenarioName$/ AND \"env\" =~ /^$env$/ AND $timeFilter GROUP BY time($__interval), \"scenario\", \"serviceName\" fill(null)",
               "rawQuery": false,
               "refId": "A",
               "resultFormat": "time_series",
@@ -1753,9 +1753,9 @@
                 },
                 {
                   "condition": "AND",
-                  "key": "process",
+                  "key": "scenario",
                   "operator": "=~",
-                  "value": "/^$processName$/"
+                  "value": "/^$scenarioName$/"
                 }
               ]
             }
@@ -1854,7 +1854,7 @@
           "steppedLine": false,
           "targets": [
             {
-              "alias": "[[tag_process]] - [[tag_serviceName]]",
+              "alias": "[[tag_scenario]] - [[tag_serviceName]]",
               "dsType": "influxdb",
               "groupBy": [
                 {
@@ -1865,7 +1865,7 @@
                 },
                 {
                   "params": [
-                    "process"
+                    "scenario"
                   ],
                   "type": "tag"
                 },
@@ -1885,7 +1885,7 @@
               "measurement": "serviceInstant.OK",
               "orderByTime": "ASC",
               "policy": "default",
-              "query": "SELECT sum(mean)\nFROM (\n  SELECT mean(gauge)\n  FROM \"service_OK_instantRate\"\n  WHERE process =~ /^$processName$/ AND env = '$env' AND $timeFilter\n  GROUP BY time($__interval), process, serviceName, slot\n)\nGROUP BY time($__interval), process, serviceName",
+              "query": "SELECT sum(mean)\nFROM (\n  SELECT mean(gauge)\n  FROM \"service_OK_instantRate\"\n  WHERE scenario =~ /^$scenarioName$/ AND env = '$env' AND $timeFilter\n  GROUP BY time($__interval), scenario, serviceName, slot\n)\nGROUP BY time($__interval), scenario, serviceName",
               "rawQuery": true,
               "refId": "A",
               "resultFormat": "time_series",
@@ -1905,9 +1905,9 @@
               ],
               "tags": [
                 {
-                  "key": "process",
+                  "key": "scenario",
                   "operator": "=~",
-                  "value": "/^$processName$/"
+                  "value": "/^$scenarioName$/"
                 },
                 {
                   "condition": "AND",
@@ -2012,7 +2012,7 @@
           "steppedLine": false,
           "targets": [
             {
-              "alias": "[[tag_process]] - [[tag_serviceName]] (slot [[tag_slot]])",
+              "alias": "[[tag_scenario]] - [[tag_serviceName]] (slot [[tag_slot]])",
               "dsType": "influxdb",
               "groupBy": [
                 {
@@ -2023,7 +2023,7 @@
                 },
                 {
                   "params": [
-                    "process"
+                    "scenario"
                   ],
                   "type": "tag"
                 },
@@ -2049,7 +2049,7 @@
               "measurement": "service_FAIL_histogram",
               "orderByTime": "ASC",
               "policy": "default",
-              "query": "SELECT max(\"0.5\") FROM \"service_FAIL_histogram\" WHERE \"process\" =~ /$processName$/ AND \"env\" =~ /^$env$/ AND $timeFilter GROUP BY time($__interval), \"process\", \"serviceName\" fill(null)",
+              "query": "SELECT max(\"0.5\") FROM \"service_FAIL_histogram\" WHERE \"scenario\" =~ /$scenarioName$/ AND \"env\" =~ /^$env$/ AND $timeFilter GROUP BY time($__interval), \"scenario\", \"serviceName\" fill(null)",
               "rawQuery": false,
               "refId": "A",
               "resultFormat": "time_series",
@@ -2075,9 +2075,9 @@
                 },
                 {
                   "condition": "AND",
-                  "key": "process",
+                  "key": "scenario",
                   "operator": "=~",
-                  "value": "/^$processName$/"
+                  "value": "/^$scenarioName$/"
                 }
               ]
             }
@@ -2176,7 +2176,7 @@
           "steppedLine": false,
           "targets": [
             {
-              "alias": "[[tag_process]] - [[tag_serviceName]] (slot [[tag_slot]])",
+              "alias": "[[tag_scenario]] - [[tag_serviceName]] (slot [[tag_slot]])",
               "dsType": "influxdb",
               "groupBy": [
                 {
@@ -2187,7 +2187,7 @@
                 },
                 {
                   "params": [
-                    "process"
+                    "scenario"
                   ],
                   "type": "tag"
                 },
@@ -2213,7 +2213,7 @@
               "measurement": "service_FAIL_histogram",
               "orderByTime": "ASC",
               "policy": "default",
-              "query": "SELECT max(\"0.99\") FROM \"service_FAIL_histogram\" WHERE \"process\" =~ /$processName$/ AND \"env\" =~ /^$env$/ AND $timeFilter GROUP BY time($__interval), \"process\", \"serviceName\" fill(null)",
+              "query": "SELECT max(\"0.99\") FROM \"service_FAIL_histogram\" WHERE \"scenario\" =~ /$scenarioName$/ AND \"env\" =~ /^$env$/ AND $timeFilter GROUP BY time($__interval), \"scenario\", \"serviceName\" fill(null)",
               "rawQuery": false,
               "refId": "A",
               "resultFormat": "time_series",
@@ -2239,9 +2239,9 @@
                 },
                 {
                   "condition": "AND",
-                  "key": "process",
+                  "key": "scenario",
                   "operator": "=~",
-                  "value": "/^$processName$/"
+                  "value": "/^$scenarioName$/"
                 }
               ]
             }
@@ -2340,7 +2340,7 @@
           "steppedLine": false,
           "targets": [
             {
-              "alias": "$tag_process - $tag_serviceName",
+              "alias": "$tag_scenario - $tag_serviceName",
               "dsType": "influxdb",
               "groupBy": [
                 {
@@ -2351,7 +2351,7 @@
                 },
                 {
                   "params": [
-                    "process"
+                    "scenario"
                   ],
                   "type": "tag"
                 },
@@ -2372,7 +2372,7 @@
               "measurement": "serviceInstant.FAIL",
               "orderByTime": "ASC",
               "policy": "default",
-              "query": "SELECT sum(mean)\nFROM (\n  SELECT mean(gauge)\n  FROM \"service_FAIL_instantRate\"\n  WHERE process =~ /^$processName$/ AND env = '$env' AND $timeFilter\n  GROUP BY time($__interval), process, serviceName, slot\n)\nGROUP BY time($__interval), process, serviceName",
+              "query": "SELECT sum(mean)\nFROM (\n  SELECT mean(gauge)\n  FROM \"service_FAIL_instantRate\"\n  WHERE scenario =~ /^$scenarioName$/ AND env = '$env' AND $timeFilter\n  GROUP BY time($__interval), scenario, serviceName, slot\n)\nGROUP BY time($__interval), scenario, serviceName",
               "rawQuery": true,
               "refId": "A",
               "resultFormat": "time_series",
@@ -2392,9 +2392,9 @@
               ],
               "tags": [
                 {
-                  "key": "process",
+                  "key": "scenario",
                   "operator": "=~",
-                  "value": "/^$processName$/"
+                  "value": "/^$scenarioName$/"
                 },
                 {
                   "condition": "AND",
@@ -2505,7 +2505,7 @@
           "steppedLine": false,
           "targets": [
             {
-              "alias": "[[tag_process]] - [[tag_operator_name]] ($0)",
+              "alias": "[[tag_scenario]] - [[tag_operator_name]] ($0)",
               "groupBy": [
                 {
                   "params": [
@@ -2535,7 +2535,7 @@
               "measurement": "/^.*.cur-size-all-mem-tables/",
               "orderByTime": "ASC",
               "policy": "default",
-              "query": "\nSELECT sum(\"value\")\nFROM (\n   SELECT mean(\"gauge\") AS \"value\"\n   FROM /^.*.cur-size-all-mem-tables/ \n   WHERE process =~ /^$processName$/ AND env = '$env' AND $timeFilter \n   GROUP BY time($__interval), \"process\", \"operator_name\", \"slot\"\n) GROUP BY time($__interval), \"process\", \"operator_name\" fill(linear)",
+              "query": "\nSELECT sum(\"value\")\nFROM (\n   SELECT mean(\"gauge\") AS \"value\"\n   FROM /^.*.cur-size-all-mem-tables/ \n   WHERE scenario =~ /^$scenarioName$/ AND env = '$env' AND $timeFilter \n   GROUP BY time($__interval), \"scenario\", \"operator_name\", \"slot\"\n) GROUP BY time($__interval), \"scenario\", \"operator_name\" fill(linear)",
               "rawQuery": true,
               "refId": "A",
               "resultFormat": "time_series",
@@ -2646,7 +2646,7 @@
           "steppedLine": false,
           "targets": [
             {
-              "alias": "[[tag_process]] - [[tag_operator_name]] ($0)",
+              "alias": "[[tag_scenario]] - [[tag_operator_name]] ($0)",
               "groupBy": [
                 {
                   "params": [
@@ -2676,7 +2676,7 @@
               "measurement": "/^.*.cur-size-all-mem-tables/",
               "orderByTime": "ASC",
               "policy": "default",
-              "query": "SELECT sum(\"value\")\nFROM (\n   SELECT mean(\"gauge\") AS \"value\"\n   FROM /^.*.estimate-live-data-size/ \n   WHERE process =~ /^$processName$/ AND env = '$env' AND $timeFilter\n   GROUP BY time($__interval), \"process\", \"operator_name\", \"slot\"\n) GROUP BY time($__interval), \"process\", \"operator_name\" fill(linear)\n",
+              "query": "SELECT sum(\"value\")\nFROM (\n   SELECT mean(\"gauge\") AS \"value\"\n   FROM /^.*.estimate-live-data-size/ \n   WHERE scenario =~ /^$scenarioName$/ AND env = '$env' AND $timeFilter\n   GROUP BY time($__interval), \"scenario\", \"operator_name\", \"slot\"\n) GROUP BY time($__interval), \"scenario\", \"operator_name\" fill(linear)\n",
               "rawQuery": true,
               "refId": "A",
               "resultFormat": "time_series",
@@ -2781,7 +2781,7 @@
           "steppedLine": false,
           "targets": [
             {
-              "alias": "[[tag_process]] - [[tag_operator_name]] ($0)",
+              "alias": "[[tag_scenario]] - [[tag_operator_name]] ($0)",
               "groupBy": [
                 {
                   "params": [
@@ -2811,7 +2811,7 @@
               "measurement": "/^.*.estimate-num-keys/",
               "orderByTime": "ASC",
               "policy": "default",
-              "query": "SELECT sum(\"value\")\nFROM (\n   SELECT mean(\"gauge\") AS \"value\"\n   FROM /^.*.estimate-num-keys/ \n   WHERE process =~ /^$processName$/ AND env = '$env' AND $timeFilter \n   GROUP BY time($__interval), \"process\", \"operator_name\", \"slot\"\n) GROUP BY time($__interval), \"process\", \"operator_name\" fill(linear)",
+              "query": "SELECT sum(\"value\")\nFROM (\n   SELECT mean(\"gauge\") AS \"value\"\n   FROM /^.*.estimate-num-keys/ \n   WHERE scenario =~ /^$scenarioName$/ AND env = '$env' AND $timeFilter \n   GROUP BY time($__interval), \"scenario\", \"operator_name\", \"slot\"\n) GROUP BY time($__interval), \"scenario\", \"operator_name\" fill(linear)",
               "rawQuery": true,
               "refId": "A",
               "resultFormat": "time_series",
@@ -2976,9 +2976,9 @@
             },
             {
               "condition": "AND",
-              "key": "process",
+              "key": "scenario",
               "operator": "=~",
-              "value": "/^$processName$/"
+              "value": "/^$scenarioName$/"
             }
           ]
         }
@@ -3101,9 +3101,9 @@
             },
             {
               "condition": "AND",
-              "key": "process",
+              "key": "scenario",
               "operator": "=~",
-              "value": "/^$processName$/"
+              "value": "/^$scenarioName$/"
             }
           ]
         }
@@ -3218,9 +3218,9 @@
             },
             {
               "condition": "AND",
-              "key": "process",
+              "key": "scenario",
               "operator": "=~",
-              "value": "/^$processName$/"
+              "value": "/^$scenarioName$/"
             }
           ]
         }
@@ -3335,9 +3335,9 @@
             },
             {
               "condition": "AND",
-              "key": "process",
+              "key": "scenario",
               "operator": "=~",
-              "value": "/^$processName$/"
+              "value": "/^$scenarioName$/"
             }
           ]
         }
@@ -3460,9 +3460,9 @@
             },
             {
               "condition": "AND",
-              "key": "process",
+              "key": "scenario",
               "operator": "=~",
-              "value": "/^$processName$/"
+              "value": "/^$scenarioName$/"
             }
           ]
         }
@@ -3585,9 +3585,9 @@
             },
             {
               "condition": "AND",
-              "key": "process",
+              "key": "scenario",
               "operator": "=~",
-              "value": "/^$processName$/"
+              "value": "/^$scenarioName$/"
             }
           ]
         }
@@ -3625,9 +3625,9 @@
         "label": null,
         "multi": true,
         "multiFormat": "pipe",
-        "name": "processName",
+        "name": "scenarioName",
         "options": [],
-        "query": "SHOW TAG VALUES FROM \"source_instantRate\" WITH KEY = \"process\"",
+        "query": "SHOW TAG VALUES FROM \"source_instantRate\" WITH KEY = \"scenario\"",
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
