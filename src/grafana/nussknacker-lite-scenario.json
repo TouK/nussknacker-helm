@@ -90,7 +90,7 @@
           "dsType": "influxdb",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT sum(value)\nFROM (\n  SELECT non_negative_derivative(last(\"count\"), 1s) AS value\n  FROM \"source.count\"\n  WHERE scenario =~ /^$scenarioName$/ AND env = '$env' AND $timeFilter\n  GROUP BY time($__interval), scenario, nodeId, taskId\n)\nGROUP BY time($__interval), scenario, nodeId\n",
+          "query": "SELECT sum(value)\nFROM (\n  SELECT non_negative_derivative(last(\"count\"), 1s) AS value\n  FROM \"source.count\"\n  WHERE scenario =~ /^$scenarioName$/ AND env = '$env' AND $timeFilter\n  GROUP BY time($__interval), scenario, nodeId, instanceId\n)\nGROUP BY time($__interval), scenario, nodeId\n",
           "rawQuery": true,
           "refId": "A",
           "resultFormat": "time_series"
@@ -195,7 +195,7 @@
           "dsType": "influxdb",
           "hide": false,
           "policy": "default",
-          "query": "SELECT sum(value)\nFROM (\n  SELECT non_negative_derivative(last(\"count\"), 1s) AS value\n  FROM \"end.count\"\n  WHERE scenario =~ /^$scenarioName$/ AND env = '$env' AND $timeFilter\n  GROUP BY time($__interval), scenario, nodeId, taskId\n)\nGROUP BY time($__interval), scenario, nodeId\n",
+          "query": "SELECT sum(value)\nFROM (\n  SELECT non_negative_derivative(last(\"count\"), 1s) AS value\n  FROM \"end.count\"\n  WHERE scenario =~ /^$scenarioName$/ AND env = '$env' AND $timeFilter\n  GROUP BY time($__interval), scenario, nodeId, instanceId\n)\nGROUP BY time($__interval), scenario, nodeId\n",
           "rawQuery": true,
           "refId": "A",
           "resultFormat": "time_series"
@@ -301,7 +301,7 @@
           "hide": false,
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT sum(value)\nFROM (\n  SELECT non_negative_derivative(last(\"count\"), 1s) AS value\n  FROM \"dead_end.count\"\n  WHERE scenario =~ /^$scenarioName$/ AND env = '$env' AND $timeFilter\n  GROUP BY time($__interval), scenario, nodeId, taskId\n)\nGROUP BY time($__interval), scenario, nodeId\n",
+          "query": "SELECT sum(value)\nFROM (\n  SELECT non_negative_derivative(last(\"count\"), 1s) AS value\n  FROM \"dead_end.count\"\n  WHERE scenario =~ /^$scenarioName$/ AND env = '$env' AND $timeFilter\n  GROUP BY time($__interval), scenario, nodeId, instanceId\n)\nGROUP BY time($__interval), scenario, nodeId\n",
           "rawQuery": true,
           "refId": "A",
           "resultFormat": "time_series"
@@ -407,7 +407,7 @@
           "dsType": "influxdb",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT sum(value)\nFROM (\n  SELECT non_negative_derivative(last(\"count\"), 1s) AS value\n  FROM \"error.instantRateByNode.count\"\n  WHERE scenario =~ /^$scenarioName$/ AND env = '$env' AND $timeFilter\n  GROUP BY time($__interval), scenario, nodeId, taskId\n)\nGROUP BY time($__interval), scenario, nodeId\n",
+          "query": "SELECT sum(value)\nFROM (\n  SELECT non_negative_derivative(last(\"count\"), 1s) AS value\n  FROM \"error.instantRateByNode.count\"\n  WHERE scenario =~ /^$scenarioName$/ AND env = '$env' AND $timeFilter\n  GROUP BY time($__interval), scenario, nodeId, instanceId\n)\nGROUP BY time($__interval), scenario, nodeId\n",
           "rawQuery": true,
           "refId": "A",
           "resultFormat": "time_series"
@@ -507,7 +507,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "alias": "[[tag_scenario]] - [[tag_operator_name]] (taskId [[tag_slot]])",
+          "alias": "[[tag_scenario]] - [[tag_taskId]] (instanceId [[tag_instanceId]])",
           "dsType": "influxdb",
           "groupBy": [
             {
@@ -524,13 +524,13 @@
             },
             {
               "params": [
-                "operator_name"
+                "taskId"
               ],
               "type": "tag"
             },
             {
               "params": [
-                "taskId"
+                "instanceId"
               ],
               "type": "tag"
             }
@@ -662,7 +662,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "alias": "[[tag_scenario]] - [[tag_nodeId]] (taskId [[tag_slot]])",
+          "alias": "[[tag_scenario]] - [[tag_nodeId]] (instanceId [[tag_instanceId]])",
           "dsType": "influxdb",
           "groupBy": [
             {
@@ -679,7 +679,7 @@
             },
             {
               "params": [
-                "taskId"
+                "instanceId"
               ],
               "type": "tag"
             },
@@ -823,7 +823,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "alias": "[[tag_scenario]] - [[tag_nodeId]] (taskId [[tag_slot]])",
+          "alias": "[[tag_scenario]] - [[tag_nodeId]] (instanceId [[tag_instanceId]])",
           "dsType": "influxdb",
           "groupBy": [
             {
@@ -846,7 +846,7 @@
             },
             {
               "params": [
-                "taskId"
+                "instanceId"
               ],
               "type": "tag"
             },
@@ -984,7 +984,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "alias": "[[tag_scenario]] - [[tag_nodeId]] (taskId [[tag_slot]])",
+          "alias": "[[tag_scenario]] - [[tag_nodeId]] (instanceId [[tag_instanceId]])",
           "dsType": "influxdb",
           "groupBy": [
             {
@@ -1001,7 +1001,7 @@
             },
             {
               "params": [
-                "taskId"
+                "instanceId"
               ],
               "type": "tag"
             },
@@ -1145,7 +1145,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "alias": "[[tag_scenario]] - [[tag_nodeId]] (taskId [[tag_slot]])",
+          "alias": "[[tag_scenario]] - [[tag_nodeId]] (instanceId [[tag_instanceId]])",
           "dsType": "influxdb",
           "groupBy": [
             {
@@ -1168,7 +1168,7 @@
             },
             {
               "params": [
-                "taskId"
+                "instanceId"
               ],
               "type": "tag"
             },
@@ -1316,7 +1316,7 @@
           "steppedLine": false,
           "targets": [
             {
-              "alias": "[[tag_scenario]] - [[tag_serviceName]] (taskId [[tag_slot]])",
+              "alias": "[[tag_scenario]] - [[tag_serviceName]] (instanceId [[tag_instanceId]])",
               "dsType": "influxdb",
               "groupBy": [
                 {
@@ -1339,7 +1339,7 @@
                 },
                 {
                   "params": [
-                    "taskId"
+                    "instanceId"
                   ],
                   "type": "tag"
                 },
@@ -1479,7 +1479,7 @@
           "steppedLine": false,
           "targets": [
             {
-              "alias": "[[tag_scenario]] - [[tag_serviceName]] (taskId [[tag_slot]])",
+              "alias": "[[tag_scenario]] - [[tag_serviceName]] (instanceId [[tag_instanceId]])",
               "dsType": "influxdb",
               "groupBy": [
                 {
@@ -1502,7 +1502,7 @@
                 },
                 {
                   "params": [
-                    "taskId"
+                    "instanceId"
                   ],
                   "type": "tag"
                 },
@@ -1646,7 +1646,7 @@
               "dsType": "influxdb",
               "orderByTime": "ASC",
               "policy": "default",
-              "query": "SELECT sum(mean)\nFROM (\n  SELECT mean(value)\n  FROM \"service.OK.instantRate\"\n  WHERE scenario =~ /^$scenarioName$/ AND env = '$env' AND $timeFilter\n  GROUP BY time($__interval), scenario, serviceName, taskId\n)\nGROUP BY time($__interval), scenario, serviceName",
+              "query": "SELECT sum(mean)\nFROM (\n  SELECT mean(value)\n  FROM \"service.OK.instantRate\"\n  WHERE scenario =~ /^$scenarioName$/ AND env = '$env' AND $timeFilter\n  GROUP BY time($__interval), scenario, serviceName, instanceId\n)\nGROUP BY time($__interval), scenario, serviceName",
               "rawQuery": true,
               "refId": "A",
               "resultFormat": "time_series"
@@ -1746,7 +1746,7 @@
           "steppedLine": false,
           "targets": [
             {
-              "alias": "[[tag_scenario]] - [[tag_serviceName]] (taskId [[tag_slot]])",
+              "alias": "[[tag_scenario]] - [[tag_serviceName]] (instanceId [[tag_instanceId]])",
               "dsType": "influxdb",
               "groupBy": [
                 {
@@ -1769,7 +1769,7 @@
                 },
                 {
                   "params": [
-                    "taskId"
+                    "instanceId"
                   ],
                   "type": "tag"
                 },
@@ -1909,7 +1909,7 @@
           "steppedLine": false,
           "targets": [
             {
-              "alias": "[[tag_scenario]] - [[tag_serviceName]] (taskId [[tag_slot]])",
+              "alias": "[[tag_scenario]] - [[tag_serviceName]] (instanceId [[tag_instanceId]])",
               "dsType": "influxdb",
               "groupBy": [
                 {
@@ -1932,7 +1932,7 @@
                 },
                 {
                   "params": [
-                    "taskId"
+                    "instanceId"
                   ],
                   "type": "tag"
                 },
@@ -2077,7 +2077,7 @@
               "hide": false,
               "orderByTime": "ASC",
               "policy": "default",
-              "query": "SELECT sum(mean)\nFROM (\n  SELECT mean(value)\n  FROM \"service.FAIL.instantRate\"\n  WHERE scenario =~ /^$scenarioName$/ AND env = '$env' AND $timeFilter\n  GROUP BY time($__interval), scenario, serviceName, taskId\n)\nGROUP BY time($__interval), scenario, serviceName",
+              "query": "SELECT sum(mean)\nFROM (\n  SELECT mean(value)\n  FROM \"service.FAIL.instantRate\"\n  WHERE scenario =~ /^$scenarioName$/ AND env = '$env' AND $timeFilter\n  GROUP BY time($__interval), scenario, serviceName, instanceId\n)\nGROUP BY time($__interval), scenario, serviceName",
               "rawQuery": true,
               "refId": "A",
               "resultFormat": "time_series"
