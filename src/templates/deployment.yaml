@@ -52,6 +52,16 @@ spec:
                   name: '{{- include "postgresql.secretName" .Subcharts.postgresql }}'
                   key: postgresql-password
             {{- end -}}
+            - name: OAUTH2_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: nu-auth
+                  key: clientId
+            - name: OAUTH2_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: nu-auth
+                  key: clientSecret
             {{- if .Values.extraEnv -}}
               {{- .Values.extraEnv | toYaml | nindent 12 -}}
             {{- end }}
