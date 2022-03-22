@@ -37,6 +37,9 @@ spec:
               mountPath: /opt/nussknacker/storage
               subPath: {{ .Values.persistence.subPath }}
             {{- end }}
+            {{- if .Values.additionalVolumeMounts }}
+              {{- toYaml .Values.additionalVolumeMounts | nindent 12 -}}
+            {{- end }}
           env:
             #TODO: make it default in NK
             - name: JDK_JAVA_OPTIONS
@@ -69,10 +72,18 @@ spec:
               port: http
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+
+
+{{- if .Values.sidecarContainers }}
+{{- toYaml .Values.sidecarContainers | nindent 6 -}}
+{{- end }}      
       volumes:
         - name: config
           configMap:
             name: {{ include "nussknacker.fullname" . }}
+        {{- if .Values.additionalVolumes }}
+          {{- toYaml .Values.additionalVolumes | nindent 8 -}}
+        {{- end }}
         - name: storage
         {{- if .Values.persistence.enabled }}
           persistentVolumeClaim:
