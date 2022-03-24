@@ -96,4 +96,6 @@ data:
     {{- range $key, $val := .Values.nussknacker.uiConfig }}
       {{ $key }}: {{ tpl ( mustToJson $val ) $ }}
     {{- end }}
-
+  {{- if .Values.designerLogbackConfig }}
+  logback.xml: {{ toYaml .Values.designerLogbackConfig | indent 2 }}
+  {{- end }}
