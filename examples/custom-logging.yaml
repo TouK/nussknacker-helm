@@ -1,0 +1,48 @@
+#This is example, showing how you can configure custom logback file and logging sidecar
+#Of course, better sidecar (like filebeat, fluentbit etc.) would be needed, along with proper file rolling
+designerLogbackConfig: |-
+    <configuration scan="true" scanPeriod="5 seconds">
+      <logger name="ch.qos.logback" level="WARN"/>
+
+      <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+          <encoder>
+              <Pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</Pattern>
+          </encoder>
+      </appender>
+      <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+        <file>${SIDECAR_LOGS_DIR}/nussknacker-designer.log</file>
+        <append>true</append>
+        <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+          <layout class="ch.qos.logback.contrib.json.classic.JsonLayout">
+              <jsonFormatter
+                  class="ch.qos.logback.contrib.jackson.JacksonJsonFormatter">
+                  <prettyPrint>false</prettyPrint>
+              </jsonFormatter>
+              <appendLineSeparator>true</appendLineSeparator>
+              <timestampFormat>yyyy-MM-dd' 'HH:mm:ss.SSS</timestampFormat>
+          </layout>
+        </encoder>
+      </appender>
+      <root level="INFO">
+          <appender-ref ref="STDOUT"/>
+          <appender-ref ref="FILE"/>
+      </root>
+
+      <logger name="pl.touk.nussknacker" level="DEBUG"/>
+    </configuration>
+sidecarContainers:
+  - name: simplistic-logging
+    image: busybox
+    args: [/bin/sh, -c, 'tail -n+1 -f /var/log/nussknacker-designer.log']
+    volumeMounts:
+    - name: varlog
+      mountPath: /var/log
+additionalVolumes:
+  - name: varlog
+    emptyDir: {} 
+additionalVolumeMounts:
+  - name: varlog
+    mountPath: /opt/nussknacker/customLog
+extraEnv:
+  - name: SIDECAR_LOGS_DIR
+    value: /opt/nussknacker/customLog    
