@@ -42,7 +42,7 @@ dependencies:
     repository: "@influxdata"
     condition: telegraf.enabled
   - name: hermes
-    version: ^0.5.4
+    version: ^0.5.5
     repository: "@touk"
     condition: hermes.enabled
 
