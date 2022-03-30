@@ -17,6 +17,10 @@ dependencies:
     version: 10.12.3
     repository: "@bitnami"
     condition: postgresql.enabled
+  - name: zookeeper
+    version: 7.4.3
+    repository: "@bitnami"
+    condition: kafka.enabled
   - name: kafka
     version: 14.2.0
     repository: "@bitnami"

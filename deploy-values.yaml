@@ -35,10 +35,11 @@ hermes:
       domain: carpinion.touk.pl
   kafkaNamespace: "{{ .Release.Name }}"
 
+zookeeper:
+  replicaCount: 1
+
 kafka:
   replicas: 1
-  zookeeper:
-    replicaCount: 1
 
 flink:
   taskmanager:
