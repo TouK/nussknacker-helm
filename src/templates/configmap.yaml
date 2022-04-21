@@ -36,6 +36,7 @@ data:
              scalingConfig: {{ tpl ( mustToJson .Values.nussknacker.scalingConfig  ) . }}
              {{- end }}
              nussknackerInstanceName: ${?HELM_RELEASE_NAME}
+             logbackConfigPath: ${?RUNTIME_LOGBACK_FILE}
              configExecutionOverrides {
                {{- if .Values.influxdb.enabled }}
                metrics {
@@ -98,4 +99,7 @@ data:
     {{- end }}
   {{- if .Values.designerLogbackConfig }}
   logback.xml: {{ toYaml .Values.designerLogbackConfig | indent 2 }}
+  {{- end }}
+  {{- if .Values.runtimeLogbackConfig }}
+  runtime-logback.xml: {{ toYaml .Values.runtimeLogbackConfig | indent 2 }}
   {{- end }}
