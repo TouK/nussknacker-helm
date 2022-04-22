@@ -7,7 +7,7 @@ replicaCount: 1
 image:
   repository: touk/nussknacker
   # By default, the tag is taken from the chart's appVersion, but you can override it with this property.
-#  tag: latest
+  #tag: latest
   pullPolicy: IfNotPresent
 
 imagePullSecrets: [ ]
