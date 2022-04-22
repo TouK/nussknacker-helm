@@ -36,6 +36,8 @@ jobs:
         run: echo "::set-output name=version::$(helm show chart ${{env.CHART_SRC_DIR}} | grep ^version | sed -e "s/.*:\ //;s/SNAPSHOT/SNAPSHOT.${{github.run_id}}/")"
       - name: buildAll
         run: ./setup.sh
+      - name: checkTemplate
+        run: helm template -f deploy-values.yaml ${{env.CHART_SRC_DIR}}
       - name: packageAll
         run: helm package ${{env.CHART_SRC_DIR}} -d dist --version "${{steps.setVersion.outputs.version}}"
       - name: Store target
