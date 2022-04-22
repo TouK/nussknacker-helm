@@ -51,7 +51,11 @@ spec:
             {{- if .Values.designerLogbackConfig }}
             - name: LOGBACK_FILE
               value: "/etc/nussknacker/logback.xml"
-            {{- end }}  
+            {{- end }}
+            {{- if .Values.runtimeLogbackConfig }}
+            - name: RUNTIME_LOGBACK_FILE
+              value: "/etc/nussknacker/runtime-logback.xml"
+            {{- end }}
             {{- if .Values.postgresql.enabled }}
             - name: DB_PASSWORD
               valueFrom:

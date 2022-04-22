@@ -45,4 +45,21 @@ additionalVolumeMounts:
     mountPath: /opt/nussknacker/customLog
 extraEnv:
   - name: SIDECAR_LOGS_DIR
-    value: /opt/nussknacker/customLog    
+    value: /opt/nussknacker/customLog
+
+#This is example of custom logging configuration passed to DeploymentManager, which is then used by runtime containers
+runtimeLogbackConfig: |-
+  <configuration scan="true" scanPeriod="5 seconds">
+    <logger name="ch.qos.logback" level="WARN"/>
+  
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <Pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</Pattern>
+        </encoder>
+    </appender>
+    <root level="INFO">
+        <appender-ref ref="STDOUT"/>
+    </root>
+    <logger name="pl.touk.nussknacker" level="DEBUG"/>
+    <logger name="org.apache.kafka" level="DEBUG"/>
+  </configuration>
