@@ -206,7 +206,7 @@ nussknacker-lite-scenario
 
 
 {{- define "nussknacker.hermesUiManagementTab" -}}
-{{- if .Values.hermes.enabled -}}
+{{- if and .Values.hermes.enabled .Values.hermes.management.ingress.enabled (not .Values.hermes.management.ingress.skipHost) -}}
     {
       "title": "Hermes"
       "id": "hermes"

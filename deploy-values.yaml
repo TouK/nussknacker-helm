@@ -13,9 +13,9 @@ resources:
 
 ingress:
   enabled: true
+  skipHost: true
   annotations:
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
-  domain: carpinion.touk.pl
 
 hermes:
   enabled: true
@@ -24,15 +24,20 @@ hermes:
   management:
     ingress:
       enabled: true
+      skipHost: true
       annotations:
         cert-manager.io/cluster-issuer: "letsencrypt-prod"
-      domain: carpinion.touk.pl
+    topic:
+      avroContentTypeMetadataRequired: false
+    console:
+      topic:
+        avroContentTypeMetadataRequired: false
   frontend:
     ingress:
       enabled: true
+      skipHost: true
       annotations:
         cert-manager.io/cluster-issuer: "letsencrypt-prod"
-      domain: carpinion.touk.pl
   kafkaNamespace: "{{ .Release.Name }}"
 
 zookeeper:
