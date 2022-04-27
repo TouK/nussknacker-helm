@@ -136,13 +136,7 @@ function setup() {
   "fields": [
     { "name": "id", "type": "string", "doc": "Message id" },
     { "name": "content", "type": "string", "doc": "Message content" },
-    { "name": "tags", "type": { "type": "array", "items": "string" }, "doc": "Message tags" },
-    {
-      "name": "__metadata",
-      "type": [ "null", { "type": "map", "values": "string" } ],
-      "default": null,
-      "doc": "Field used in Hermes internals to propagate metadata like hermes-id"
-    }
+    { "name": "tags", "type": { "type": "array", "items": "string" }, "doc": "Message tags" }
   ]
 }
 _END
