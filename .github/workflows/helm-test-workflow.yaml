@@ -9,6 +9,8 @@ on:
       - main
     tags:
       - '*'
+  workflow_dispatch:
+
 env:
   CHART_SRC_DIR: ./src
   XDG_CACHE_HOME: $GITHUB_WORKSPACE/.cache/
