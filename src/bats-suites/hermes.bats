@@ -91,6 +91,8 @@ function given_a_proxy_process() {
 
   curl ${PROCESS_URL} || curl -X POST ${PROCESS_URL%/}/Default
   export PROCESS_NAME GROUP INPUT_TOPIC OUTPUT_TOPIC
+  # Wait for schema cache invalidation. TODO: remove after setting cache expiration to 0 seconds
+  sleep 60
   cat ${BATS_TEST_DIRNAME}/testprocess.json | envsubst  | /usr/bin/curl -f -k -v -H "Authorization: ${AUTHORIZATION}" ${PROCESS_IMPORT_URL} -F process=@- | (echo '{ "comment": "created by a bats test", "process": '; cat; echo '}') | curl -X PUT ${PROCESS_URL} -d @-
 
   [[ $(curl ${PROCESS_URL%/}/status | jq -r .status.name) = RUNNING ]] && curl -X POST ${PROCESS_CANCEL_URL}
@@ -156,7 +158,7 @@ _END
   given_a_proxy_process "test proxy process for hermes"
 }
 
-@test "message should pass through the proxy process" {
+@test "message should pass through the hermes proxy process" {
   MESSAGE='{ "id": "an id", "content": "a content", "tags": [] }'
   when_a_message_has_been_posted_on_the_topic ${GROUP} ${INPUT_TOPIC} "${MESSAGE}"
   then_the_message_is_received_by_the_subscriber ${SUBSCRIBER_NAME} "${MESSAGE}"

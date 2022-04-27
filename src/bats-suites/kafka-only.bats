@@ -44,6 +44,8 @@ function given_a_proxy_process() {
   local PROCESS_IMPORT_URL=$(echo ${NUSSKNACKER_URL%/}/api/processes/import/${PROCESS_NAME} | sed -e 's/ /%20/g')
 
   curl ${PROCESS_URL} || curl -X POST ${PROCESS_URL%/}/Default
+    # Wait for schema cache invalidation. TODO: remove after setting cache expiration to 0 seconds
+    sleep 60
   echo ${PROCESS_OBJECT} | /usr/bin/curl -f -k -v -H "Authorization: ${AUTHORIZATION}" ${PROCESS_IMPORT_URL} -F process=@- | (echo '{ "comment": "created by a bats test", "process": '; cat; echo '}') | curl -X PUT ${PROCESS_URL} -d @-
 
   [[ $(curl ${PROCESS_URL%/}/status | jq -r .status.name) = RUNNING ]] && curl -X POST ${PROCESS_CANCEL_URL}
@@ -113,7 +115,7 @@ _END
   given_a_proxy_process "${PROCESS_NAME}" "$(cat ${BATS_TEST_DIRNAME%/}/testprocess.json | envsubst)"
 }
 
-@test "message should pass through the proxy process" {
+@test "message should pass through the kafka only proxy process" {
   local ID=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
   when_a_message_has_been_posted_on_the_topic "${KAFKA_NAMESPACE}_${GROUP}.$INPUT_TOPIC" ${ID}
   then_the_message_can_be_consumed_from_the_topic "${KAFKA_NAMESPACE}_${GROUP}.$OUTPUT_TOPIC" ${ID}

@@ -5,7 +5,7 @@ metadata:
   annotations:
     "helm.sh/hook": test
 spec:
-  activeDeadlineSeconds: 420
+  activeDeadlineSeconds: 600
   backoffLimit: 0
   template:
     spec:
