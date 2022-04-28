@@ -32,11 +32,6 @@ spec:
           volumeMounts:
             - name: config
               mountPath: /etc/nussknacker
-            {{- if .Values.persistence.enabled }}
-            - name: storage
-              mountPath: /opt/nussknacker/storage
-              subPath: {{ .Values.persistence.subPath }}
-            {{- end }}
             {{- if .Values.additionalVolumeMounts }}
               {{- toYaml .Values.additionalVolumeMounts | nindent 12 -}}
             {{- end }}
@@ -89,13 +84,6 @@ spec:
             name: {{ include "nussknacker.fullname" . }}
         {{- if .Values.additionalVolumes }}
           {{- toYaml .Values.additionalVolumes | nindent 8 -}}
-        {{- end }}
-        - name: storage
-        {{- if .Values.persistence.enabled }}
-          persistentVolumeClaim:
-            claimName: {{ .Values.persistence.existingClaim | default (include "nussknacker.fullname" .) }}
-        {{- else }}
-          emptyDir: {}
         {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
