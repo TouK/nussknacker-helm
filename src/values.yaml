@@ -42,6 +42,7 @@ service:
   port: 80
 
 persistence:
+  ## enable if you are using HSQLDB instead of Postgres
   enabled: false
   ## A manually managed Persistent Volume and Claim
   ## If defined, PVC must be created manually before volume will be bound
