@@ -44,8 +44,6 @@ function given_a_proxy_process() {
   local PROCESS_IMPORT_URL=$(echo ${NUSSKNACKER_URL%/}/api/processes/import/${PROCESS_NAME} | sed -e 's/ /%20/g')
 
   curl ${PROCESS_URL} || curl -X POST ${PROCESS_URL%/}/Default
-    # Wait for schema cache invalidation. TODO: remove after setting cache expiration to 0 seconds
-    sleep 60
   echo ${PROCESS_OBJECT} | /usr/bin/curl -f -k -v -H "Authorization: ${AUTHORIZATION}" ${PROCESS_IMPORT_URL} -F process=@- | (echo '{ "comment": "created by a bats test", "process": '; cat; echo '}') | curl -X PUT ${PROCESS_URL} -d @-
 
   [[ $(curl ${PROCESS_URL%/}/status | jq -r .status.name) = RUNNING ]] && curl -X POST ${PROCESS_CANCEL_URL}

@@ -91,8 +91,6 @@ function given_a_proxy_process() {
 
   curl ${PROCESS_URL} || curl -X POST ${PROCESS_URL%/}/Default
   export PROCESS_NAME GROUP INPUT_TOPIC OUTPUT_TOPIC
-  # Wait for schema cache invalidation. TODO: remove after setting cache expiration to 0 seconds
-  sleep 60
   cat ${BATS_TEST_DIRNAME}/testprocess.json | envsubst  | /usr/bin/curl -f -k -v -H "Authorization: ${AUTHORIZATION}" ${PROCESS_IMPORT_URL} -F process=@- | (echo '{ "comment": "created by a bats test", "process": '; cat; echo '}') | curl -X PUT ${PROCESS_URL} -d @-
 
   [[ $(curl ${PROCESS_URL%/}/status | jq -r .status.name) = RUNNING ]] && curl -X POST ${PROCESS_CANCEL_URL}
