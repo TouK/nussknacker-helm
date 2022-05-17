@@ -56,6 +56,10 @@ spec:
             - name: RUNTIME_LOGBACK_FILE
               value: "/etc/nussknacker/runtime-logback.xml"
             {{- end }}
+            {{- if .Values.prometheusMetrics.enabled }}
+            - name: PROMETHEUS_METRICS_PORT
+              value: {{ .Values.prometheusMetrics.port | quote }}
+            {{- end }}
             {{- if .Values.postgresql.enabled }}
             - name: DB_PASSWORD
               valueFrom:
@@ -70,6 +74,11 @@ spec:
             - name: http
               containerPort: 8080
               protocol: TCP
+            {{ if .Values.prometheusMetrics.enabled }}
+            - name: prometheus
+              containerPort: {{ .Values.prometheusMetrics.port }}
+              protocol: TCP
+            {{ end }}
           livenessProbe:
             httpGet:
               path: /

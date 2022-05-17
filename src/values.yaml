@@ -116,6 +116,11 @@ nussknacker:
       #NOTE: all categories have to point to 'default' scenarioType!
       Default: "default"
 
+prometheusMetrics:
+  enabled: false
+  port: 9000
+  servicePort: 9000
+
 postgresql:
   enabled: true
   volumePermissions:
