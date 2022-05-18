@@ -5,10 +5,10 @@ metadata:
   labels:
     {{- include "nussknacker.labels" . | nindent 4 }}
   annotations:
-  {{ if .Values.prometheusMetrics.enabled }}
-    prometheus.io/port: {{ .Values.prometheusMetrics.servicePort | quote }}
-    prometheus.io/scrape: "true"
+  {{- range $k, $v := .Values.service.annotations }}
+    {{ $k | indent 4 }}: {{ $v | quote }}
   {{ end }}
+
 spec:
   type: {{ .Values.service.type }}
   ports:
@@ -17,7 +17,7 @@ spec:
       protocol: TCP
       name: http
     {{ if .Values.prometheusMetrics.enabled }}
-    - port: {{ .Values.prometheusMetrics.servicePort }}
+    - port: {{ .Values.prometheusMetrics.port }}
       name: prometheus
       targetPort: prometheus
       protocol: TCP

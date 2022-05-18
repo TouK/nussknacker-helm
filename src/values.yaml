@@ -40,6 +40,7 @@ securityContext:
 service:
   type: ClusterIP
   port: 80
+  annotations:
 
 persistence:
   ## enable if you are using HSQLDB instead of Postgres
@@ -119,7 +120,6 @@ nussknacker:
 prometheusMetrics:
   enabled: false
   port: 9000
-  servicePort: 9000
 
 postgresql:
   enabled: true
