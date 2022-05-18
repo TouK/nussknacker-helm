@@ -40,6 +40,7 @@ securityContext:
 service:
   type: ClusterIP
   port: 80
+  annotations:
 
 persistence:
   ## enable if you are using HSQLDB instead of Postgres
@@ -115,6 +116,10 @@ nussknacker:
     categoriesConfig:
       #NOTE: all categories have to point to 'default' scenarioType!
       Default: "default"
+
+prometheusMetrics:
+  enabled: false
+  port: 9000
 
 postgresql:
   enabled: true

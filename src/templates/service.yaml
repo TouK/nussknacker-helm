@@ -4,6 +4,11 @@ metadata:
   name: {{ include "nussknacker.fullname" . }}
   labels:
     {{- include "nussknacker.labels" . | nindent 4 }}
+  annotations:
+  {{- range $k, $v := .Values.service.annotations }}
+    {{ $k | indent 4 }}: {{ $v | quote }}
+  {{ end }}
+
 spec:
   type: {{ .Values.service.type }}
   ports:
@@ -11,5 +16,11 @@ spec:
       targetPort: http
       protocol: TCP
       name: http
+    {{ if .Values.prometheusMetrics.enabled }}
+    - port: {{ .Values.prometheusMetrics.port }}
+      name: prometheus
+      targetPort: prometheus
+      protocol: TCP
+    {{ end }}
   selector:
     {{- include "nussknacker.selectorLabels" . | nindent 4 }}
