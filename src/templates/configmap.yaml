@@ -32,6 +32,11 @@ data:
              dockerImageName: {{- .Values.nussknacker.runtimeImage.repository }}
              dockerImageTag: {{- .Values.nussknacker.runtimeImage.tag }}
              {{- end }}
+             {{- if .Values.prometheusMetrics.enabled }}
+             prometheusMetrics:
+                enabled: true
+                port: {{ .Values.prometheusMetrics.port }}
+             {{- end }}
              {{- if .Values.nussknacker.scalingConfig }}
              scalingConfig: {{ tpl ( mustToJson .Values.nussknacker.scalingConfig  ) . }}
              {{- end }}
