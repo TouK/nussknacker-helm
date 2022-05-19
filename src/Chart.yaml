@@ -39,7 +39,7 @@ dependencies:
     repository: "@grafana"
     condition: grafana.enabled
   - name: influxdb
-    version: ~4.10.0
+    version: ~4.12.0
     repository: "@influxdata"
     condition: influxdb.enabled
   - name: telegraf
