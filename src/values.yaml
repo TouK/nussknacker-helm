@@ -116,7 +116,8 @@ nussknacker:
     categoriesConfig:
       #NOTE: all categories have to point to 'default' scenarioType!
       Default: "default"
-
+  #Use it if you want to skip default kafka configuration and provide your own    
+  skipKafkaConfig: false
 prometheusMetrics:
   enabled: false
   port: 9000
@@ -222,3 +223,6 @@ global:
   schemaRegistry:
     name: apicurio-registry
     path: /apis/ccompat/v6/
+
+#Extra resources to deploy
+extraDeploy: []
