@@ -86,12 +86,12 @@ jobs:
             --config=.k3d/single-cluster.yml
             --trace
       - name: helmUpgrade
-        run: helm upgrade -i "${{env.RELEASE_NAME}}" dist/*.tgz --version "${{needs.build.outputs.version}}" --wait --debug -f deploy-values.yaml -f deploy-values-lite.yaml  
+        run: helm upgrade -i "${{env.RELEASE_NAME}}" dist/*.tgz --version "${{needs.build.outputs.version}}" --wait --debug -f deploy-values.yaml -f deploy-values-lite.yaml
       - name: helmTestRelease
         run: ./test.sh "${{env.RELEASE_NAME}}"
   publish-snapshot:
     name: publish-snapshot
-    if: ${{ github.ref == 'refs/heads/main'}}
+    if: ${{ github.ref == 'refs/heads/main' || startsWith(github.head_ref, 'preview/') }}
     runs-on: ubuntu-latest
     needs: [ build, test-flink, test-streaming-lite ]
     steps:
