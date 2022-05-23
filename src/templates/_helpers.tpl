@@ -224,3 +224,14 @@ LiteStreamMetaData
 {{- .Values.nussknacker.scenarioType }}
 {{- end -}}
 {{- end -}}
+
+{{/*
+Taken from https://github.com/bitnami/charts/blob/9401e13316992c36b0e33de75d5f249645a2924e/bitnami/common/templates/_tplvalues.tpl
+*/}}
+{{- define "common.tplvalues.render" -}}
+    {{- if typeIs "string" .value }}
+        {{- tpl .value .context }}
+    {{- else }}
+        {{- tpl (.value | toYaml) .context }}
+    {{- end }}
+{{- end -}}
