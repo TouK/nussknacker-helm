@@ -67,6 +67,14 @@ persistence:
   size: 1Gi
   annotations: { }
 
+deployment:
+  startupProbe:
+    periodSeconds: 3
+    failureThreshold: 40
+  livenessProbe:
+    periodSeconds: 5
+    failureThreshold: 3
+
 ingress:
   skipHost: false
   enabled: false
