@@ -86,10 +86,14 @@ spec:
             httpGet:
               path: /
               port: http
-          readinessProbe:
+            periodSeconds: {{ .Values.deployment.livenessProbe.periodSeconds }}
+            failureThreshold: {{ .Values.deployment.livenessProbe.failureThreshold }}
+          startupProbe:
             httpGet:
               path: /
               port: http
+            periodSeconds: {{ .Values.deployment.startupProbe.periodSeconds }}
+            failureThreshold: {{ .Values.deployment.startupProbe.failureThreshold }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- if .Values.sidecarContainers -}}
