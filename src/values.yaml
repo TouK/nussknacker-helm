@@ -215,13 +215,6 @@ telegraf:
     #We suppress default influxDB configuration from chart, as we cannot easily template influxdb url
     outputs: []
 
-hermes:
-  enabled: false
-  kafka:
-    enabled: false
-  apicurio-registry:
-    enabled: false
-
 global:
   kafka:
     name: kafka

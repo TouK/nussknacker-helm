@@ -58,7 +58,6 @@ provided outside. The table below lists components and their roles
 | Schema Registry | Registry of AVRO schemas                                                  | true               |
 | InfluxDB        | Metrics database                                                          | true               |
 | Grafana         | Metrics frontend                                                          | true               |
-| Hermes          | Additional component enabling sending/receiving Kafka events via REST API | false              |
 | Flink           | Runtime for Nussknacker jobs                                              | true               |
 | Telegraf        | Relay passing metrics from Flink to InfluxDB                              | true               |
 
