@@ -68,7 +68,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: '{{- include "postgresql.secretName" .Subcharts.postgresql }}'
-                  key: postgresql-password
+                  key: postgres-password
             {{- end -}}
             {{- if .Values.extraEnv -}}
               {{- .Values.extraEnv | toYaml | nindent 12 -}}
