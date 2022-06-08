@@ -28,7 +28,7 @@ helm install my-nussknacker touk/nussknacker --set ingress.enabled=true
 Upgrade the Chart
 -------
 ```
-kubectl create secret generic nussknacker-postgresql --from-literal postgresql-password=`date +%s | sha256sum | base64 | head -c 32`
+kubectl create secret generic nussknacker-postgresql --from-literal postgres-password=`date +%s | sha256sum | base64 | head -c 32`
 helm upgrade --set postgresql.existingSecret=nussknacker-postgresql my-nussknacker touk/nussknacker
 ```
 

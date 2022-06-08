@@ -77,7 +77,7 @@ Create the name of the service account to use
 
 {{- define "nussknacker.kafkaBootstrapServers" -}}
 {{- if .Values.kafka.enabled }}
-{{- include "kafka.fullname" .Subcharts.kafka }}:{{- .Values.kafka.service.port }}
+{{- include "common.names.fullname" .Subcharts.kafka }}:{{- .Values.kafka.service.ports.client }}
 {{- else -}}
 {{- required "Enable Kafka or provide global values for bootstrap servers." (include "nussknacker.globalKafkaBootstrapServers" . | trim) }}
 {{- end }}
