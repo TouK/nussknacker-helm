@@ -46,9 +46,3 @@ dependencies:
     version: ~1.8.5
     repository: "@influxdata"
     condition: telegraf.enabled
-  - name: hermes
-    # Hermes introduces breaking changes between patch version so fixing it will be more secure
-    version: 0.5.7
-    repository: "@touk"
-    condition: hermes.enabled
-

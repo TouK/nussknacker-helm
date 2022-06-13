@@ -204,18 +204,6 @@ nussknacker-lite-scenario
     }
 {{- end -}}
 
-
-{{- define "nussknacker.hermesUiManagementTab" -}}
-{{- if and .Values.hermes.enabled .Values.hermes.management.ingress.enabled (not .Values.hermes.management.ingress.skipHost) -}}
-    {
-      "title": "Hermes"
-      "id": "hermes"
-      "type": "IFrame"
-      "url": "{{ include "hermes.management.svcExternalUrl" (dict "Chart" (dict "Name" "hermes") "Values" .Values.hermes "Release" .Release "Capabilities" .Capabilities) }}"
-    }
-{{- end -}}
-{{- end -}}
-
 {{- define "nussknacker.scenarioType" -}}
 {{- if eq .Values.nussknacker.mode "flink" -}}
 StreamMetaData

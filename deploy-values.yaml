@@ -17,29 +17,6 @@ ingress:
   annotations:
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
 
-hermes:
-  enabled: true
-  imagePullSecrets:
-    - name: gitlab-registry
-  management:
-    ingress:
-      enabled: true
-      skipHost: true
-      annotations:
-        cert-manager.io/cluster-issuer: "letsencrypt-prod"
-    topic:
-      avroContentTypeMetadataRequired: false
-    console:
-      topic:
-        avroContentTypeMetadataRequired: false
-  frontend:
-    ingress:
-      enabled: true
-      skipHost: true
-      annotations:
-        cert-manager.io/cluster-issuer: "letsencrypt-prod"
-  kafkaNamespace: "{{ .Release.Name }}"
-
 zookeeper:
   replicaCount: 1
 
