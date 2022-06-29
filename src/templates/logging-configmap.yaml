@@ -1,0 +1,16 @@
+{{ if (include "nussknacker.customLogbackConfig" .) }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "nussknacker.fullname" . }}-logging-conf
+  labels:
+    nussknacker.io/resourceType: "logging-conf"
+    {{- include "nussknacker.labels" . | nindent 4 }}
+data:
+  {{- if .Values.designerLogbackConfig }}
+  logback.xml: {{ toYaml .Values.designerLogbackConfig | indent 2 }}
+  {{- end }}
+  {{- if .Values.runtimeLogbackConfig }}
+  runtime-logback.xml: {{ toYaml .Values.runtimeLogbackConfig | indent 2 }}
+  {{- end }}
+{{end}}
