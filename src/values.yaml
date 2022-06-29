@@ -109,6 +109,7 @@ db:
 
 nussknacker:
   mode: "flink"
+  javaOpts: ""
   #override it if you want to provide own config file and override one provided via configmap.yaml
   configFile: /etc/nussknacker/application.conf
   flinkConfig:
