@@ -35,6 +35,10 @@ spec:
           volumeMounts:
             - name: config
               mountPath: /etc/nussknacker
+            {{- if (include "nussknacker.customLogbackConfig" .) }}
+            - name: logging-config
+              mountPath: /etc/logging
+            {{- end }}
             {{- if .Values.persistence.enabled }}
             - name: storage
               mountPath: /opt/nussknacker/storage
@@ -53,11 +57,11 @@ spec:
               value: {{ .Release.Name }}
             {{- if .Values.designerLogbackConfig }}
             - name: LOGBACK_FILE
-              value: "/etc/nussknacker/logback.xml"
+              value: "/etc/logging/logback.xml"
             {{- end }}
             {{- if .Values.runtimeLogbackConfig }}
             - name: RUNTIME_LOGBACK_FILE
-              value: "/etc/nussknacker/runtime-logback.xml"
+              value: "/etc/logging/runtime-logback.xml"
             {{- end }}
             {{- if .Values.prometheusMetrics.enabled }}
             - name: PROMETHEUS_METRICS_PORT
@@ -103,6 +107,11 @@ spec:
         - name: config
           configMap:
             name: {{ include "nussknacker.fullname" . }}
+        {{- if (include "nussknacker.customLogbackConfig" .) }}
+        - name: logging-config
+          configMap:
+            name: {{ include "nussknacker.fullname" . }}-logging-conf
+        {{- end }}
         {{- if .Values.additionalVolumes }}
           {{- toYaml .Values.additionalVolumes | nindent 8 -}}
         {{- end }}

@@ -213,6 +213,10 @@ LiteStreamMetaData
 {{- end -}}
 {{- end -}}
 
+{{- define "nussknacker.customLogbackConfig" -}}
+{{ or .Values.designerLogbackConfig .Values.runtimeLogbackConfig}}
+{{- end -}}
+
 {{/*
 Taken from https://github.com/bitnami/charts/blob/9401e13316992c36b0e33de75d5f249645a2924e/bitnami/common/templates/_tplvalues.tpl
 */}}
