@@ -92,6 +92,8 @@ data:
         }
     {{- end }}
 
+    tabs: ${tabs} {{ tpl ( mustToJson (.Values.nussknacker.customTabs | default list) ) . }}
+
     {{- if .Values.nussknacker.authentication }}
     authentication: {{ tpl ( mustToJson .Values.nussknacker.authentication ) . }}
     {{- end }}
