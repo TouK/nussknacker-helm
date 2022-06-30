@@ -48,9 +48,8 @@ spec:
               {{- toYaml .Values.additionalVolumeMounts | nindent 12 -}}
             {{- end }}
           env:
-            #TODO: make it default in NK
             - name: JDK_JAVA_OPTIONS
-              value: -Dconfig.override_with_env_vars=true
+              value: {{ .Values.nussknacker.javaOpts }}
             - name: CONFIG_FILE
               value: {{ .Values.nussknacker.configFile }}
             - name: HELM_RELEASE_NAME
