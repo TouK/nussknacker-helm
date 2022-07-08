@@ -43,6 +43,9 @@ data:
              {{- end }}
              nussknackerInstanceName: ${?HELM_RELEASE_NAME}
              logbackConfigPath: ${?RUNTIME_LOGBACK_FILE}
+             {{- with .Values.runtimeCommonConfigMapForLogback }}
+             commonConfigMapForLogback: {{ . }}
+             {{- end }}
              configExecutionOverrides {
                {{- if .Values.influxdb.enabled }}
                metrics {
@@ -77,7 +80,7 @@ data:
               }
             }
             {{- end }}
-          }{{ tpl ( mustToJson .Values.nussknacker.modelConfig ) . }}
+          }{{ if .Values.nussknacker.modelConfig }} {{ tpl ( mustToJson .Values.nussknacker.modelConfig ) . }} {{ end }}
       }
     }
 
