@@ -117,6 +117,7 @@ nussknacker:
     #Have to be provided if Flink not enabled
     #restUrl:
     #queryableStateProxyUrl:
+  modelConfig: {}
   uiConfig:
     environment: "default"
     environmentAlert:
