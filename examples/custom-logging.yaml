@@ -63,3 +63,5 @@ runtimeLogbackConfig: |-
     <logger name="pl.touk.nussknacker" level="DEBUG"/>
     <logger name="org.apache.kafka" level="DEBUG"/>
   </configuration>
+  
+runtimeCommonConfigMapForLogback: common-runtime-logback-conf
