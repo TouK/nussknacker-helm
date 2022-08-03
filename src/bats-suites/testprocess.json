@@ -22,9 +22,9 @@
   },
   "nodes": [
     {
-      "id": "kafka-avro-source",
+      "id": "kafka-source",
       "ref": {
-        "typ": "kafka-avro",
+        "typ": "kafka",
         "parameters": [
           {
             "name": "Topic",
@@ -52,24 +52,10 @@
       "type": "Source"
     },
     {
-      "id": "kafka-avro-sink-raw",
+      "id": "kafka-sink",
       "ref": {
-        "typ": "kafka-avro-raw",
+        "typ": "kafka",
         "parameters": [
-          {
-            "name": "Key",
-            "expression": {
-              "language": "spel",
-              "expression": ""
-            }
-          },
-          {
-            "name": "Value",
-            "expression": {
-              "language": "spel",
-              "expression": "#input"
-            }
-          },
           {
             "name": "Topic",
             "expression": {
@@ -85,10 +71,31 @@
             }
           },
           {
-            "name": "Value validation mode",
+            "name" : "Key",
+            "expression" : {
+              "language" : "spel",
+              "expression" : ""
+            }
+          },
+          {
+            "name" : "Raw editor",
+            "expression" : {
+              "language" : "spel",
+              "expression" : "true"
+            }
+          },
+          {
+            "name" : "Value validation mode",
+            "expression" : {
+              "language" : "spel",
+              "expression" : "'strict'"
+            }
+          },
+          {
+            "name": "Value",
             "expression": {
               "language": "spel",
-              "expression": "'allowRedundantAndOptional'"
+              "expression": "#input"
             }
           }
         ]
