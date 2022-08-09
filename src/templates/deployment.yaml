@@ -73,6 +73,18 @@ spec:
                   name: '{{- include "postgresql.secretName" .Subcharts.postgresql }}'
                   key: postgres-password
             {{- end -}}
+            {{- if .Values.influxdb.enabled }}
+            - name: INFLUXDB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: '{{- include "influxdb.fullname" .Subcharts.influxdb }}-auth'
+                  key: influxdb-password
+            - name: INFLUXDB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: '{{- include "influxdb.fullname" .Subcharts.influxdb }}-auth'
+                  key: influxdb-user
+            {{- end -}}
             {{- if .Values.extraEnv -}}
               {{- .Values.extraEnv | toYaml | nindent 12 -}}
             {{- end }}
