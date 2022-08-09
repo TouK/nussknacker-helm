@@ -190,14 +190,23 @@ grafana:
       enabled: true
     datasources:
       enabled: true
+  envFromSecret: "{{ .Release.Name }}-influxdb-auth"
   ingress:
     enabled: false
 
 influxdb:
   enabled: true
+  config:
+    http:
+      auth-enabled: true
   env:
     - name: INFLUXDB_DB
       value: "nussknacker"
+  setDefaultUser:
+    enabled: true
+    user:
+      username: nussknacker
+      password: changeme
 
 telegraf:
   enabled: true

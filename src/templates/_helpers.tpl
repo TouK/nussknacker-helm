@@ -193,8 +193,8 @@ nussknacker-lite-scenario
 
 {{- define "nussknacker.influxDbConfig" -}}
     {
-      "user": "admin"
-      "password": "admin"
+      "user": ${INFLUXDB_USER}
+      "password": ${INFLUXDB_PASSWORD}
       "influxUrl": "{{- include "nussknacker.influxUrl" . -}}/query"
       "database": "nussknacker"
       {{- if eq .Values.nussknacker.mode "flink" -}}

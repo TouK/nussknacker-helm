@@ -16,10 +16,10 @@ data:
       orgId: 1
       url: {{ include "nussknacker.influxUrl" .}}
       database: nussknacker
-      basicAuth: false
-      withCredentials: false
+      basicAuth: true
       isDefault: true
       version: 1
       editable: false
-
+      user: ${influxdb-user}
+      password: ${influxdb-password}
 {{- end }}
