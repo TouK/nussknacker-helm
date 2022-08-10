@@ -20,6 +20,7 @@ data:
       isDefault: true
       version: 1
       editable: false
-      user: ${influxdb-user}
-      password: ${influxdb-password}
+      basicAuthUser: ${influxdb-user}
+      secureJsonData:
+        basicAuthPassword: ${influxdb-password} 
 {{- end }}
