@@ -52,7 +52,9 @@ data:
                  environment: ${environment},
                  influx {
                    url: "{{ include "nussknacker.influxUrl" .}}/write",
-                   database: "nussknacker"
+                   database: "nussknacker"               
+                   username: ${INFLUXDB_USER}
+                   password: ${INFLUXDB_PASSWORD}
                  }
                }
                {{- end }}
