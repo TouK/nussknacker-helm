@@ -1,7 +1,7 @@
 dependencies:
 - name: postgresql
   repository: https://charts.bitnami.com/bitnami
-  version: 11.6.6
+  version: 11.6.26
 - name: zookeeper
   repository: https://charts.bitnami.com/bitnami
   version: 9.2.7
@@ -10,18 +10,18 @@ dependencies:
   version: 17.2.6
 - name: apicurio-registry
   repository: https://helm-charts.touk.pl/public/
-  version: 0.1.3
+  version: 0.1.5
 - name: flink
   repository: https://riskfocus.github.io/helm-charts-public/
   version: 0.2.0
 - name: grafana
   repository: https://grafana.github.io/helm-charts
-  version: 6.29.11
+  version: 6.32.14
 - name: influxdb
   repository: https://helm.influxdata.com/
   version: 4.12.0
 - name: telegraf
   repository: https://helm.influxdata.com/
-  version: 1.8.18
-digest: sha256:594e21f26240ceb16f58e657fcdd77d982ef002a6392ccf10e12017d92072f35
-generated: "2022-06-14T13:54:32.194031246+02:00"
+  version: 1.8.19
+digest: sha256:938aa43ac071dc623cff5eadd0dbdd5cf56c15524d05f1d91d360be63131e2b2
+generated: "2022-08-16T18:15:41.733845+02:00"
