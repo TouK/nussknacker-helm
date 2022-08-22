@@ -23,7 +23,11 @@ spec:
             - /usr/local/bin/bats
           args:
             - -t
+            {{- if eq .Values.nussknacker.mode "request-response-lite" }}
+            - //suites/rr-only.bats
+            {{- else }}
             - //suites/kafka-only.bats
+            {{- end }}
           env:
             - name: NUSSKNACKER_URL
               value: "http://{{ include "nussknacker.fullname" . }}:{{ .Values.service.port }}"
@@ -37,6 +41,10 @@ spec:
               value: "{{ include "nussknacker.scenarioType" . }}"  
             - name: SCHEMA_REGISTRY_URL
               value: "{{ include "nussknacker.schemaRegistryUrl" . }}"
+            {{- if eq .Values.nussknacker.mode "request-response-lite" }}
+            - name: SCENARIO_URL
+              value: "http://{{ .Release.Name }}-test-scenario-for-rr-only:{{ .Values.nussknacker.requestResponse.servicePort }}/scenario/test-scenario-for-rr-only"
+            {{- end }}
           volumeMounts:
             - name: suites
               mountPath: /suites

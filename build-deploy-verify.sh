@@ -12,6 +12,8 @@ shift
 cd "$(dirname "$0")" && rm -rf dist/
 helm package -d dist/ src/
 kubectl get secret "$RELEASE-postgresql" || cat postgres-secret.yaml | POSTGRES_PASSWORD=`date +%s | sha256sum | base64 | head -c 32` RELEASE=$RELEASE MAYBE_NAMESPACE=`kubectl config view --minify -o jsonpath='{..namespace}'` NAMESPACE=${MAYBE_NAMESPACE:-default} envsubst | kubectl apply -f -
+
+sleep 5
 helm upgrade -i "${RELEASE}" dist/*.tgz \
   --wait \
   --set ingress.skipHost=true \

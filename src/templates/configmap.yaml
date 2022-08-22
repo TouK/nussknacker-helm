@@ -22,15 +22,19 @@ data:
              queryableStateProxyUrl: "{{ include "nussknacker.flinkTaskManagerUrl" . }}"
           } {{ tpl (.Values.nussknacker.flinkConfig | mustToJson) . }}
 
-          {{- else if eq .Values.nussknacker.mode "streaming-lite" }}
+          {{- else if or (eq .Values.nussknacker.mode "streaming-lite") (eq .Values.nussknacker.mode "request-response-lite") }}
           deploymentConfig: {
-             type: "streaming-lite-k8s"
+             type: "lite-k8s"
+             mode: {{ .Values.nussknacker.mode | replace "-lite" "" }}
              {{- if .Values.nussknacker.k8sDeploymentConfig }}
              k8sDeploymentConfig: {{ tpl ( mustToJson .Values.nussknacker.k8sDeploymentConfig ) . }}
              {{- end }}
              {{- if .Values.nussknacker.runtimeImage }}
              dockerImageName: {{- .Values.nussknacker.runtimeImage.repository }}
              dockerImageTag: {{- .Values.nussknacker.runtimeImage.tag }}
+             {{- end }}
+             {{- if eq .Values.nussknacker.mode "request-response-lite" }}
+             servicePort: {{ .Values.nussknacker.requestResponse.servicePort }}
              {{- end }}
              {{- if .Values.prometheusMetrics.enabled }}
              prometheusMetrics: {
@@ -81,6 +85,29 @@ data:
                 "schema.registry.url": "{{ include "nussknacker.schemaRegistryUrl" . }}"
               }
             }
+            {{- else if eq .Values.nussknacker.mode "request-response-lite" }}
+            additionalPropertiesConfig {
+              inputSchema: {
+                label: "Input schema"
+                editor: {
+                    type: "JsonParameterEditor"
+                }
+                validators: [
+                  { type: "MandatoryParameterValidator" }
+                ]
+                defaultValue: "{}"
+              }
+              outputSchema: {
+                label: "Output schema"
+                editor: {
+                    type: "JsonParameterEditor"
+                }
+                validators: [
+                  { type: "MandatoryParameterValidator" }
+                ]
+                defaultValue: "{}"
+              }
+            }
             {{- end }}
           }{{ tpl ( mustToJson .Values.nussknacker.modelConfig ) . }}
       }
@@ -91,10 +118,10 @@ data:
     {{- end }}
 
     {{- if .Values.grafana.enabled }}
-        metricsSettings: {
-          url: "{{ include "nussknacker.grafanaUrl" .}}/d/$dashboard?theme=dark&var-scenarioName=$scenarioName&var-env="${environment}
-          defaultDashboard: "{{ include "nussknacker.defaultDashboard" .}}"
-        }
+    metricsSettings: {
+      url: "{{ include "nussknacker.grafanaUrl" .}}/d/$dashboard?theme=dark&var-scenarioName=$scenarioName&var-env="${environment}
+      defaultDashboard: "{{ include "nussknacker.defaultDashboard" .}}"
+    }
     {{- end }}
 
     tabs: ${tabs} {{ tpl ( mustToJson (.Values.nussknacker.customTabs | default list) ) . }}
@@ -105,5 +132,5 @@ data:
 
     {{/* We have to iterate over first level of passed uiConfig to embed in .conf properly...  */}}
     {{- range $key, $val := .Values.nussknacker.uiConfig }}
-      {{ $key }}: {{ tpl ( mustToJson $val ) $ }}
+    {{ $key }}: {{ tpl ( mustToJson $val ) $ }}
     {{- end }}

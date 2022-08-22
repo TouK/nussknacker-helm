@@ -175,6 +175,8 @@ http://{{ include "apicurio-registry.fullname" ( index .Subcharts "apicurio-regi
 nussknacker-scenario
 {{- else if eq .Values.nussknacker.mode "streaming-lite" -}}
 nussknacker-lite-scenario
+{{- else if eq .Values.nussknacker.mode "request-response-lite" -}}
+nussknacker-request-response-lite-scenario
 {{- else -}}
 {{- .Values.nussknacker.defaultDashboard }}
 {{- end -}}
@@ -187,6 +189,8 @@ nussknacker-lite-scenario
 ["model/defaultModel.jar", "model/flinkExecutor.jar", "components/flink", "components/common"]
 {{- else if eq .Values.nussknacker.mode "streaming-lite" -}}
 ["model/defaultModel.jar", "components/lite/liteBase.jar", "components/lite/liteKafka.jar", "components/common"]
+{{- else if eq .Values.nussknacker.mode "request-response-lite" -}}
+["model/defaultModel.jar", "components/lite/liteBase.jar", "components/lite/liteRequestResponse.jar", "components/common"]
 {{- end -}}
 {{- end -}}
 
@@ -209,7 +213,8 @@ nussknacker-lite-scenario
 StreamMetaData
 {{- else if eq .Values.nussknacker.mode "streaming-lite" -}}
 LiteStreamMetaData
-{{- .Values.nussknacker.scenarioType }}
+{{- else if eq .Values.nussknacker.mode "request-response-lite" -}}
+RequestResponseMetaData
 {{- end -}}
 {{- end -}}
 

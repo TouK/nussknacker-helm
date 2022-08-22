@@ -1,0 +1,64 @@
+{
+  "metaData" : {
+    "id" : "test-scenario-for-rr-only",
+    "typeSpecificData" : {
+      "path" : "test-scenario-for-rr-only",
+      "type" : "RequestResponseMetaData"
+    },
+    "additionalFields" : {
+      "description" : null,
+      "properties" : {
+        "inputSchema" : "{\n  \"title\": \"Product\",\n  \"description\": \"A product from Acme's catalog\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"productId\": {\n      \"description\": \"The unique identifier for a product\",\n      \"type\": \"integer\"\n    }\n  },\n  \"required\": [ \"productId\" ]\n}",
+        "outputSchema" : "{\n  \"title\": \"Product\",\n  \"description\": \"A product from Acme's catalog\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"productId\": {\n      \"description\": \"The unique identifier for a product\",\n      \"type\": \"integer\"\n    }\n  },\n  \"required\": [ \"productId\" ]\n}"
+      }
+    },
+    "subprocessVersions" : {
+      
+    }
+  },
+  "nodes" : [
+    {
+      "id" : "request",
+      "ref" : {
+        "typ" : "request",
+        "parameters" : [
+        ]
+      },
+      "additionalFields" : {
+        "description" : null,
+        "layoutData" : {
+          "x" : 0,
+          "y" : 0
+        }
+      },
+      "type" : "Source"
+    },
+    {
+      "id" : "response",
+      "ref" : {
+        "typ" : "response",
+        "parameters" : [
+          {
+            "name" : "productId",
+            "expression" : {
+              "language" : "spel",
+              "expression" : "#input.productId * 2"
+            }
+          }
+        ]
+      },
+      "endResult" : null,
+      "isDisabled" : null,
+      "additionalFields" : {
+        "description" : null,
+        "layoutData" : {
+          "x" : 1,
+          "y" : 180
+        }
+      },
+      "type" : "Sink"
+    }
+  ],
+  "additionalBranches" : [
+  ]
+}

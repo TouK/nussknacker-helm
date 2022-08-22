@@ -1,0 +1,13 @@
+nussknacker:
+  mode: "request-response-lite"
+  runtimeImage:
+    repository: touk/nussknacker-lite-kafka-runtime
+    tag: preview-req-resp-k8s-dm
+  requestResponse:
+    servicePort: 80
+
+flink:
+  enabled: false
+
+telegraf:
+  enabled: false

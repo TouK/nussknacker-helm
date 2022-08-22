@@ -76,7 +76,7 @@ It is also possible to run Nussknacker in streaming-lite mode:
 `
 In this mode scenarios will be deployed as K8s deployments. See [Nussknacker documentation](https://docs.nussknacker.io) for the details. 
 
-Desginer configuration
+Designer configuration
 -------------
 
 Nussknacker configuration is taken from following places
