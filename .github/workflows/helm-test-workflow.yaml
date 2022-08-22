@@ -86,7 +86,7 @@ jobs:
             --config=.k3d/single-cluster.yml
             --trace
       - name: helmUpgrade
-        run: helm upgrade -i "${{env.RELEASE_NAME}}" dist/*.tgz --version "${{needs.build.outputs.version}}" --wait --debug -f deploy-values.yaml -f deploy-values-streaming-lite.yaml
+        run: ./upgrade.sh "${{env.RELEASE_NAME}}" "${{needs.build.outputs.version}}" deploy-values-streaming-lite.yaml
       - name: helmTestRelease
         run: ./test.sh "${{env.RELEASE_NAME}}"
   test-request-response-lite:
@@ -107,7 +107,7 @@ jobs:
             --config=.k3d/single-cluster.yml
             --trace
       - name: helmUpgrade
-        run: helm upgrade -i "${{env.RELEASE_NAME}}" dist/*.tgz --version "${{needs.build.outputs.version}}" --wait --debug -f deploy-values.yaml -f deploy-values-request-response-lite.yaml
+        run: ./upgrade.sh "${{env.RELEASE_NAME}}" "${{needs.build.outputs.version}}"  deploy-values-request-response-lite.yaml
       - name: helmTestRelease
         run: ./test.sh "${{env.RELEASE_NAME}}"
   publish-snapshot:
