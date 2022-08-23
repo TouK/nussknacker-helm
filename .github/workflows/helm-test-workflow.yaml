@@ -65,7 +65,7 @@ jobs:
             --config=.k3d/single-cluster.yml
             --trace
       - name: helmUpgrade
-        run: helm upgrade -i "${{env.RELEASE_NAME}}" dist/*.tgz --version "${{needs.build.outputs.version}}"  --wait --debug -f deploy-values.yaml
+        run: helm upgrade -i "${{env.RELEASE_NAME}}" dist/*.tgz --version "${{needs.build.outputs.version}}"  --wait --debug -f deploy-values.yaml -f deploy-values-kafka-config.yaml
       - name: helmTestRelease
         run: ./test.sh "${{env.RELEASE_NAME}}"
   test-streaming-lite:
@@ -86,7 +86,7 @@ jobs:
             --config=.k3d/single-cluster.yml
             --trace
       - name: helmUpgrade
-        run: helm upgrade -i "${{env.RELEASE_NAME}}" dist/*.tgz --version "${{needs.build.outputs.version}}" --wait --debug -f deploy-values.yaml -f deploy-values-streaming-lite.yaml
+        run: helm upgrade -i "${{env.RELEASE_NAME}}" dist/*.tgz --version "${{needs.build.outputs.version}}" --wait --debug -f deploy-values.yaml -f deploy-values-kafka-config.yaml -f deploy-values-streaming-lite.yaml
       - name: helmTestRelease
         run: ./test.sh "${{env.RELEASE_NAME}}"
   test-request-response-lite:

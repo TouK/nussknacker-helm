@@ -10,5 +10,14 @@ nussknacker:
 flink:
   enabled: false
 
+kafka:
+  enabled: false
+
+apicurio-registry:
+  enabled: false
+
+zookeeper:
+  enabled: false
+
 telegraf:
   enabled: false
