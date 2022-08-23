@@ -1,5 +1,5 @@
 image:
-  tag: preview-req-resp-k8s-dm #todo change to staging-latest
+  tag: staging-latest
   pullPolicy: Always
 
 imagePullSecrets:
