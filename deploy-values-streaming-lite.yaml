@@ -3,6 +3,10 @@ flink:
 
 nussknacker:
   mode: "streaming-lite"
+  #todo: remove
+  runtimeImage:
+    repository: touk/nussknacker-lite-kafka-runtime
+    tag: preview-req-resp-k8s-dm
 
 telegraf:
   enabled: false
