@@ -90,7 +90,7 @@ jobs:
       - name: helmTestRelease
         run: ./test.sh "${{env.RELEASE_NAME}}"
   test-request-response-lite:
-    name: test streaming-request-response mode
+    name: test request-response mode
     runs-on: ubuntu-latest
     needs: [ build ]
     steps:
