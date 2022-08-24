@@ -11,6 +11,7 @@ function logOnExit {
     kubectl logs -l nussknacker.io/scenarioId  || echo "Failed to log scenarios"
     kubectl logs --tail 1000 -l app.kubernetes.io/name=management
     kubectl logs --tail 1000 -l app.kubernetes.io/name=nussknacker
+    kubectl logs --tail 1000 -l app.kubernetes.io/name=apicurio-registry
 }
 trap 'logOnExit' EXIT
 
