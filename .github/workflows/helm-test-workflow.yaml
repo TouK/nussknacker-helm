@@ -65,7 +65,7 @@ jobs:
             --config=.k3d/single-cluster.yml
             --trace
       - name: helmUpgrade
-        run: helm upgrade -i "${{env.RELEASE_NAME}}" dist/*.tgz --version "${{needs.build.outputs.version}}"  --wait --debug -f deploy-values.yaml
+        run: helm upgrade -i "${{env.RELEASE_NAME}}" dist/*.tgz --version "${{needs.build.outputs.version}}"  --wait --debug -f deploy-values.yaml -f deploy-values-kafka-config.yaml
       - name: helmTestRelease
         run: ./test.sh "${{env.RELEASE_NAME}}"
   test-streaming-lite:
@@ -86,14 +86,35 @@ jobs:
             --config=.k3d/single-cluster.yml
             --trace
       - name: helmUpgrade
-        run: helm upgrade -i "${{env.RELEASE_NAME}}" dist/*.tgz --version "${{needs.build.outputs.version}}" --wait --debug -f deploy-values.yaml -f deploy-values-lite.yaml
+        run: helm upgrade -i "${{env.RELEASE_NAME}}" dist/*.tgz --version "${{needs.build.outputs.version}}" --wait --debug -f deploy-values.yaml -f deploy-values-kafka-config.yaml -f deploy-values-streaming-lite.yaml
+      - name: helmTestRelease
+        run: ./test.sh "${{env.RELEASE_NAME}}"
+  test-request-response-lite:
+    name: test request-response mode
+    runs-on: ubuntu-latest
+    needs: [ build ]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
+        with:
+          name: helm-build
+          path: dist
+      - uses: AbsaOSS/k3d-action@v2
+        with:
+          cluster-name: "k3s-default"
+          args: >-
+            --config=.k3d/single-cluster.yml
+            --trace
+      - name: helmUpgrade
+        run: helm upgrade -i "${{env.RELEASE_NAME}}" dist/*.tgz --version "${{needs.build.outputs.version}}" --wait --debug -f deploy-values.yaml -f deploy-values-request-response-lite.yaml
       - name: helmTestRelease
         run: ./test.sh "${{env.RELEASE_NAME}}"
   publish-snapshot:
     name: publish-snapshot
     if: ${{ github.ref == 'refs/heads/main' || startsWith(github.head_ref, 'preview/') }}
     runs-on: ubuntu-latest
-    needs: [ build, test-flink, test-streaming-lite ]
+    needs: [ build, test-flink, test-streaming-lite, test-request-response-lite ]
     steps:
       - uses: actions/download-artifact@v2
         with:
@@ -104,7 +125,7 @@ jobs:
     name: publish-release
     if: ${{ startsWith(github.ref, 'refs/tags') }}
     runs-on: ubuntu-latest
-    needs: [ build, test-flink, test-streaming-lite ]
+    needs: [ build, test-flink, test-streaming-lite, test-request-response-lite ]
     steps:
       - uses: actions/download-artifact@v2
         with:

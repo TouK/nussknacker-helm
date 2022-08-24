@@ -1,0 +1,7 @@
+nussknacker:
+  modelConfig:
+    components:
+       kafka:
+         config:
+           schemaRegistryCacheConfig:
+             availableSchemasExpirationTime: 0 seconds

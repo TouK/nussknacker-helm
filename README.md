@@ -23,15 +23,15 @@ Nussknacker designer will be available at `localhost:8081` after executing the s
 
 Use `./build-deploy-verify.sh` script, which upgrades and verifies release. 
 It sets `ingress.skipHost=true`, so it's suitable for local K8s like k3d, minikube without decent domain support. 
-By default the script uses `deploy-values.yaml`, you can add
+By default, the script uses `deploy-values.yaml`, you can add
 other files appending `-f [path]` as many times as needed. 
 
 Dev samples:
 - `./build-deploy-verify.sh release-name` - deploy chart in flink mode
-- `./build-deploy-verify.sh release-name -f deploy-values-lite.yaml` - deploy chart in streaming-lite mode
+- `./build-deploy-verify.sh release-name -f deploy-values-streaming-lite.yaml` - deploy chart in streaming-lite mode
 
 Examples:
-- `./build-deploy-verify.sh release-name -f deploy-values-lite.yaml -f examples/customComponents/custom-component-docker-values.yaml` - deploy chart in streaming-lite mode, with custom image (see description in `custom-component-docker-values.yaml`)
-- `./build-deploy-verify.sh release-name -f deploy-values-lite.yaml -f examples/customComponents/custom-component-url-values.yaml` - deploy chart in streaming-lite mode, with custom component URL (see description in `custom-component-url-values.yaml`)
-- `./build-deploy-verify.sh release-name -f deploy-values-lite.yaml -f examples/customSecret/custom-secret-values.yaml` - deploy chart in streaming-lite mode, passing secret to both designer and runtime container (see description in `custom-secret-values.yaml`)
-- `./build-deploy-verify.sh release-name -f deploy-values-lite.yaml -f examples/custom-logging.yaml` - deploy chart in streaming-lite mode with custom logging configuration of the designer and runtime containers (see description in `custom-logging.yaml`) 
+- `./build-deploy-verify.sh release-name -f deploy-values-streaming-lite.yaml -f examples/customComponents/custom-component-docker-values.yaml` - deploy chart in streaming-lite mode, with custom image (see description in `custom-component-docker-values.yaml`)
+- `./build-deploy-verify.sh release-name -f deploy-values-streaming-lite.yaml -f examples/customComponents/custom-component-url-values.yaml` - deploy chart in streaming-lite mode, with custom component URL (see description in `custom-component-url-values.yaml`)
+- `./build-deploy-verify.sh release-name -f deploy-values-streaming-lite.yaml -f examples/customSecret/custom-secret-values.yaml` - deploy chart in streaming-lite mode, passing secret to both designer and runtime container (see description in `custom-secret-values.yaml`)
+- `./build-deploy-verify.sh release-name -f deploy-values-streaming-lite.yaml -f examples/custom-logging.yaml` - deploy chart in streaming-lite mode with custom logging configuration of the designer and runtime containers (see description in `custom-logging.yaml`) 

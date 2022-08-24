@@ -41,10 +41,6 @@ nussknacker:
        openAPI:
          #TODO: find working OpenAPI 3.0 definition
          url: "https://app.swaggerhub.com/apiproxy/registry/TKJ/CurrencyConverter/FINAL"
-       kafka:
-         config:
-           schemaRegistryCacheConfig:
-             availableSchemasExpirationTime: 0 seconds
 
 extraEnv:
   - name: NUSSKNACKER_LOG_LEVEL

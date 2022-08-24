@@ -1,0 +1,19 @@
+nussknacker:
+  mode: "request-response-lite"
+  requestResponse:
+    servicePort: 80
+
+flink:
+  enabled: false
+
+kafka:
+  enabled: false
+
+apicurio-registry:
+  enabled: false
+
+zookeeper:
+  enabled: false
+
+telegraf:
+  enabled: false
