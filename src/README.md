@@ -26,7 +26,7 @@ helm install my-nussknacker touk/nussknacker --set ingress.skipHost=true
 ```
 Then, you can set up `port-forward`
 ```
-kubectl --namespace default port-forward service/my-nussknacker 8080:80
+kubectl port-forward service/my-nussknacker 8080:80
 ```
 and visit Designer app on http://localhost:8080/
 
