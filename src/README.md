@@ -24,7 +24,7 @@ To install the chart with the release name my-nussknacker:
 helm repo add touk https://helm-charts.touk.pl/public
 helm install my-nussknacker touk/nussknacker --set ingress.skipHost=true
 ```
-Then, you can set up `port-forward`
+Then, you can set up `port-forward`:
 ```
 kubectl port-forward service/my-nussknacker 8080:80
 ```
