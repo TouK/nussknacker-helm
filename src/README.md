@@ -9,7 +9,7 @@ Quickstart
 ----------
 To go through the whole process of installation, configuration of messages schemas and defining of scenarios,
 see [Quickstart guide](https://nussknacker.io/documentation/quickstart/helm/)
-or `k8s-help` directory in [nussknacker-quickstart repository](https://github.com/TouK/nussknacker-quickstart)
+or `k8s-helm` directory in [nussknacker-quickstart repository](https://github.com/TouK/nussknacker-quickstart)
 
 Requirements
 ------------
@@ -22,14 +22,19 @@ Installing the Chart
 To install the chart with the release name my-nussknacker:
 ```
 helm repo add touk https://helm-charts.touk.pl/public
-helm install my-nussknacker touk/nussknacker --set ingress.enabled=true
+helm install my-nussknacker touk/nussknacker --set ingress.skipHost=true
 ```
+Then, you can set up `port-forward`
+```
+kubectl --namespace default port-forward service/my-nussknacker 8080:80
+```
+and visit Designer app on http://localhost:8080/
 
 Upgrade the Chart
 -------
 ```
 kubectl create secret generic nussknacker-postgresql --from-literal postgres-password=`date +%s | sha256sum | base64 | head -c 32`
-helm upgrade --set postgresql.existingSecret=nussknacker-postgresql my-nussknacker touk/nussknacker
+helm upgrade --set postgresql.auth.existingSecret=nussknacker-postgresql my-nussknacker touk/nussknacker
 ```
 
 Uninstalling the Chart
