@@ -15,7 +15,7 @@ kubectl get secret "$RELEASE-postgresql" || cat postgres-secret.yaml | POSTGRES_
 helm upgrade -i "${RELEASE}" dist/*.tgz \
   --wait \
   --set ingress.skipHost=true \
-  --set postgresql.existingSecret="${RELEASE}-postgresql" \
+  --set postgresql.auth.existingSecret="${RELEASE}-postgresql" \
   -f deploy-values.yaml $@  --debug
 
 kubectl delete jobs --all
