@@ -2,7 +2,7 @@
   "metaData" : {
     "id" : "test-scenario-for-rr-only",
     "typeSpecificData" : {
-      "path" : "test-scenario-for-rr-only",
+      "slug" : "test-scenario-for-rr-only",
       "type" : "RequestResponseMetaData"
     },
     "additionalFields" : {
