@@ -1,5 +1,4 @@
 image:
-  tag: staging-latest
   pullPolicy: Always
 
 imagePullSecrets:
