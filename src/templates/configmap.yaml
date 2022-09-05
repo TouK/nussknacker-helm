@@ -85,29 +85,6 @@ data:
                 "schema.registry.url": "{{ include "nussknacker.schemaRegistryUrl" . }}"
               }
             }
-            {{- else if eq .Values.nussknacker.mode "request-response-lite" }}
-            additionalPropertiesConfig {
-              inputSchema: {
-                label: "Input schema"
-                editor: {
-                    type: "JsonParameterEditor"
-                }
-                validators: [
-                  { type: "MandatoryParameterValidator" }
-                ]
-                defaultValue: "{}"
-              }
-              outputSchema: {
-                label: "Output schema"
-                editor: {
-                    type: "JsonParameterEditor"
-                }
-                validators: [
-                  { type: "MandatoryParameterValidator" }
-                ]
-                defaultValue: "{}"
-              }
-            }
             {{- end }}
           }{{ tpl ( mustToJson .Values.nussknacker.modelConfig ) . }}
       }
