@@ -70,8 +70,8 @@ data:
             classPath: {{ include "nussknacker.modelClassPath" . }}
             {{- if and (eq .Values.nussknacker.mode "flink") (not .Values.nussknacker.skipKafkaConfig ) }}
             components.kafka.config {
-              kafkaAddress: "{{ include "nussknacker.kafkaBootstrapServers" . }}"
               kafkaProperties {
+                "bootstrap.servers": "{{ include "nussknacker.kafkaBootstrapServers" . }}"
                 "schema.registry.url": "{{ include "nussknacker.schemaRegistryUrl" . }}"
               }
             }
@@ -80,8 +80,8 @@ data:
             }
             {{- else if and (eq .Values.nussknacker.mode "streaming-lite") (not .Values.nussknacker.skipKafkaConfig ) }}
             kafka {
-              kafkaAddress: "{{ include "nussknacker.kafkaBootstrapServers" . }}"
               kafkaProperties {
+                "bootstrap.servers": "{{ include "nussknacker.kafkaBootstrapServers" . }}"
                 "schema.registry.url": "{{ include "nussknacker.schemaRegistryUrl" . }}"
               }
             }
