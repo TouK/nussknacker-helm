@@ -43,7 +43,7 @@ spec:
               value: "{{ include "nussknacker.schemaRegistryUrl" . }}"
             {{- if eq .Values.nussknacker.mode "request-response-lite" }}
             - name: SCENARIO_URL
-              value: "http://{{ .Release.Name }}-test-scenario-for-rr-only:{{ .Values.nussknacker.requestResponse.servicePort }}/scenario/test-scenario-for-rr-only"
+              value: "http://{{ .Release.Name }}-test-scenario-for-rr-only:{{ .Values.nussknacker.requestResponse.servicePort }}"
             {{- end }}
           volumeMounts:
             - name: suites
