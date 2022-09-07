@@ -30,9 +30,11 @@ function given_a_proxy_process() {
   [[ $(curl ${PROCESS_URL%/}/status | jq -r .status.name) = RUNNING ]] && curl -X POST ${PROCESS_CANCEL_URL}
   curl -X POST ${PROCESS_DEPLOY_URL}
   #on smaller ci envs deployment may last some time...
-  timeout 60 /bin/sh -c "until [ `curl ${PROCESS_URL%/}/status | jq -r .status.name` = "RUNNING" ]; do sleep 1 && echo -n .; done;" || true
+  timeout 60 /bin/sh -c "until [[ `curl ${PROCESS_URL%/}/status | jq -r .status.name` == \"RUNNING\" ]]; do sleep 1 && echo -n .; done;" || true
   echo "Checking after waiting for status..."
-  curl ${PROCESS_URL%/}/status
+  local STATUS_RESPONSE=$(curl ${PROCESS_URL%/}/status)
+  echo "Status is: $STATUS_RESPONSE"
+  [[ `echo $STATUS_RESPONSE | jq -r .status.name` == "RUNNING" ]]
 }
 
 function setup() {
@@ -43,5 +45,5 @@ function setup() {
   INPUT_MESSAGE='{"productId":10}'
   EXPECTED_OUTPUT_MESSAGE='{"productId":20}'
 
-  if [[ $(curl -XPOST $SCENARIO_URL -d $INPUT_MESSAGE) == $EXPECTED_OUTPUT_MESSAGE ]]; then echo ok; else exit 1; fi
+  if [[ $(curl $SCENARIO_URL -d $INPUT_MESSAGE) == $EXPECTED_OUTPUT_MESSAGE ]]; then echo ok; else exit 1; fi
 }
