@@ -58,10 +58,10 @@ jobs:
         with:
           name: helm-build
           path: dist
-      - uses: AbsaOSS/k3d-action@v2
+      - uses: AbsaOSS/k3d-action@v2.3.0
         with:
           cluster-name: "k3s-default"
-          k3d-version: "v5.4.4"
+          k3d-version: "v5.4.1" # default version - change with caution, there was some problem after upgrade
           args: >-
             --config=.k3d/single-cluster.yml
             --trace
