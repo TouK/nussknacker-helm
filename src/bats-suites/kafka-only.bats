@@ -46,13 +46,14 @@ function given_a_proxy_process() {
   curl ${PROCESS_URL} || curl -X POST ${PROCESS_URL%/}/Default
   echo ${PROCESS_OBJECT} | /usr/bin/curl -f -k -v -H "Authorization: ${AUTHORIZATION}" ${PROCESS_IMPORT_URL} -F process=@- | (echo '{ "comment": "created by a bats test", "process": '; cat; echo '}') | curl -X PUT ${PROCESS_URL} -d @-
 
-  [[ $(curl ${PROCESS_URL%/}/status | jq -r .status.name) = RUNNING ]] && curl -X POST ${PROCESS_CANCEL_URL}
+  [[ $(curl ${PROCESS_URL%/}/status | jq -r .status.name) == "RUNNING" ]] && curl -X POST ${PROCESS_CANCEL_URL}
   curl -X POST ${PROCESS_DEPLOY_URL}
   #on smaller ci envs deployment may last some time...
-  timeout 60 /bin/sh -c "until [ `curl ${PROCESS_URL%/}/status | jq -r .status.name` = "RUNNING" ]; do sleep 1 && echo -n .; done;" || true
+  timeout 60 /bin/sh -c "until [[ `curl ${PROCESS_URL%/}/status | jq -r .status.name` == \"RUNNING\" ]]; do sleep 1 && echo -n .; done;" || true
   echo "Checking after waiting for status..."
-  curl ${PROCESS_URL%/}/status   
-
+  local STATUS_RESPONSE=$(curl ${PROCESS_URL%/}/status)
+  echo "Status is: $STATUS_RESPONSE"
+  [[ `echo $STATUS_RESPONSE | jq -r .status.name` == "RUNNING" ]]
 }
 
 function when_a_message_has_been_posted_on_the_topic() {
