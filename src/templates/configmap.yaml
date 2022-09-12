@@ -17,7 +17,7 @@ data:
           {{- if eq .Values.nussknacker.mode "flink" }}
           deploymentConfig: {
              type: "flinkStreaming"
-             {{/* Find easier way of passing it through values */}}
+             {{- /* Find easier way of passing it through values */}}
              restUrl: "{{ include "nussknacker.flinkJobManagerUrl" . }}"
              queryableStateProxyUrl: "{{ include "nussknacker.flinkTaskManagerUrl" . }}"
           } {{ tpl (.Values.nussknacker.flinkConfig | mustToJson) . }}
@@ -27,7 +27,7 @@ data:
              type: "lite-k8s"
              mode: {{ .Values.nussknacker.mode | replace "-lite" "" }}
              {{- if .Values.nussknacker.k8sDeploymentConfig }}
-             k8sDeploymentConfig: {{ tpl ( mustToJson .Values.nussknacker.k8sDeploymentConfig ) . }}
+             k8sDeploymentConfig: {{- tpl ( mustToJson .Values.nussknacker.k8sDeploymentConfig ) . }}
              {{- end }}
              {{- if .Values.nussknacker.runtimeImage }}
              dockerImageName: {{- .Values.nussknacker.runtimeImage.repository }}
@@ -43,7 +43,7 @@ data:
              }
              {{- end }}
              {{- if .Values.nussknacker.scalingConfig }}
-             scalingConfig: {{ tpl ( mustToJson .Values.nussknacker.scalingConfig  ) . }}
+             scalingConfig: {{- tpl ( mustToJson .Values.nussknacker.scalingConfig  ) . }}
              {{- end }}
              nussknackerInstanceName: ${?HELM_RELEASE_NAME}
              logbackConfigPath: ${?RUNTIME_LOGBACK_FILE}
@@ -56,7 +56,7 @@ data:
                  environment: ${environment},
                  influx {
                    url: "{{ include "nussknacker.influxUrl" .}}/write",
-                   database: "nussknacker"               
+                   database: "nussknacker"
                    username: ${INFLUXDB_USER}
                    password: ${INFLUXDB_PASSWORD}
                  }
@@ -86,7 +86,7 @@ data:
               }
             }
             {{- end }}
-          }{{ tpl ( mustToJson .Values.nussknacker.modelConfig ) . }}
+          }{{- tpl ( mustToJson .Values.nussknacker.modelConfig ) . }}
       }
     }
 
@@ -101,13 +101,13 @@ data:
     }
     {{- end }}
 
-    tabs: ${tabs} {{ tpl ( mustToJson (.Values.nussknacker.customTabs | default list) ) . }}
+    tabs: ${tabs} {{- tpl ( mustToJson (.Values.nussknacker.customTabs | default list) ) . }}
 
     {{- if .Values.nussknacker.authentication }}
-    authentication: {{ tpl ( mustToJson .Values.nussknacker.authentication ) . }}
+    authentication: {{- tpl ( mustToJson .Values.nussknacker.authentication ) . }}
     {{- end }}
 
-    {{/* We have to iterate over first level of passed uiConfig to embed in .conf properly...  */}}
+    {{- /* We have to iterate over first level of passed uiConfig to embed in .conf properly...  */}}
     {{- range $key, $val := .Values.nussknacker.uiConfig }}
     {{ $key }}: {{ tpl ( mustToJson $val ) $ }}
     {{- end }}
