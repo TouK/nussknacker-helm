@@ -128,6 +128,9 @@ nussknacker:
       Default: "default"
   #Use it if you want to skip default kafka configuration and provide your own    
   skipKafkaConfig: false
+  requestResponse:
+    servicePort: 80
+
 prometheusMetrics:
   enabled: false
   port: 9000
