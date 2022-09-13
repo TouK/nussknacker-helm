@@ -137,7 +137,7 @@ be configured in following way:
 ```
 nussknacker:
   runtimeImage:
-    repository: nussknacker-sample-components-lite-kafka-runtime
+    repository: nussknacker-sample-components-lite-runtime-app
     tag: 1.15
 image:
   repository: nussknacker-sample-components
