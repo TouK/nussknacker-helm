@@ -1,10 +1,10 @@
 #This configuration shows how to use custom images for streaming-lite mode (for Flink mode you only have to configure image.repository)
-#This assumes that nussknacker-sample-components and nussknacker-sample-components-lite-kafka-runtime images 
+#This assumes that nussknacker-sample-components and nussknacker-sample-components-lite-runtime-app images 
 #(created e.g. with https://github.com/TouK/nussknacker-sample-components) 
 #are available in K8s cluster. If k3d is used, the image has to imported first. 
 nussknacker:
   runtimeImage:
-    repository: nussknacker-sample-components-lite-kafka-runtime
+    repository: nussknacker-sample-components-lite-runtime-app
     tag: latest
 image:
   repository: nussknacker-sample-components
