@@ -1,7 +1,5 @@
 nussknacker:
   mode: "request-response-lite"
-  requestResponse:
-    servicePort: 80
 
 flink:
   enabled: false
