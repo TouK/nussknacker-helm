@@ -2340,7 +2340,7 @@
   },
   "timezone": "browser",
   "title": "RequestResponse scenario",
-  "uid": "nussknacker-request-response-lite-scenario",
+  "uid": "nussknacker-request-response-scenario",
   "version": 1,
   "weekStart": ""
 }
