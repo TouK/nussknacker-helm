@@ -22,7 +22,7 @@ data:
              queryableStateProxyUrl: "{{ include "nussknacker.flinkTaskManagerUrl" . }}"
           } {{ tpl (.Values.nussknacker.flinkConfig | mustToJson) . }}
 
-          {{- else if or (eq .Values.nussknacker.mode "streaming-lite") (eq .Values.nussknacker.mode "request-response-lite") }}
+          {{- else if or (eq .Values.nussknacker.mode "streaming-lite") (eq .Values.nussknacker.mode "request-response") }}
           deploymentConfig: {
              type: "lite-k8s"
              mode: {{ .Values.nussknacker.mode | replace "-lite" "" }}
@@ -33,7 +33,7 @@ data:
              dockerImageName: {{- .Values.nussknacker.runtimeImage.repository }}
              dockerImageTag: {{- .Values.nussknacker.runtimeImage.tag }}
              {{- end }}
-             {{- if eq .Values.nussknacker.mode "request-response-lite" }}
+             {{- if eq .Values.nussknacker.mode "request-response" }}
              servicePort: {{ .Values.nussknacker.requestResponse.servicePort }}
              {{- end }}
              {{- if .Values.prometheusMetrics.enabled }}
