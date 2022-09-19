@@ -192,7 +192,7 @@ nussknacker-request-response-scenario
 {{- else if eq .Values.nussknacker.mode "request-response-lite" -}}
 ["model/defaultModel.jar", "components/lite/liteBase.jar", "components/lite/liteRequestResponse.jar", "components/common"]
 {{- else -}}
-{{- fail "Value for for .Values.nussknacker.mode is not supported. Supported modes are: flink, streaming-lite and request-response-lite" }}
+{{- fail "Value for .Values.nussknacker.mode is not supported. Supported modes are: flink, streaming-lite and request-response-lite" }}
 {{- end -}}
 {{- end -}}
 
