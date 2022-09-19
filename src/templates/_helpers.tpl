@@ -176,7 +176,7 @@ nussknacker-scenario
 {{- else if eq .Values.nussknacker.mode "streaming-lite" -}}
 nussknacker-lite-scenario
 {{- else if eq .Values.nussknacker.mode "request-response-lite" -}}
-nussknacker-request-response-lite-scenario
+nussknacker-request-response-scenario
 {{- else -}}
 {{- .Values.nussknacker.defaultDashboard }}
 {{- end -}}
