@@ -16,21 +16,33 @@ if [[ $(realpath $(which timeout)) =~ "busybox" ]]; then
   }
 fi
 
+function cancel_process() {
+  local PROCESS_NAME="${1:?required}"
+  local PROCESS_CANCEL_URL=$(echo ${NUSSKNACKER_URL%/}/api/processManagement/cancel/${PROCESS_NAME} | sed -e 's/ /%20/g')
+  curl -X POST ${PROCESS_CANCEL_URL}
+}
+
+function wait_for_status() {
+  local PROCESS_NAME="${1:?required}"
+  local STATUS="${2:?required}"
+  local PROCESS_URL=$(echo ${NUSSKNACKER_URL%/}/api/processes/${PROCESS_NAME} | sed -e 's/ /%20/g')
+  timeout 60 /bin/sh -c "until [[ `curl ${PROCESS_URL%/}/status | jq -r .status.name` == \"$STATUS\" ]]; do sleep 1 && echo -n .; done;" || true
+}
+
 function given_a_proxy_process() {
   local PROCESS_NAME="${1:?required}"
   local PROCESS_URL=$(echo ${NUSSKNACKER_URL%/}/api/processes/${PROCESS_NAME} | sed -e 's/ /%20/g')
   local PROCESS_DEPLOY_URL=$(echo ${NUSSKNACKER_URL%/}/api/processManagement/deploy/${PROCESS_NAME} | sed -e 's/ /%20/g')
-  local PROCESS_CANCEL_URL=$(echo ${NUSSKNACKER_URL%/}/api/processManagement/cancel/${PROCESS_NAME} | sed -e 's/ /%20/g')
   local PROCESS_IMPORT_URL=$( echo ${NUSSKNACKER_URL%/}/api/processes/import/${PROCESS_NAME} | sed -e 's/ /%20/g')
 
   curl ${PROCESS_URL} || curl -X POST ${PROCESS_URL%/}/Default
   export PROCESS_NAME GROUP INPUT_TOPIC OUTPUT_TOPIC
   cat ${BATS_TEST_DIRNAME}/rr-testprocess.json | envsubst  | /usr/bin/curl -f -k -v -H "Authorization: ${AUTHORIZATION}" ${PROCESS_IMPORT_URL} -F process=@- | (echo '{ "comment": "created by a bats test", "process": '; cat; echo '}') | curl -X PUT ${PROCESS_URL} -d @-
 
-  [[ $(curl ${PROCESS_URL%/}/status | jq -r .status.name) = RUNNING ]] && curl -X POST ${PROCESS_CANCEL_URL}
+  [[ $(curl ${PROCESS_URL%/}/status | jq -r .status.name) = RUNNING ]] && cancel_process "$PROCESS_NAME"
   curl -X POST ${PROCESS_DEPLOY_URL}
   #on smaller ci envs deployment may last some time...
-  timeout 60 /bin/sh -c "until [[ `curl ${PROCESS_URL%/}/status | jq -r .status.name` == \"RUNNING\" ]]; do sleep 1 && echo -n .; done;" || true
+  wait_for_status "$PROCESS_NAME" "RUNNING"
   echo "Checking after waiting for status..."
   local STATUS_RESPONSE=$(curl ${PROCESS_URL%/}/status)
   echo "Status is: $STATUS_RESPONSE"
@@ -42,8 +54,12 @@ function setup() {
 }
 
 @test "message should pass through the rr proxy process" {
+  local PROCESS_NAME="test proxy process for rr"
   INPUT_MESSAGE='{"productId":10}'
   EXPECTED_OUTPUT_MESSAGE='{"productId":20}'
 
   if [[ $(curl $SCENARIO_URL -d $INPUT_MESSAGE) == $EXPECTED_OUTPUT_MESSAGE ]]; then echo ok; else exit 1; fi
+
+  cancel_process "$PROCESS_NAME"
+  wait_for_status "$PROCESS_NAME" "CANCELED"
 }
