@@ -130,6 +130,8 @@ nussknacker:
   skipKafkaConfig: false
   requestResponse:
     servicePort: 80
+    ingress:
+      enabled: true
 
 prometheusMetrics:
   enabled: false

@@ -35,6 +35,9 @@ data:
              {{- end }}
              {{- if eq .Values.nussknacker.mode "request-response" }}
              servicePort: {{ .Values.nussknacker.requestResponse.servicePort }}
+             {{- if .Values.nussknacker.requestResponse.ingress.enabled }}
+             ingress: {{- tpl ( mustToJson .Values.nussknacker.requestResponse.ingress ) . }}
+             {{- end}}
              {{- end }}
              {{- if .Values.prometheusMetrics.enabled }}
              prometheusMetrics: {
