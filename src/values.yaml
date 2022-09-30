@@ -78,6 +78,8 @@ deployment:
 ingress:
   skipHost: false
   enabled: false
+  #Set to true e.g. if you want to use https://kubernetes.github.io/ingress-nginx/user-guide/tls/#default-ssl-certificate
+  skipTlsSecret: false
   # domain: <a TLD must be set>
   # host: .Release.Name-nussknacker
   # tlsSecretName: .Release.Name-nussknacker-tls

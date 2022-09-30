@@ -20,12 +20,14 @@ metadata:
     {{- toYaml . | nindent 4 }}
   {{- end }}
 spec:
+  {{- if not .Values.ingress.skipHost }}
   tls:
-    - secretName: {{ $tlsSecretName }}
-      {{- if not .Values.ingress.skipHost }}
-      hosts:
+    - hosts:
         - {{ include "nussknacker.fqdn" . | quote }}
+      {{- if not .Values.ingress.skipTlsSecret }}
+      secretName: {{ $tlsSecretName }}
       {{- end }}  
+  {{- end }}    
   rules:
     - http:
         paths:
