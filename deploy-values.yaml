@@ -45,6 +45,8 @@ nussknacker:
 extraEnv:
   - name: NUSSKNACKER_LOG_LEVEL
     value: DEBUG
+  - name: USAGE_REPORTS_FINGERPRINT
+    value: development
 
 telegraf:
   enabled: true
