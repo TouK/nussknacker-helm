@@ -41,12 +41,11 @@ nussknacker:
        openAPI:
          #TODO: find working OpenAPI 3.0 definition
          url: "https://app.swaggerhub.com/apiproxy/registry/TKJ/CurrencyConverter/FINAL"
+  usageStatisticsReports: false
 
 extraEnv:
   - name: NUSSKNACKER_LOG_LEVEL
     value: DEBUG
-  - name: CONFIG_FORCE_usageStatisticsReports_enabled
-    value: false
 
 telegraf:
   enabled: true
