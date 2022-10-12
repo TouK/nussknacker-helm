@@ -46,7 +46,7 @@ helm uninstall my-nussknacker
 The command removes all the Kubernetes components associated with the chart and deletes the release.
 To remove all scenario deployments and its data run
 ```
-kubectl delete pod,configmap -l nussknacker.io/nussknackerInstanceName=my-nussknacker
+kubectl delete deployment,service,configmap -l nussknacker.io/nussknackerInstanceName=my-nussknacker
 ```
 
 Components
