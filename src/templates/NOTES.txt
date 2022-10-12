@@ -19,4 +19,4 @@
   kubectl --namespace {{ .Release.Namespace }} port-forward service/{{ include "nussknacker.fullname" . }} 8080:{{ .Values.service.port }}
 {{- end }}
 2. Running helm uninstall will not delete resources created by scenario deployments. To delete them run
-kubectl delete deploy,configmap -l nussknacker.io/nussknackerInstanceName={{ .Release.Name }}
+kubectl delete deploy,service,configmap -l nussknacker.io/nussknackerInstanceName={{ .Release.Name }}
