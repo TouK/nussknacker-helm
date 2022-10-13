@@ -106,6 +106,10 @@ data:
 
     tabs: ${tabs} {{- tpl ( mustToJson (.Values.nussknacker.customTabs | default list) ) . }}
 
+    usageStatisticsReports {
+      enabled: {{- .Values.nussknacker.usageStatisticsReports }}
+    }
+
     {{- if .Values.nussknacker.authentication }}
     authentication: {{- tpl ( mustToJson .Values.nussknacker.authentication ) . }}
     {{- end }}

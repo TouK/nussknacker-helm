@@ -130,6 +130,7 @@ nussknacker:
       Default: "default"
   #Use it if you want to skip default kafka configuration and provide your own    
   skipKafkaConfig: false
+  usageStatisticsReports: true
   requestResponse:
     servicePort: 80
     ingress:
