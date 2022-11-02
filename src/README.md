@@ -68,7 +68,7 @@ provided outside. The table below lists components and their roles
 
 Modes
 -----
-By default, the chart runs Nussknacker in `streaming` mode which is configured to deploy scenarios on Flink 
+By default, the chart runs Nussknacker in `streaming` mode which is configured to deploy scenarios on Flink engine
 (either installed directly by the chart, or external one). 
 
 It is also possible to run Nussknacker in:
@@ -145,7 +145,7 @@ By default, this chart is installed with the official Nussknacker image, which c
 - base aggregations (accessible only in flink mode)
 
 Should you need to run Nussknacker with your own components/customizations, the best way is to create an image based on the official one and
-install the chart with appropriate image configuration. Please note that in streaming-lite mode you also have to create image of lite runtime with 
+install the chart with appropriate image configuration. Please note that when using Lite engine you also have to create image of Lite runtime with 
 components (see [nussknacker-sample-components](https://github.com/TouK/nussknacker-sample-components) for the details). Using custom images can
 be configured in following way: 
 ```
@@ -181,11 +181,14 @@ Again, for flink mode it's only necessary to set `modelClassPath`.
 
 Security/RBAC
 -------------
-For flink mode Nussknacker doesn't have any special requirements, except for settings specific for dependencies. 
+For the Flink engine, Nussknacker doesn't have any special requirements, except for settings specific for dependencies. 
 
-For streaming-lite mode, Nussknacker Designer manages deployments and configMaps for each scenario. 
+For the Lite engine, Nussknacker Designer manages deployments and configMaps for each scenario. 
 Default service account, role and rolebinding will be created, if you want to use existing role, you can specify it with
-`rbac.useExistingRole`
+`rbac.useExistingRole`, you can also skip role and binding creation with `rbac.create` set to `false`.
+
+You can check permissions needed by Nussknacker Designer to run the Lite engine [here](https://github.com/TouK/nussknacker-helm/blob/main/src/templates/role.yml). The set of permissions is quite broad, but they are needed to handle whole lifecycle of a scenario deployment. Because of this, we advise to run Nussknacker in separate Kubernetes namespace.
+
 
 Ingress 
 -------
@@ -221,7 +224,7 @@ The chart comes with the following monitoring components:
 - Telegraf (used in flink mode)
 
 In the flink mode, the metrics from Nussknacker are exposed via Prometheus interface. They are read (and preprocessed)
-with Telegraf and sent to InfluxDB. In the streaming-lite mode, the metrics are sent directly from pods running scenarios to InfluxDB.
+with Telegraf and sent to InfluxDB. When using the Lite engine, the metrics are sent directly from pods running scenarios to InfluxDB.
 Grafana with a predefined dashboard is used to visualize process data in Nussknacker.
 
 It is of course possible to replace built-in components with your own. Please look at:
