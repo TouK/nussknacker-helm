@@ -203,6 +203,8 @@ grafana:
     enabled: false
 
 influxdb:
+  image:
+    tag: 1.8.10
   enabled: true
   config:
     http:
