@@ -165,7 +165,14 @@ apicurio-registry:
 flink:
   enabled: true
   image:
-    tag: 1.15.2-scala_2.12-java11
+    tag: 1.16.0-scala_2.12-java11
+  flink:
+    #TODO: system metrics fail on Flink 1.16
+    monitoring:
+      system:
+        enabled: false
+    #Have to override default setting from chart, as it's not compatible with Flink 1.16    
+    params: "metrics.reporter.prom.factory.class: org.apache.flink.metrics.prometheus.PrometheusReporterFactory"    
   taskmanager:
     statefulset: false
     numberOfTaskSlots: 3
