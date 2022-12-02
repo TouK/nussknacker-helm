@@ -73,7 +73,7 @@ The `mode` configuration variable is a convenient umbrella term for the processi
 
 By default, the chart runs Nussknacker in `flink` mode which deploys scenarios to Flink engine (either installed directly by the chart, or external one). It is also possible to run Nussknacker on K8s in `streaming-lite` and `request-response` modes. You will need to manually adjust values of the following variables if you use `mode` other than `flink`.
 
-It is also possible to run Nussknacker in:
+For:
 * `streaming-lite` mode:
     ```
     nussknacker:
