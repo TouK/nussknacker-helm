@@ -131,6 +131,8 @@ nussknacker:
   #Use it if you want to skip default kafka configuration and provide your own    
   skipKafkaConfig: false
   usageStatisticsReports: true
+  usageStatisticsReportsFingerprint: ~
+  usageStatisticsReportsSource: "helmchart"
   requestResponse:
     servicePort: 80
     ingress:
