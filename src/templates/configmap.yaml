@@ -108,6 +108,8 @@ data:
 
     usageStatisticsReports {
       enabled: {{- .Values.nussknacker.usageStatisticsReports }}
+      fingerprint: "{{- .Values.nussknacker.usageStatisticsReportsFingerprint }}"
+      source: "{{- .Values.nussknacker.usageStatisticsReportsSource }}"
     }
 
     {{- if .Values.nussknacker.authentication }}
