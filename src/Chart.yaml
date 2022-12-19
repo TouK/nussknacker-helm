@@ -1,6 +1,6 @@
 apiVersion: v2
 name: nussknacker
-version: 1.8.0-SNAPSHOT
+version: 1.7.0-SNAPSHOT
 description: Nussknacker - a design, development, and deployment tool for stream processing
 home: https://nussknacker.io/
 icon: https://nussknacker.io/wp-content/uploads/2021/10/Nussknacker-short-black.svg
@@ -35,7 +35,7 @@ dependencies:
     condition: flink.enabled
   - name: grafana
     # Grafana has quite good compatibility between minor version so this should be ok
-    version: ^6.32.14
+    version: ^6.48.0
     repository: "@grafana"
     condition: grafana.enabled
   - name: influxdb
@@ -43,6 +43,6 @@ dependencies:
     repository: "@influxdata"
     condition: influxdb.enabled
   - name: telegraf
-    version: ~1.8.19
+    version: ~1.8.23
     repository: "@influxdata"
     condition: telegraf.enabled
