@@ -68,10 +68,12 @@ provided outside. The table below lists components and their roles
 
 Modes
 -----
-By default, the chart runs Nussknacker in `streaming` mode which is configured to deploy scenarios on Flink engine
-(either installed directly by the chart, or external one). 
 
-It is also possible to run Nussknacker in:
+The `mode` configuration variable is a convenient umbrella term for the processing mode and engine. See [Glossary](https://nussknacker.io/documentation/about/GLOSSARY) for the explanation of these terms.
+
+By default, the chart runs Nussknacker in `flink` mode which deploys scenarios to Flink engine (either installed directly by the chart, or external one). It is also possible to run Nussknacker on K8s in `streaming-lite` and `request-response` modes. You will need to manually adjust values of the following variables if you use `mode` other than `flink`.
+
+For:
 * `streaming-lite` mode:
     ```
     nussknacker:
@@ -81,7 +83,7 @@ It is also possible to run Nussknacker in:
      telegraf:
        enabled: false  
     ```
-    In this mode scenarios will be deployed as K8s deployments. See [Nussknacker documentation](https://docs.nussknacker.io) for the details. 
+    
 * `request-response` mode
     ```
     nussknacker:
@@ -90,53 +92,50 @@ It is also possible to run Nussknacker in:
        enable: false
      telegraf:
        enabled: false  
+     kafka:
+       enabled: false
     ```
-  In this mode scenarios will be also deployed as K8s deployments, but in `request-response` processing mode. See [Nussknacker documentation](https://docs.nussknacker.io) for the details.
 
-
-Designer configuration
+Configuration
 -------------
 
-Nussknacker configuration is taken from following places
+Nussknacker configuration is taken from following places:
 
-- [defaultUiConfig.conf](https://github.com/TouK/nussknacker/blob/staging/ui/server/src/main/resources/defaultUiConfig.conf)
-    - defaults for UI
-- [defaultModelConfig.conf](https://github.com/TouK/nussknacker/blob/staging/defaultModel/src/main/resources/defaultModelConfig.conf)
-    - defaults for default model.
-- ```application.conf``` for configuring both model and UI. In this helm chart ```application.conf``` is defined with
-  ConfigMap (see ```templates/configmap.yaml```)
+- [defaultDesignerConfig.conf](https://github.com/TouK/nussknacker/blob/staging/designer/server/src/main/resources/defaultDesignerConfig.conf)  - defaults for Designer,
+- [defaultModelConfig.conf](https://github.com/TouK/nussknacker/blob/staging/defaultModel/src/main/resources/defaultModelConfig.conf)    - defaults for default model,
+- ```application.conf``` for additional configuration of both model and Designer. In this helm chart ```application.conf``` is defined with ConfigMap (see ```templates/configmap.yaml```). You can provide your own ```application.conf``` by means of `configFile` variable. 
 
-**NOTE** Currently it's not possible to use own ```application.conf``` with the chart. In the future you will be able to
-use your own ConfigMap for that.
-
-#### Configuration in configmap.yaml
+&nbsp;
+### Configuration in configmap.yaml
 
 We try to keep this ConfigMap as simple as possible, leaving most of the configuration for ```values.yaml```. In this
-ConfigMap, we fix one processType, usage of a single cluster, some other fixed configuration values. Also,
+ConfigMap, we set a scenario type, usage of a single cluster, some other configuration values. Also,
 configurations that depend on other values/templates (like Kafka config, metrics settings) are here, as it is not
 possible to e.g. include complex templates easily in values.
 
-#### Configuration in values.yaml
+&nbsp;
+### Configuration in values.yaml
 
-There are three major parts of Nussknacker configuration in ```values.yaml```
+Nussknacker configuration consists of three [configuration areas](https://nussknacker.io/documentation/docs/next/installation_configuration_guide/#configuration-areas); this is reflected in the way the Helm chart variables are defined. 
 
-- `modelConfig` - one can configure the model here (e.g. override Kafka address and so on). Values from this part are
+- `modelConfig` - you can configure the model here (e.g. override Kafka address and so on). Values from this part are
   included in ```modelConfig``` section of the configuration
-- `uiConfig` - one can override things like environment name, metrics and so on. They are included on the root level
-  of ```application.conf```
-- `flinkConfig` - here Flink cluster URL can be overridden. These settings are included in ```engineConfig``` section
-  of ```application.conf ```
-- `k8sDeploymentConfig` - here you can specify your own k8s runtime deployment yaml config in `streaming-lite` and `request-response` mode
-- `requestResponse` - here you can specify `servicePort` and `ingress` configuration for deployed scenarios on k8s when running in `request-response` mode
+- `uiConfig` - modifies the Designer configuration options. You can override things like environment name, metrics and so on. They are included on the root level of ```application.conf```
+- the Deployment Manager configuration parameters (and Helm variables) are documented fully in Nussknacker configuration [documentation](https://nussknacker.io/documentation/docs/next/installation_configuration_guide/DeploymentManagerConfiguration#lite-engine-based-on-kubernetes); below we mention just those which are most often modified:
+  - `k8sDeploymentConfig` - here you can specify your own k8s runtime deployment yaml config in `streaming-lite` and `request-response` modes
+  - `requestResponse` - here you can specify `servicePort` and `ingress` configuration for deployed scenarios on k8s when running in `request-response` mode
 
-#### Overriding via environment variables
+Finally, if you use external (not generated through this chart) Flink instance, use `flinkConfig` to configure it. Check `values.yaml` for available options. These settings are included in ```engineConfig``` section   of ```application.conf ```.
+
+&nbsp;
+### Overriding via environment variables
 
 You can override Nussknacker config with env variables, they can be passed in ```values.yaml```
 as ```extraEnv```. Please
 see [TypesafeConfig](https://github.com/lightbend/config#optional-system-or-env-variable-overrides)
 documentation (```CONFIG_FORCE_``` section) to learn how to map env variables to config keys.
 
-
+&nbsp;
 Using your own components/image
 ---------------------
 By default, this chart is installed with the official Nussknacker image, which contains generic components:
@@ -177,7 +176,7 @@ nussknacker:
           configExecutionOverrides: 
             modelClassPath: *modelClassPath
 ```
-Again, for flink mode it's only necessary to set `modelClassPath`.
+Again, for `flink` mode it's only necessary to set `modelClassPath`.
 
 Security/RBAC
 -------------
@@ -223,7 +222,7 @@ The chart comes with the following monitoring components:
 - Grafana
 - Telegraf (used in flink mode)
 
-In the flink mode, the metrics from Nussknacker are exposed via Prometheus interface. They are read (and preprocessed)
+In the `flink` mode, the metrics from Nussknacker are exposed via Prometheus interface. They are read (and preprocessed)
 with Telegraf and sent to InfluxDB. When using the Lite engine, the metrics are sent directly from pods running scenarios to InfluxDB.
 Grafana with a predefined dashboard is used to visualize process data in Nussknacker.
 
