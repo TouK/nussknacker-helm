@@ -149,7 +149,7 @@ postgresql:
 
 kafka:
   enabled: true
-  peristence:
+  persistence:
     enabled: true
   zookeeper:
     enabled: false
