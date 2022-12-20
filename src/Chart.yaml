@@ -14,15 +14,15 @@ type: application
 appVersion: 1.7.0
 dependencies:
   - name: postgresql
-    version: ~11.6.26
+    version: ~12.1.5
     repository: "@bitnami"
     condition: postgresql.enabled
   - name: zookeeper
-    version: ~9.2.7
+    version: ~11.0.2
     repository: "@bitnami"
     condition: kafka.enabled
   - name: kafka
-    version: ~17.2.6
+    version: ~20.0.2
     repository: "@bitnami"
     condition: kafka.enabled
   - name: apicurio-registry
