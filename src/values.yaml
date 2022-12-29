@@ -71,9 +71,11 @@ deployment:
   startupProbe:
     periodSeconds: 3
     failureThreshold: 40
+    timeoutSeconds: 5
   livenessProbe:
     periodSeconds: 5
     failureThreshold: 3
+    timeoutSeconds: 5
 
 ingress:
   skipHost: false
