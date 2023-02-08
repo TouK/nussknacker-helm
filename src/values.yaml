@@ -126,7 +126,7 @@ nussknacker:
     environment: "default"
     environmentAlert:
       content: "{{ .Values.nussknacker.uiConfig.environment }}"
-      cssClass: "indicator-green"
+      color: "indicator-green"
     categoriesConfig:
       #NOTE: all categories have to point to 'default' scenarioType!
       Default: "default"
