@@ -1,5 +1,5 @@
 image:
-  tag: staging-latest
+  tag: staging-latest_scala-2.12
   pullPolicy: Always
 
 imagePullSecrets:

@@ -1,3 +1,7 @@
+image:
+  tag: staging-latest
+  pullPolicy: Always
+
 flink:
   enabled: false
 
