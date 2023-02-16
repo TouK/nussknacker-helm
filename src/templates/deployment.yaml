@@ -119,10 +119,10 @@ spec:
       {{- if .Values.sidecarContainers -}}
         {{- toYaml .Values.sidecarContainers | nindent 8 -}}
       {{- end }}
-      {{- if .Values.initContainers -}}
-        initContainers:
-          {{- toYaml .Values.initContainers | nindent 10 -}}
-      {{- end }}
+    {{- with .Values.nussknackerInitContainers }}
+      initContainers:
+        {{- toYaml . | nindent 10 }}
+    {{- end }}
       volumes:
         - name: config
           configMap:

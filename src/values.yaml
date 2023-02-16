@@ -258,5 +258,7 @@ global:
     name: apicurio-registry
     path: /apis/ccompat/v6/
 
+nussknackerInitContainers: [ ]
+
 #Extra resources to deploy
 extraDeploy: []
