@@ -1,0 +1,40 @@
+#This configuration shows how to run NU designer using configuration from external file provided from configmap
+nussknacker:
+  mode: "streaming-lite"
+  configFile: /etc/nussknacker/application.conf,/etc/nussknacker/extra/extra-application.conf
+
+additionalVolumes:
+  - name: extra-config
+    configMap:
+      name: nu-external-config
+
+additionalVolumeMounts:
+  - name: extra-config
+    mountPath: /etc/nussknacker/extra
+
+extraDeploy:
+- apiVersion: v1
+  kind: ConfigMap
+  metadata:
+    name: nu-external-config
+  data:
+    extra-application.conf: |-
+      environmentAlert {
+        content: "example"
+        color: "indicator-blue"
+      }
+
+telegraf:
+  enabled: false
+
+flink:
+  enabled: false
+
+influxdb:
+  enabled: false
+
+grafana:
+  enabled: false
+
+apicurio-registry:
+  enabled: false
