@@ -11,18 +11,18 @@ keywords:
   - stream processing
   - event stream processing
 type: application
-appVersion: 1.8.0
+appVersion: 1.8.1
 dependencies:
   - name: postgresql
-    version: ~12.1.5
+    version: ~12.1.15
     repository: "@bitnami"
     condition: postgresql.enabled
   - name: zookeeper
-    version: ~11.0.2
+    version: ~11.0.3
     repository: "@bitnami"
     condition: kafka.enabled
   - name: kafka
-    version: ~20.0.2
+    version: ~20.0.6
     repository: "@bitnami"
     condition: kafka.enabled
   - name: apicurio-registry
@@ -35,7 +35,7 @@ dependencies:
     condition: flink.enabled
   - name: grafana
     # Grafana has quite good compatibility between minor version so this should be ok
-    version: ^6.48.0
+    version: ^6.51.1
     repository: "@grafana"
     condition: grafana.enabled
   - name: influxdb
@@ -43,6 +43,6 @@ dependencies:
     repository: "@influxdata"
     condition: influxdb.enabled
   - name: telegraf
-    version: ~1.8.23
+    version: ~1.8.26
     repository: "@influxdata"
     condition: telegraf.enabled
