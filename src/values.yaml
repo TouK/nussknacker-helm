@@ -122,6 +122,7 @@ nussknacker:
     #restUrl:
     #queryableStateProxyUrl:
   modelConfig: {}
+  configExecutionOverrides: {}
   uiConfig:
     environment: "default"
     environmentAlert:
