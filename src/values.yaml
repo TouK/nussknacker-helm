@@ -153,11 +153,6 @@ kafka:
   enabled: true
   persistence:
     enabled: true
-  zookeeper:
-    enabled: false
-  externalZookeeper:
-    servers:
-      - "{{ .Release.Name }}-zookeeper:{{ .Values.zookeeper.service.ports.client }}"
 
 apicurio-registry:
   enabled: true
@@ -251,9 +246,6 @@ global:
   kafka:
     name: kafka
     port: 9092
-  zookeeper:
-    name: zookeeper
-    port: 2181
   schemaRegistry:
     name: apicurio-registry
     path: /apis/ccompat/v6/
