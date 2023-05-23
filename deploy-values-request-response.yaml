@@ -14,8 +14,5 @@ kafka:
 apicurio-registry:
   enabled: false
 
-zookeeper:
-  enabled: false
-
 telegraf:
   enabled: false
