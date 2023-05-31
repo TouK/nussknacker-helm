@@ -149,10 +149,20 @@ postgresql:
   volumePermissions:
     enabled: true
 
+zookeeper:
+  enabled: true
+
 kafka:
   enabled: true
   persistence:
     enabled: true
+  kraft:
+    enabled: false
+  zookeeper:
+    enabled: false
+  externalZookeeper:
+    servers:
+      - "{{ .Release.Name }}-zookeeper:{{ .Values.zookeeper.service.ports.client }}"
 
 apicurio-registry:
   enabled: true
