@@ -24,7 +24,7 @@ dependencies:
   - name: zookeeper
     version: ~11.0.3
     repository: "@bitnami"
-    condition: kafka.enabled
+    condition: zookeeper.enabled
   - name: apicurio-registry
     repository: "@touk"
     version: ~0.1.5
