@@ -10,3 +10,12 @@ nussknacker:
 
 telegraf:
   enabled: false
+
+zookeeper:
+  enabled: false
+
+kafka:
+  kraft:
+    enabled: true
+  externalZookeeper:
+    servers: []
