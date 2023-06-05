@@ -45,7 +45,6 @@ spec:
             {{- end }}
             - name: {{ include "nussknacker.fullname" . }}-data
               mountPath: /opt/nussknacker/storage
-            {{- end }}
             {{- if .Values.additionalVolumeMounts }}
               {{- toYaml .Values.additionalVolumeMounts | nindent 12 -}}
             {{- end }}
