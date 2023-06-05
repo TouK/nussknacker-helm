@@ -43,10 +43,8 @@ spec:
             - name: logging-config
               mountPath: /etc/logging
             {{- end }}
-            {{- if .Values.persistence.enabled }}
-            - name: storage
+            - name: {{ include "nussknacker.fullname" . }}-data
               mountPath: /opt/nussknacker/storage
-              subPath: {{ .Values.persistence.subPath }}
             {{- end }}
             {{- if .Values.additionalVolumeMounts }}
               {{- toYaml .Values.additionalVolumeMounts | nindent 12 -}}
@@ -141,7 +139,7 @@ spec:
           persistentVolumeClaim:
             claimName: {{ .Values.persistence.existingClaim }}
         {{- else }}
-        - name: {{ include "influxdb.fullname" . }}-data
+        - name: {{ include "nussknacker.fullname" . }}-data
           emptyDir: {}
         {{- end }}
       {{- with .Values.nodeSelector }}
