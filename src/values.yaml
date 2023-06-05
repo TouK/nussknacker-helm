@@ -50,11 +50,6 @@ persistence:
   ## The value is evaluated as a template, so, for example, the name can depend on .Release or .Chart
   # existingClaim:
 
-  ## The subdirectory of the volume to mount to, useful in dev environments
-  ## and one PV for multiple services.
-  ##
-  subPath: ""
-
   ## If defined, storageClassName: <storageClass>
   ## If set to "-", storageClassName: "", which disables dynamic provisioning
   ## If undefined (the default) or set to null, no storageClassName spec is
@@ -62,7 +57,6 @@ persistence:
   ##   GKE, AWS & OpenStack)
   ##
   # storageClass: "-"
-
   accessMode: ReadWriteOnce
   size: 1Gi
   annotations: { }

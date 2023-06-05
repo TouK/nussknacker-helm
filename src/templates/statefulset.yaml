@@ -1,6 +1,6 @@
-{{- if not .Values.persistence.enabled }}
+{{- if .Values.persistence.enabled }}
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: {{ include "nussknacker.fullname" . }}
   labels:
@@ -42,6 +42,11 @@ spec:
             {{- if (include "nussknacker.customLogbackConfig" .) }}
             - name: logging-config
               mountPath: /etc/logging
+            {{- end }}
+            {{- if .Values.persistence.enabled }}
+            - name: storage
+              mountPath: /opt/nussknacker/storage
+              subPath: {{ .Values.persistence.subPath }}
             {{- end }}
             {{- if .Values.additionalVolumeMounts }}
               {{- toYaml .Values.additionalVolumeMounts | nindent 12 -}}
@@ -131,6 +136,14 @@ spec:
         {{- if .Values.additionalVolumes }}
           {{- toYaml .Values.additionalVolumes | nindent 8 -}}
         {{- end }}
+        {{- if and .Values.persistence.enabled .Values.persistence.existingClaim }}
+        - name: {{ include "nussknacker.fullname" . }}-data
+          persistentVolumeClaim:
+            claimName: {{ .Values.persistence.existingClaim }}
+        {{- else }}
+        - name: {{ include "influxdb.fullname" . }}-data
+          emptyDir: {}
+        {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
@@ -143,4 +156,26 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
     {{- end }}
+  {{- if and .Values.persistence.enabled (not .Values.persistence.existingClaim) }}
+  volumeClaimTemplates:
+    - metadata:
+        name: {{ include "nussknacker.fullname" . }}-data
+        annotations:
+        {{- range $key, $value := .Values.persistence.annotations }}
+          {{ $key }}: "{{ $value }}"
+        {{- end }}
+      spec:
+        accessModes:
+          - {{ .Values.persistence.accessMode | quote}}
+        resources:
+          requests:
+            storage: {{ .Values.persistence.size | quote }}
+      {{- if .Values.persistence.storageClass }}
+      {{- if (eq "-" .Values.persistence.storageClass) }}
+        storageClassName: ""
+      {{- else }}
+        storageClassName: "{{ .Values.persistence.storageClass }}"
+      {{- end }}
+      {{- end }}
+{{- end }}
 {{- end }}
