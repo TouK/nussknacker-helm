@@ -1,4 +1,4 @@
-{{- if not .Values.statefulSet.enabled -}}
+{{- if or (not .Values.statefulSet.enabled) (not .Values.persistence.enabled) -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
