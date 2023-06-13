@@ -134,7 +134,7 @@ spec:
             name: {{ include "nussknacker.fullname" . }}-logging-conf
         {{- end }}
         - name: storage
-        {{- if and .Values.persistence.enabled }}
+        {{- if .Values.persistence.enabled }}
           persistentVolumeClaim:
             claimName: {{ .Values.persistence.existingClaim | default (include "nussknacker.fullname" .) }}
         {{- else }}
