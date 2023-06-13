@@ -61,6 +61,9 @@ persistence:
   size: 1Gi
   annotations: { }
 
+## deployment upgrade strategy
+strategy: RollingUpdate
+
 deployment:
   startupProbe:
     periodSeconds: 3
@@ -70,6 +73,11 @@ deployment:
     periodSeconds: 5
     failureThreshold: 3
     timeoutSeconds: 5
+
+statefulSet:
+  ## If true, use a statefulset instead of a deployment for pod management.
+  enabled: false
+  podManagementPolicy: OrderedReady
 
 ingress:
   skipHost: false
