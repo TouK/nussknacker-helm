@@ -1,4 +1,5 @@
-{{- if .Values.persistence.enabled }}
+{{- if .Values.persistence.enabled -}}
+{{- if .Values.statefulSet.enabled -}}
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
@@ -7,6 +8,7 @@ metadata:
     {{- include "nussknacker.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
+  podManagementPolicy: {{ .Values.statefulSet.podManagementPolicy}}
   selector:
     matchLabels:
       {{- include "nussknacker.selectorLabels" . | nindent 6 }}
@@ -43,8 +45,9 @@ spec:
             - name: logging-config
               mountPath: /etc/logging
             {{- end }}
-            - name: {{ include "nussknacker.fullname" . }}-data
+            - name: storage
               mountPath: /opt/nussknacker/storage
+              subPath: {{ .Values.persistence.subPath }}
             {{- if .Values.additionalVolumeMounts }}
               {{- toYaml .Values.additionalVolumeMounts | nindent 12 -}}
             {{- end }}
@@ -130,16 +133,13 @@ spec:
           configMap:
             name: {{ include "nussknacker.fullname" . }}-logging-conf
         {{- end }}
-        {{- if .Values.additionalVolumes }}
-          {{- toYaml .Values.additionalVolumes | nindent 8 -}}
-        {{- end }}
-        {{- if and .Values.persistence.enabled .Values.persistence.existingClaim }}
-        - name: {{ include "nussknacker.fullname" . }}-data
+        {{- if .Values.persistence.existingClaim }}
+        - name: storage
           persistentVolumeClaim:
             claimName: {{ .Values.persistence.existingClaim }}
-        {{- else }}
-        - name: {{ include "nussknacker.fullname" . }}-data
-          emptyDir: {}
+        {{- end }}
+        {{- if .Values.additionalVolumes }}
+          {{- toYaml .Values.additionalVolumes | nindent 8 -}}
         {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
@@ -153,10 +153,10 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
     {{- end }}
-  {{- if and .Values.persistence.enabled (not .Values.persistence.existingClaim) }}
+  {{- if not .Values.persistence.existingClaim }}
   volumeClaimTemplates:
     - metadata:
-        name: {{ include "nussknacker.fullname" . }}-data
+        name: storage
         annotations:
         {{- range $key, $value := .Values.persistence.annotations }}
           {{ $key }}: "{{ $value }}"
@@ -175,4 +175,5 @@ spec:
       {{- end }}
       {{- end }}
   {{- end }}
-{{- end }}
+{{- end -}}
+{{- end -}}
