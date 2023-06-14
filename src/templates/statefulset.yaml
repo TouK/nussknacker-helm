@@ -1,5 +1,4 @@
-{{- if .Values.persistence.enabled -}}
-{{- if .Values.statefulSet.enabled -}}
+{{- if and .Values.persistence.enabled .Values.statefulSet.enabled -}}
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
@@ -175,5 +174,4 @@ spec:
       {{- end }}
       {{- end }}
   {{- end }}
-{{- end -}}
 {{- end -}}
