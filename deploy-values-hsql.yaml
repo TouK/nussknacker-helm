@@ -1,0 +1,16 @@
+persistence:
+  enabled: true
+  size: 10Mi
+  accessMode: ReadWriteOnce
+
+statefulSet:
+  enabled: true
+
+db:
+  driver: 'org.hsqldb.jdbc.JDBCDriver'
+  url: 'jdbc:hsqldb:file:/opt/nussknacker/storage/db?sql.syntax_ora=true'
+  user: sa
+  schema: public
+
+postgresql:
+  enabled: false
