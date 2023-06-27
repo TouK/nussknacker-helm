@@ -143,7 +143,7 @@ jobs:
         run: |
           helm upgrade -i "${{env.RELEASE_NAME}}" dist/*.tgz \
             --version "${{needs.build.outputs.version}}" \
-            --wait --debug \
+            --debug \
             -f deploy-values.yaml \
             -f deploy-values-kafka-config.yaml \
             -f deploy-values-streaming-lite.yaml \
