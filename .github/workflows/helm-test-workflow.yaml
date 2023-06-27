@@ -149,6 +149,7 @@ jobs:
             -f deploy-values-streaming-lite.yaml \
             -f deploy-values-db-hsql.yaml \
             --set "image.tag=${{env.NUSSKNACKER_VERSION}}"
+           sleep 200
       - name: helmTestRelease
         run: ./test.sh "${{env.RELEASE_NAME}}"
   publish-snapshot:
