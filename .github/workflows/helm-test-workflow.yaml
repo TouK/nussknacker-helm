@@ -143,13 +143,12 @@ jobs:
         run: |
           helm upgrade -i "${{env.RELEASE_NAME}}" dist/*.tgz \
             --version "${{needs.build.outputs.version}}" \
-            --debug \
+            --wait --debug \
             -f deploy-values.yaml \
             -f deploy-values-kafka-config.yaml \
             -f deploy-values-streaming-lite.yaml \
             -f deploy-values-db-hsql.yaml \
             --set "image.tag=${{env.NUSSKNACKER_VERSION}}"
-           sleep 200
       - name: helmTestRelease
         run: ./test.sh "${{env.RELEASE_NAME}}"
   publish-snapshot:
