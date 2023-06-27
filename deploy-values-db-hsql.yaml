@@ -1,6 +1,6 @@
 persistence:
   enabled: true
-  size: 10Mi
+  size: 100Mi
   accessMode: ReadWriteOnce
 
 statefulSet:
