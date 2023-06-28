@@ -73,6 +73,11 @@ containers:
       - name: http
         containerPort: 8080
         protocol: TCP
+      {{ if .Values.persistence.enabled }}
+      - name: hsql
+        containerPort: 9001
+        protocol: TCP
+      {{ end }}
       {{ if .Values.prometheusMetrics.enabled }}
       - name: prometheus
         containerPort: {{ .Values.prometheusMetrics.port }}
