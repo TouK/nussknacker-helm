@@ -85,6 +85,22 @@ ingress:
   # domain: <a TLD must be set>
   # host: .Release.Name-nussknacker
   # tlsSecretName: .Release.Name-nussknacker-tls
+  ## Custom ingress paths for each host. This feature can be used to override the default paths
+  customPaths: []
+  # Example for Kubernetes > 1.19:
+  # - path: /custom-path
+  #   pathType: Prefix
+  #   backend:
+  #     service:
+  #       name: my-custom-service
+  #       port:
+  #         number: 8080
+
+  # Example for Kubernetes < 1.19:
+  # - path: /custom-path
+  #   backend:
+  #     serviceName: my-custom-service
+  #     servicePort: 8080
 
 resources: { }
   # We usually recommend not to specify default resources and to leave this as a conscious
