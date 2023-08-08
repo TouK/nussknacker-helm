@@ -172,7 +172,7 @@ apicurio-registry:
     enabled: false
 
 flink:
-  enabled: false
+  enabled: true
   image:
     tag: 1.16.0-scala_2.12-java11
   flink:
@@ -235,7 +235,7 @@ influxdb:
       password: changeme
 
 telegraf:
-  enabled: false
+  enabled: true
   rbac:
     create: false
   args:
