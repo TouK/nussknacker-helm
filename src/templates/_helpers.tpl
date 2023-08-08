@@ -185,6 +185,8 @@ nussknacker-request-response-scenario
 {{- define "nussknacker.modelClassPath" -}}
 {{- if .Values.nussknacker.modelClassPath -}}
 {{ tpl ( mustToJson .Values.nussknacker.modelClassPath) . }}
+{{- else if eq .Values.nussknacker.mode "ververica" -}}
+["model/defaultModel.jar", "model/flinkExecutor.jar", "components/flink", "components/common"]
 {{- else if eq .Values.nussknacker.mode "flink" -}}
 ["model/defaultModel.jar", "model/flinkExecutor.jar", "components/flink", "components/common"]
 {{- else if eq .Values.nussknacker.mode "streaming-lite" -}}
@@ -234,3 +236,9 @@ Taken from https://github.com/bitnami/charts/blob/9401e13316992c36b0e33de75d5f24
         {{- tpl (.value | toYaml) .context }}
     {{- end }}
 {{- end -}}
+
+{{- define "imagePullSecret" }}
+{{- with .Values.imageCredentials }}
+{{- printf "{\"auths\":{\"%s\":{\"username\":\"%s\",\"password\":\"%s\",\"auth\":\"%s\"}}}" .registry .username .password (printf "%s:%s" .username .password | b64enc) | b64enc }}
+{{- end }}
+{{- end }}
