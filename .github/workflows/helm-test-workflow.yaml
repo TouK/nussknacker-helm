@@ -57,7 +57,7 @@ jobs:
         with:
           name: helm-build
           path: "dist/${{env.NAME}}-${{steps.setVersion.outputs.version}}.tgz"
-      - run: curl -u ${{env.CHART_REPOSITORY_AUTH}} --fail --upload-file "dist/${{env.NAME}}-${{needs.build.outputs.version}}.tgz" ${{env.CHARTS_PUBLIC_SNAPSHOTS_URL}}
+      - run: curl -u ${{env.CHART_REPOSITORY_AUTH}} --fail --upload-file "dist/${{env.NAME}}-${{steps.setVersion.outputs.version}}.tgz" ${{env.CHARTS_PUBLIC_SNAPSHOTS_URL}}
   test-flink:
     name: test flink mode
     runs-on: ubuntu-latest
