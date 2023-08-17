@@ -95,6 +95,13 @@ data:
                 "schema.registry.url": "{{ include "nussknacker.schemaRegistryUrl" . }}"
               }
             }
+            {{- else if and (eq .Values.nussknacker.mode "ververica") (not .Values.nussknacker.skipKafkaConfig ) }}
+            kafka {
+              kafkaProperties {
+                "bootstrap.servers": "{{ include "nussknacker.kafkaBootstrapServers" . }}"
+                "schema.registry.url": "{{ include "nussknacker.schemaRegistryUrl" . }}"
+              }
+            }
             {{- end }}
           }{{- tpl ( mustToJson .Values.nussknacker.modelConfig ) . }}
       }
