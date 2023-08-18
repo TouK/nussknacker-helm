@@ -99,7 +99,7 @@ data:
             components.kafka.config {
               kafkaProperties {
                 "bootstrap.servers": "{{ include "nussknacker.kafkaBootstrapServers" . }}"
-                "schema.registry.url": "{{ include "nussknacker.schemaRegistryUrl" . }}"
+                "schema.registry.url": "https://staging-kafka-nu-staging-project.aivencloud.com:18419"
               }
             }
             {{- end }}
