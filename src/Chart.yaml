@@ -1,6 +1,6 @@
 apiVersion: v2
 name: nussknacker
-version: 1.9.1-mpk-3
+version: 1.9.1-mpk-4
 description: Nussknacker - a design, development, and deployment tool for stream processing
 home: https://nussknacker.io/
 icon: https://nussknacker.io/wp-content/uploads/2021/10/Nussknacker-short-black.svg
