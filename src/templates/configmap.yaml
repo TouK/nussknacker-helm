@@ -96,7 +96,7 @@ data:
               }
             }
             {{- else if and (eq .Values.nussknacker.mode "ververica") (not .Values.nussknacker.skipKafkaConfig ) }}
-            kafka {
+            components.kafka {
               kafkaProperties {
                 "bootstrap.servers": "{{ include "nussknacker.kafkaBootstrapServers" . }}"
                 "schema.registry.url": "{{ include "nussknacker.schemaRegistryUrl" . }}"
