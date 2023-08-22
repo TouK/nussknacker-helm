@@ -96,10 +96,10 @@ data:
               }
             }
             {{- else if and (eq .Values.nussknacker.mode "ververica") (not .Values.nussknacker.skipKafkaConfig ) }}
-            components.kafka.config {
+            kafka{
               kafkaProperties {
                 "bootstrap.servers": "{{ include "nussknacker.kafkaBootstrapServers" . }}"
-                "schema.registry.url": "https://staging-kafka-nu-staging-project.aivencloud.com:18419"
+                "schema.registry.url": "{{ include "nussknacker.schemaRegistryUrl" . }}"
               }
             }
             {{- end }}
