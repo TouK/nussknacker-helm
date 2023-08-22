@@ -20,6 +20,7 @@ data:
               workspace: {{ .Values.nussknacker.workspace }}
               username: {{ .Values.nussknacker.username | quote }}
               password: {{ .Values.nussknacker.password | quote }}
+              remoteSyslogIp: {{ .Values.nussknacker.remoteSyslogIp | quote }}
           }
           {{- else if eq .Values.nussknacker.mode "flink" }}
           deploymentConfig: {
