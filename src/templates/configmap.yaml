@@ -21,6 +21,7 @@ data:
               username: {{ .Values.nussknacker.username | quote }}
               password: {{ .Values.nussknacker.password | quote }}
               remoteSyslogIp: {{ .Values.nussknacker.remoteSyslogIp | quote }}
+              remoteSyslogPort: {{ .Values.nussknacker.remoteSyslogPort }}
           }
           {{- else if eq .Values.nussknacker.mode "flink" }}
           deploymentConfig: {
