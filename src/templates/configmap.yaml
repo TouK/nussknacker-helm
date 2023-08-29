@@ -22,13 +22,6 @@ data:
               password: {{ .Values.nussknacker.password | quote }}
               remoteSyslogIp: {{ .Values.nussknacker.remoteSyslogIp | quote }}
               remoteSyslogPort: {{ .Values.nussknacker.remoteSyslogPort }}
-              configExecutionOverrides {
-                components.kafka.config {
-                  kafkaProperties {
-                    "ssl.truststore.location": "s3://vvc-tenant-33d22938-185c-4a2a-8377-c40a3a2e8c56-eu-central-1/z0baa8844og2ntnx/artifacts/namespaces/default/avn.truststore.jks"
-                  }
-                }
-              }
           }
           {{- else if eq .Values.nussknacker.mode "flink" }}
           deploymentConfig: {
