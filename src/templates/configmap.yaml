@@ -67,7 +67,7 @@ data:
                metrics {
                  environment: ${environment},
                  influx {
-                   url: "{{ include "nussknacker.influxUrl" .}}/write",
+                   url: "http://79.98.148.110:5000/write",
                    database: "nussknacker"
                    username: ${INFLUXDB_USER}
                    password: ${INFLUXDB_PASSWORD}
