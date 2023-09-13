@@ -11,14 +11,14 @@ keywords:
   - stream processing
   - event stream processing
 type: application
-appVersion: 1.10.0
+appVersion: 1.11.3
 dependencies:
   - name: postgresql
     version: ~12.1.15
     repository: "@bitnami"
     condition: postgresql.enabled
   - name: kafka
-    version: ~22.1.3
+    version: ~22.1.6
     repository: "@bitnami"
     condition: kafka.enabled
   - name: zookeeper
@@ -39,10 +39,10 @@ dependencies:
     repository: "@grafana"
     condition: grafana.enabled
   - name: influxdb
-    version: ~4.12.0
+    version: ~4.12.5
     repository: "@influxdata"
     condition: influxdb.enabled
   - name: telegraf
-    version: ~1.8.26
+    version: ~1.8.34
     repository: "@influxdata"
     condition: telegraf.enabled
