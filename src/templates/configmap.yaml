@@ -14,7 +14,16 @@ data:
 
     scenarioTypes {
       "default": {
-          {{- if eq .Values.nussknacker.mode "flink" }}
+          {{- if eq .Values.nussknacker.mode "ververica" }}
+          deploymentConfig: {
+              type: "ververica"
+              workspace: {{ .Values.nussknacker.workspace }}
+              username: {{ .Values.nussknacker.username | quote }}
+              password: {{ .Values.nussknacker.password | quote }}
+              remoteSyslogIp: {{ .Values.nussknacker.remoteSyslogIp | quote }}
+              remoteSyslogPort: {{ .Values.nussknacker.remoteSyslogPort }}
+          }
+          {{- else if eq .Values.nussknacker.mode "flink" }}
           deploymentConfig: {
              type: "flinkStreaming"
              {{- /* Find easier way of passing it through values */}}

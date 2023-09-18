@@ -184,7 +184,9 @@ nussknacker-request-response-scenario
 
 {{- define "nussknacker.modelClassPath" -}}
 {{- if .Values.nussknacker.modelClassPath -}}
-{{ tpl ( mustToJson .Values.nussknacker.modelClassPath) . }}
+{{ tpl ( mustToJson .Valumes.nussknacker.modelClassPath) . }}
+{{- else if eq .Values.nussknacker.mode "ververica" -}}
+["model/defaultModel.jar", "model/flinkExecutor.jar", "components/flink", "components/common"]
 {{- else if eq .Values.nussknacker.mode "flink" -}}
 ["model/defaultModel.jar", "model/flinkExecutor.jar", "components/flink", "components/common"]
 {{- else if eq .Values.nussknacker.mode "streaming-lite" -}}
