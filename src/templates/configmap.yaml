@@ -80,7 +80,7 @@ data:
 
           modelConfig: {
             classPath: {{ include "nussknacker.modelClassPath" . }}
-            remoteClassPath: {{ ".Values.nussknacker.remoteClassPath" | default "[]" }}
+            remoteClassPath: {{ .Values.nussknacker.remoteClassPath | default "[]" }}
             {{- if and (eq .Values.nussknacker.mode "flink") (not .Values.nussknacker.skipKafkaConfig ) }}
             components.kafka.config {
               kafkaProperties {
