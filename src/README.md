@@ -7,7 +7,7 @@ it is highly configurable.
 
 Quickstart
 ----------
-Check [Quickstart guide](https://nussknacker.io/documentation/quickstart/lite-streaming/) relevant to your engine and processing mode to see the whole process of installation, configuration of messages schemas and defining of scenarios. You can also check `k8s-helm` directory in [nussknacker-quickstart repository](https://github.com/TouK/nussknacker-quickstart) for an example of K8s based installation. Finally, the `examples` folder of the [Helm chart repo](https://github.com/TouK/nussknacker-helm.git) contains examples how to apply configurations typical to Nussknacker K8s deployment. 
+Check [Quickstart guide](https://nussknacker.io/documentation/quickstart/lite-streaming/) relevant to your [engine](https://nussknacker.io/documentation/about/engines/) and [processing mode](https://nussknacker.io/documentation/about/ProcessingModes/) to see the whole process of installation, configuration of messages schemas and defining of scenarios. You can also check `k8s-helm` directory in [nussknacker-quickstart repository](https://github.com/TouK/nussknacker-quickstart) for an example of K8s based installation. Finally, the `examples` folder of the [Helm chart repo](https://github.com/TouK/nussknacker-helm.git) contains examples how to apply configurations typical to Nussknacker K8s deployment. 
 
 Requirements
 ------------
@@ -123,7 +123,7 @@ Nussknacker configuration consists of three [configuration areas](https://nusskn
   - `k8sDeploymentConfig` - here you can specify your own k8s runtime deployment yaml config in `streaming-lite` and `request-response` modes
   - `requestResponse` - here you can specify `servicePort` and `ingress` configuration for deployed scenarios on k8s when running in `request-response` mode
 
-Yaml keys expected by Nussknacker to be in the form of nested yaml structures in Values file are converted to json; check the chart implementation if in doubt.  
+Yaml keys expected by Nussknacker to be in the form of nested yaml structures in the Values file are converted to json; check the chart implementation if in doubt.  
 
 Please note that not all configurations are one-to-one mapped to Values key names and that in few cases Values key names are different from configuration keys names.
 
