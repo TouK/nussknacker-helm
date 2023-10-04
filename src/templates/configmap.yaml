@@ -17,7 +17,6 @@ data:
           {{- if eq .Values.nussknacker.mode "ververica" }}
           deploymentConfig: {
               type: "ververica"
-              workspace: {{ .Values.nussknacker.workspace }}
               username: {{ .Values.nussknacker.username | quote }}
               password: {{ .Values.nussknacker.password | quote }}
               remoteSyslogIp: {{ .Values.nussknacker.remoteSyslogIp | quote }}
@@ -80,7 +79,6 @@ data:
 
           modelConfig: {
             classPath: {{ include "nussknacker.modelClassPath" . }}
-            remoteClassPath: {{ .Values.nussknacker.remoteClassPath | default "[]" }}
             {{- if and (eq .Values.nussknacker.mode "flink") (not .Values.nussknacker.skipKafkaConfig ) }}
             components.kafka.config {
               kafkaProperties {
