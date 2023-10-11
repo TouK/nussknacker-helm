@@ -17,10 +17,10 @@ data:
           {{- if eq .Values.nussknacker.mode "ververica" }}
           deploymentConfig: {
               type: "ververica"
-              username: {{ .Values.nussknacker.username | quote }}
-              password: {{ .Values.nussknacker.password | quote }}
-              remoteSyslogIp: {{ .Values.nussknacker.remoteSyslogIp | quote }}
-              remoteSyslogPort: {{ .Values.nussknacker.remoteSyslogPort }}
+              username: {{ .Values.nussknacker.ververica.username | quote }}
+              password: {{ .Values.nussknacker.ververica.password | quote }}
+              remoteSyslogIp: {{ .Values.nussknacker.ververica.remoteSyslogIp | quote }}
+              remoteSyslogPort: {{ .Values.nussknacker.ververica.remoteSyslogPort }}
           }
           {{- else if eq .Values.nussknacker.mode "flink" }}
           deploymentConfig: {
