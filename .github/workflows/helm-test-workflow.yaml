@@ -47,6 +47,8 @@ jobs:
         run: echo "::set-output name=version::$(helm show chart ${{env.CHART_SRC_DIR}} | grep ^version | sed -e "s/.*:\ //;s/SNAPSHOT/SNAPSHOT.${{github.run_id}}/")"
       - name: buildAll
         run: ./setup.sh
+      - name: 
+        run: git status
       - name: checkTemplate
         run: helm template -f deploy-values.yaml --set "image.tag=${{env.NUSSKNACKER_VERSION}}" ${{env.CHART_SRC_DIR}}
       - name: packageAll
