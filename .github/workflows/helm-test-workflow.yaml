@@ -4,6 +4,7 @@ on:
   pull_request:
     branches:
       - main
+      - 'preview/*'
   push:
     branches:
       - main
