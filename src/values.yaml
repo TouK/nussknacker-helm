@@ -220,15 +220,40 @@ grafana:
   #TODO: authentication
   adminUser: admin
   adminPassword: admin
+  datasources:
+    datasources.yaml:
+      apiVersion: 1
+      datasources:
+      - name: influx
+        type: influxdb
+        access: proxy
+        orgId: 1
+        url: "http://nussknacker-influxdb:8086"
+        database: nussknacker
+        basicAuth: true
+        isDefault: true
+        version: 1
+        editable: false
+        basicAuthUser: ${influxdb-user}
+        secureJsonData:
+          basicAuthPassword: ${influxdb-password}
+  dashboards:
+    default:
+      dashboard:
+        file: grafana/dashboard.json
+      dashboard:
+        file: grafana/nussknacker-lite-scenario.json
+      dashboard:
+        file: grafana/nussknacker-request-response-scenario.json
   rbac:
     create: true
     namespaced: true
     pspEnabled: false
   sidecar:
     dashboards:
-      enabled: true
+      enabled: false
     datasources:
-      enabled: true
+      enabled: false
   envFromSecret: "{{ .Release.Name }}-influxdb-auth"
   ingress:
     enabled: false
