@@ -50,8 +50,6 @@ jobs:
       - name: buildAll
         run: ./setup.sh
       - name: verify helm version
-        run: apt-get install helm=3.12.2
-      - name: helm version
         run: current_helm_version=$(helm version) && [ "$current_helm_version" = "$HELM_VERSION" ] || echo "Helm version is different that expected!"
       - name: checkTemplate
         run: helm template -f deploy-values.yaml --set "image.tag=${{env.NUSSKNACKER_VERSION}}" ${{env.CHART_SRC_DIR}}
