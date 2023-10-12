@@ -39,6 +39,8 @@ jobs:
     outputs:
       version: ${{ steps.setVersion.outputs.version }}
     steps:
+      - name: Verify helm version
+        run: current_helm_version=$(helm version) && [ "$current_helm_version" = "$HELM_VERSION" ] && echo "Helm is in expected version" || echo "::warning title=Helm version is different that expected!::Helm has been updated on underlying image. It could lead to unexpected behaviour during pipeline execution!"
       - name: Checkout
         uses: actions/checkout@v2
       - name: Print Nussknacker version
@@ -49,8 +51,6 @@ jobs:
         run: echo "::set-output name=version::$(helm show chart ${{env.CHART_SRC_DIR}} | grep ^version | sed -e "s/.*:\ //;s/SNAPSHOT/SNAPSHOT.${{github.run_id}}/")"
       - name: buildAll
         run: ./setup.sh
-      - name: verify helm version
-        run: current_helm_version=$(helm version) && [ "$current_helm_version" = "$HELM_VERSION" ] || echo "Helm version is different that expected!"
       - name: checkTemplate
         run: helm template -f deploy-values.yaml --set "image.tag=${{env.NUSSKNACKER_VERSION}}" ${{env.CHART_SRC_DIR}}
       - name: packageAll
