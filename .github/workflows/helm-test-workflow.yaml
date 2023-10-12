@@ -49,8 +49,8 @@ jobs:
         run: echo "::set-output name=version::$(helm show chart ${{env.CHART_SRC_DIR}} | grep ^version | sed -e "s/.*:\ //;s/SNAPSHOT/SNAPSHOT.${{github.run_id}}/")"
       - name: buildAll
         run: ./setup.sh
-      - name: git log
-        run: git log
+      - name: try to install older helm
+        run: apt-get install helm=3.12.2
       - name: helm version
         run: helm version
       - name: system version
