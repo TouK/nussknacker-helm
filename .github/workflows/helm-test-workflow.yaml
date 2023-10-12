@@ -51,6 +51,8 @@ jobs:
         run: ./setup.sh
       - name: git log
         run: git log
+      - name: helm version
+        run: helm version
       - name: checkTemplate
         run: helm template -f deploy-values.yaml --set "image.tag=${{env.NUSSKNACKER_VERSION}}" ${{env.CHART_SRC_DIR}}
       - name: packageAll
