@@ -177,7 +177,7 @@ kafka:
     enabled: false
   externalZookeeper:
     servers:
-      - "{{ .Release.Name }}-zookeeper:{{ .Values.zookeeper.service.ports.client }}"
+      - "{{ .Release.Name }}-zookeeper:{{ .Values.zookeeper.service.ports.client.port }}"
 
 apicurio-registry:
   enabled: true
