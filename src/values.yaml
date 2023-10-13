@@ -166,6 +166,9 @@ postgresql:
 
 zookeeper:
   enabled: true
+  service:
+    ports:
+      client: 2181
 
 kafka:
   enabled: true
