@@ -234,9 +234,9 @@ grafana:
         isDefault: true
         version: 1
         editable: false
-        basicAuthUser: ${influxdb-user}
+        basicAuthUser: user
         secureJsonData:
-          basicAuthPassword: ${influxdb-password}
+          basicAuthPassword: pass
   dashboards:
     default:
       dashboard:

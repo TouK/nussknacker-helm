@@ -48,7 +48,7 @@ jobs:
       - name: buildAll
         run: ./setup.sh
       - name: checkTemplate
-        run: helm template -f deploy-values.yaml --set "image.tag=${{env.NUSSKNACKER_VERSION}}" ${{env.CHART_SRC_DIR}} --debug
+        run: helm template -f deploy-values.yaml --set "image.tag=${{env.NUSSKNACKER_VERSION}}" ${{env.CHART_SRC_DIR}}
       - name: packageAll
         run: helm package ${{env.CHART_SRC_DIR}} -d dist --version "${{steps.setVersion.outputs.version}}"
       - name: Store target
