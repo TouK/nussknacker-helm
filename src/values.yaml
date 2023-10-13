@@ -244,9 +244,9 @@ grafana:
     default:
       dashboard:
         file: grafana/dashboard.json
-      dashboard:
+      nussknacker-lite-scenario:
         file: grafana/nussknacker-lite-scenario.json
-      dashboard:
+      nussknacker-request-response-scenario:
         file: grafana/nussknacker-request-response-scenario.json
   rbac:
     create: true
