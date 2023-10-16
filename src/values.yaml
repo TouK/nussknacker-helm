@@ -166,7 +166,8 @@ postgresql:
 
 zookeeper:
   enabled: true
-  service: {}
+  service:
+    ports: {}
 
 kafka:
   enabled: true
