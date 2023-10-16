@@ -167,6 +167,11 @@ postgresql:
 zookeeper:
   enabled: true
 
+zookeeper_external:
+  service:
+    ports:
+      client: 2181
+
 kafka:
   enabled: true
   persistence:
@@ -177,7 +182,7 @@ kafka:
     enabled: false
   externalZookeeper:
     servers:
-      - "{{ .Release.Name }}-zookeeper:{{ .Values.zookeeper.service.ports.client }}"
+      - "{{ .Release.Name }}-zookeeper:{{ .Values.zookeeper_external.service.ports.client }}"
 
 apicurio-registry:
   enabled: true
