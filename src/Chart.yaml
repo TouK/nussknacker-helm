@@ -25,7 +25,7 @@ dependencies:
     version: ~11.0.3
     repository: "@bitnami"
     condition: zookeeper.enabled
-    alias: zookeeper_external
+    alias: zookeeper-external
   - name: apicurio-registry
     repository: "@touk"
     version: ~0.1.5
