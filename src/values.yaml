@@ -166,6 +166,8 @@ postgresql:
 
 zookeeper:
   enabled: true
+
+zookeeper-external:
   service:
     ports:
       client: 2181
