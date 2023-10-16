@@ -164,10 +164,8 @@ postgresql:
   volumePermissions:
     enabled: true
 
-zookeeper:
-  enabled: true
-
 zookeeper_external:
+  enabled: true
   service:
     ports:
       client: 2181
