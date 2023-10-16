@@ -205,6 +205,10 @@ flink:
     numberOfTaskSlots: 3
   jobmanager:
     statefulset: true
+  zookeeper:
+    service:
+      ports:
+        client: 2181
 #  prometheus:
 #    serviceMonitor:
 #      enabled: false
