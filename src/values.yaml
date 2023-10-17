@@ -178,7 +178,7 @@ postgresql:
 zookeeper:
   enabled: true
   
-zookeeper_external:
+zookeeper-external:
   service: *zookeeper_ports_config
     
 kafka:
