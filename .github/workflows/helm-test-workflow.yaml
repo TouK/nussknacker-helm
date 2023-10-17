@@ -35,12 +35,12 @@ defaults:
 jobs:
   build:
     name: build
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     outputs:
       version: ${{ steps.setVersion.outputs.version }}
     steps:
       - name: Verify helm version
-        run: current_helm_version=$(helm version) && [ "$current_helm_version" = "$HELM_VERSION" ] && echo "Helm is in expected version" || echo "::warning title=Helm version is different that expected!::Helm has been updated on underlying image. It could lead to unexpected behaviour during pipeline execution!"
+        run: current_helm_version=$(helm version) && [ "$current_helm_version" = "$HELM_VERSION" ] && echo "Helm is in expected version" || echo "::warning title=Helm version is different than expected!::Helm has been updated on runner's image. It could lead to unexpected behaviour during pipeline execution!"
       - name: Checkout
         uses: actions/checkout@v2
       - name: Print Nussknacker version
