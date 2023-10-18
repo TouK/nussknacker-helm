@@ -42,6 +42,8 @@ jobs:
       - name: Print Nussknacker version
         run: |
           echo "Nussknacker version: $NUSSKNACKER_VERSION"
+      - name: test
+        run: echo "{version}={$(helm show chart ${{env.CHART_SRC_DIR}} | grep ^version | sed -e "s/.*:\ //;s/SNAPSHOT/SNAPSHOT.${{github.run_id}}/")}" 
       - name: setVersion
         id: setVersion
         run: echo "{version}={$(helm show chart ${{env.CHART_SRC_DIR}} | grep ^version | sed -e "s/.*:\ //;s/SNAPSHOT/SNAPSHOT.${{github.run_id}}/")}" >> $GITHUB_OUTPUT
