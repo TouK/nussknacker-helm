@@ -16,12 +16,12 @@ dependencies:
   version: 0.2.0
 - name: grafana
   repository: https://grafana.github.io/helm-charts
-  version: 6.60.6
+  version: 6.61.0
 - name: influxdb
   repository: https://helm.influxdata.com/
   version: 4.12.5
 - name: telegraf
   repository: https://helm.influxdata.com/
   version: 1.8.35
-digest: sha256:05f1bc522e61aa06cb7d70732143ffabf828169aa93b61cc494992f044952203
-generated: "2023-10-17T11:51:34.229055+02:00"
+digest: sha256:0f79e72af1530a708dd2b65389dd49a3808c36c750feca6faad8d6ec43ee2ed6
+generated: "2023-10-18T07:33:43.988697+02:00"
