@@ -25,7 +25,7 @@ env:
   CHART_REPOSITORY_AUTH: "${{ secrets.CHARTS_PUBLIC_AUTH}}"
   CHARTS_PUBLIC_SNAPSHOTS_URL: "https://helm-charts.touk.pl/nexus/repository/helm-snapshots/"
   CHARTS_PUBLIC_RELEASES_URL: "https://helm-charts.touk.pl/nexus/repository/helm-releases/"
-  HELM_VERSION: 'version.BuildInfo{Version:"v3.13.0", GitCommit:"825e86f6a7a38cef1112bfa606e4127a706749b1", GitTreeState:"clean", GoVersion:"go1.20.8}"'
+  HELM_VERSION: 'version.BuildInfo{Version:"v3.13.0", GitCommit:"825e86f6a7a38cef1112bfa606e4127a706749b1", GitTreeState:"clean", GoVersion:"go1.20.8"}'
 defaults:
   run:
     shell: bash
