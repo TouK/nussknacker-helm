@@ -42,13 +42,13 @@ jobs:
       - name: Verify helm version
         run: current_helm_version=$(helm version) && [ "$current_helm_version" = "$HELM_VERSION" ] && echo "Helm is in expected version" || echo "::warning title=Helm version is different than expected!::Helm has been updated on runner's image. It could lead to unexpected behaviour during pipeline execution!"
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Print Nussknacker version
         run: |
           echo "Nussknacker version: $NUSSKNACKER_VERSION"
       - name: setVersion
         id: setVersion
-        run: echo "::set-output name=version::$(helm show chart ${{env.CHART_SRC_DIR}} | grep ^version | sed -e "s/.*:\ //;s/SNAPSHOT/SNAPSHOT.${{github.run_id}}/")"
+        run: echo "version=$(helm show chart ${{env.CHART_SRC_DIR}} | grep ^version | sed -e "s/.*:\ //;s/SNAPSHOT/SNAPSHOT.${{github.run_id}}/")" >> $GITHUB_OUTPUT
       - name: buildAll
         run: ./setup.sh
       - name: checkTemplate
@@ -56,7 +56,7 @@ jobs:
       - name: packageAll
         run: helm package ${{env.CHART_SRC_DIR}} -d dist --version "${{steps.setVersion.outputs.version}}"
       - name: Store target
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: helm-build
           path: "dist/${{env.NAME}}-${{steps.setVersion.outputs.version}}.tgz"
@@ -69,8 +69,8 @@ jobs:
       NUSSKNACKER_VERSION: staging-latest_scala-2.12
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
-      - uses: actions/download-artifact@v2
+        uses: actions/checkout@v4
+      - uses: actions/download-artifact@v3
         with:
           name: helm-build
           path: dist
@@ -91,8 +91,8 @@ jobs:
     needs: [ build ]
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
-      - uses: actions/download-artifact@v2
+        uses: actions/checkout@v4
+      - uses: actions/download-artifact@v3
         with:
           name: helm-build
           path: dist
@@ -112,8 +112,8 @@ jobs:
     needs: [ build ]
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
-      - uses: actions/download-artifact@v2
+        uses: actions/checkout@v4
+      - uses: actions/download-artifact@v3
         with:
           name: helm-build
           path: dist
@@ -133,7 +133,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [ build, test-flink, test-streaming-lite, test-request-response ]
     steps:
-      - uses: actions/download-artifact@v2
+      - uses: actions/download-artifact@v3
         with:
           name: helm-build
           path: dist

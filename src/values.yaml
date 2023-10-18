@@ -15,6 +15,17 @@ global:
 
 replicaCount: 1
 
+global:
+  kafka:
+    name: kafka
+    port: 9092
+  zookeeper: &zookeeper_ports_config
+    ports:
+      client: 2181
+  schemaRegistry:
+    name: apicurio-registry
+    path: /apis/ccompat/v6/
+
 image:
   repository: touk/nussknacker
   # By default, the tag is taken from the chart's appVersion, but you can override it with this property.
@@ -177,10 +188,8 @@ postgresql:
 
 zookeeper:
   enabled: true
-  
-zookeeper-external:
   service: *zookeeper_ports_config
-    
+
 kafka:
   enabled: true
   persistence:
@@ -191,7 +200,7 @@ kafka:
     enabled: false
   externalZookeeper:
     servers:
-      - '{{ .Release.Name }}-zookeeper:{{ .Values.global.zookeeper.ports.client }}'
+      - "{{ .Release.Name }}-zookeeper:{{ .Values.global.zookeeper.ports.client }}"
 
 apicurio-registry:
   enabled: true
