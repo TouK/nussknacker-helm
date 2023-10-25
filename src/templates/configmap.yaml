@@ -21,7 +21,15 @@ data:
              restUrl: "{{ include "nussknacker.flinkJobManagerUrl" . }}"
              queryableStateProxyUrl: "{{ include "nussknacker.flinkTaskManagerUrl" . }}"
           } {{ tpl (.Values.nussknacker.flinkConfig | mustToJson) . }}
-
+          {{- else if eq .Values.nussknacker.mode "ververica" }}
+          deploymentConfig: {
+              type: "ververica"
+              username: {{ .Values.nussknacker.ververica.username | quote }}
+              password: {{ .Values.nussknacker.ververica.password | quote }}
+              remoteSyslogIp: {{ .Values.nussknacker.ververica.remoteSyslogIp | quote }}
+              remoteSyslogPort: {{ .Values.nussknacker.ververica.remoteSyslogPort }}
+              engineVersion: {{ .Values.nussknacker.ververica.engineVersion | quote }}
+          }
           {{- else if or (eq .Values.nussknacker.mode "streaming-lite") (eq .Values.nussknacker.mode "request-response") }}
           deploymentConfig: {
              type: "lite-k8s"
