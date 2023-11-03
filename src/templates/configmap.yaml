@@ -22,6 +22,9 @@ data:
               remoteSyslogIp: {{ .Values.nussknacker.ververica.remoteSyslogIp | quote }}
               remoteSyslogPort: {{ .Values.nussknacker.ververica.remoteSyslogPort }}
               engineVersion: {{ .Values.nussknacker.ververica.engineVersion | quote }}
+              {{- if .Values.nussknacker.ververica.workspaceId }}
+              workspaceId: {{ .Values.nussknacker.ververica.workspaceId }}
+              {{- end }}
           }
           {{- else if eq .Values.nussknacker.mode "flink" }}
           deploymentConfig: {
