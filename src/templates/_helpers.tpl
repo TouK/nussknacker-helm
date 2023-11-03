@@ -187,6 +187,8 @@ nussknacker-request-response-scenario
 {{ tpl ( mustToJson .Values.nussknacker.modelClassPath) . }}
 {{- else if eq .Values.nussknacker.mode "flink" -}}
 ["model/defaultModel.jar", "model/flinkExecutor.jar", "components/flink", "components/common"]
+{{- else if eq .Values.nussknacker.mode "ververica" -}}
+["model/defaultModel.jar", "model/flinkExecutor.jar", "components/flink", "components/common", "compatibility-provider/nussknacker-ververica-compatibility-provider.jar"]
 {{- else if eq .Values.nussknacker.mode "streaming-lite" -}}
 ["model/defaultModel.jar", "components/lite/liteBase.jar", "components/lite/liteKafka.jar", "components/common"]
 {{- else if eq .Values.nussknacker.mode "request-response" -}}
