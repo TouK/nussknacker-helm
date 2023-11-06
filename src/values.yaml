@@ -265,6 +265,9 @@ telegraf:
   enabled: true
   rbac:
     create: false
+  influxdb:
+    username:
+    password:
   args:
     - "--config-directory"
     - "/etc/telegraf/telegraf.d"
