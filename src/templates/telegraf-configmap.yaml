@@ -28,7 +28,7 @@ data:
 
       [[processors.rename.replace]]
         tag = "job_name"
-        dest = "process"
+        dest = "scenario"
 
       [[processors.rename.replace]]
         tag = "subtask_index"
@@ -74,5 +74,9 @@ data:
       urls = ["{{ include "nussknacker.influxUrl" . }}"]
       skip_database_creation = true
       database = "nussknacker"
+      {{- if .Values.telegraf.influxdb.username }}
+      username = "{{ .Values.telegraf.influxdb.username }}"
+      password = "{{ .Values.telegraf.influxdb.password }}"
+      {{- end }}
 
 {{- end }}
