@@ -11,7 +11,7 @@ keywords:
   - stream processing
   - event stream processing
 type: application
-appVersion: 1.12.3
+appVersion: 1.12.4
 dependencies:
   - name: postgresql
     version: ~12.1.15
