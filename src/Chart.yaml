@@ -1,6 +1,6 @@
 apiVersion: v2
 name: nussknacker
-version: 1.12.3
+version: 1.12.4
 description: Nussknacker - a design, development, and deployment tool for stream processing
 home: https://nussknacker.io/
 icon: https://nussknacker.io/wp-content/uploads/2021/10/Nussknacker-short-black.svg
@@ -11,7 +11,7 @@ keywords:
   - stream processing
   - event stream processing
 type: application
-appVersion: 1.12.4
+appVersion: 1.12.5
 dependencies:
   - name: postgresql
     version: ~12.1.15
