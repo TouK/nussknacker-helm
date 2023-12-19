@@ -30,7 +30,7 @@ data:
       ]
     {{- end }}
     {{ template "telegraf.nussknacker.processors" .Values.telegraf.nussknacker.processors }}
-    {{ include "telegraf.nussknacker.aggregators" .Values.telegraf.nussknacker.aggregators }}
+    {{ template "telegraf.nussknacker.aggregators" .Values.telegraf.nussknacker.aggregators }}
 
     [[outputs.influxdb]]
       urls = ["{{ include "nussknacker.influxUrl" . }}"]
