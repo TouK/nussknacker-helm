@@ -151,7 +151,6 @@ http://{{ include "apicurio-registry.fullname" ( index .Subcharts "apicurio-regi
 {{- end -}}
 {{- end -}}
 
-
 {{- define "nussknacker.fqdn" -}}
     {{- $domain := required "Provide a domain name" .Values.ingress.domain -}}
     {{- $fullName := default (include "nussknacker.fullname" .) .Values.ingress.host -}}
@@ -235,4 +234,23 @@ Taken from https://github.com/bitnami/charts/blob/9401e13316992c36b0e33de75d5f24
     {{- else }}
         {{- tpl (.value | toYaml) .context }}
     {{- end }}
+{{- end -}}
+
+{{/*
+We are using _helpers from telegraf dependency chart. Taken and modified from https://github.com/influxdata/helm-charts/blob/master/charts/telegraf/templates/_helpers.tpl
+*/}}
+{{- define "telegraf.nussknacker.processors" -}}
+  {{ include "section.v2" (list "processors" . ) }}
+{{- end -}}
+
+{{- define "telegraf.nussknacker.aggregators" -}}
+  {{ include "section.v2" (list "aggregators" . ) }}
+{{- end -}}
+
+{{- define "telegraf.nussknacker.inputs" -}}
+  {{ include "section.v2" (list "inputs" . ) }}
+{{- end -}}
+
+{{- define "telegraf.nussknacker.outputs" -}}
+  {{ include "section.v2" (list "outputs" . ) }}
 {{- end -}}

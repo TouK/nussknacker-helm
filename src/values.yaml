@@ -278,6 +278,39 @@ telegraf:
   mountPoints:
     - name: telegraf-nussknacker
       mountPath: /etc/telegraf/telegraf.d
+  nussknacker:
+    processors:
+      - rename:
+         replace:
+            - tag: "job_name"
+              dest: "scenario"
+            - tag: "subtask_index"
+              dest: "slot"
+            - tag: "originalProcessName"
+              dest: "process"
+      - strings:
+         replace:
+            - measurement: "*"
+              old: "taskmanager_job_task_operator_"
+              new: ""
+            - measurement: "*"
+              old: "flink_"
+              new: ""
+            - measurement: "*"
+              old: "nodeId_"
+              new: ""
+            - measurement: "*"
+              old: "serviceName_"
+              new: ""
+            - measurement: "*"
+              old: "namespace_"
+              new: ""
+            - measurement: "*"
+              old: "originalProcessName_"
+              new: ""
+    inputs:
+    aggregators:
+    outputs:
   config:
     #We suppress default influxDB configuration from chart, as we cannot easily template influxdb url
     outputs: []
