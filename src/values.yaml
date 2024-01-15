@@ -87,6 +87,7 @@ deployment:
     periodSeconds: 5
     failureThreshold: 3
     timeoutSeconds: 5
+  annotations: { }
 
 ingress:
   skipHost: false
