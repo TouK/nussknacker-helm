@@ -154,9 +154,6 @@ nussknacker:
     environmentAlert:
       content: "{{ .Values.nussknacker.uiConfig.environment }}"
       color: "indicator-green"
-    categoriesConfig:
-      #NOTE: all categories have to point to 'default' scenarioType!
-      Default: "default"
   #Use it if you want to skip default kafka configuration and provide your own    
   skipKafkaConfig: false
   usageStatisticsReports: true

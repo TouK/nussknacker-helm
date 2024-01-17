@@ -14,6 +14,7 @@ data:
 
     scenarioTypes {
       "default": {
+          category: "Default"
           {{- if eq .Values.nussknacker.mode "flink" }}
           deploymentConfig: {
              type: "flinkStreaming"
