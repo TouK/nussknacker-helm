@@ -13,6 +13,7 @@ data:
     db.password: ${?DB_PASSWORD}
 
     scenarioTypes {
+    {{- if .Values.nussknacker.useDefaultScenarioType }}
       "default": {
           category: "Default"
           {{- if eq .Values.nussknacker.mode "flink" }}
@@ -100,7 +101,9 @@ data:
             {{- end }}
           }{{- tpl ( mustToJson .Values.nussknacker.modelConfig ) . }}
       }
+    {{- end }}
     }
+
 
     {{- if .Values.influxdb.enabled }}
     countsSettings: {{ include "nussknacker.influxDbConfig" .}}

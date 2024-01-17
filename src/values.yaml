@@ -148,6 +148,7 @@ nussknacker:
     #Have to be provided if Flink not enabled
     #restUrl:
     #queryableStateProxyUrl:
+  useDefaultScenarioType: true
   modelConfig: {}
   uiConfig:
     environment: "default"
