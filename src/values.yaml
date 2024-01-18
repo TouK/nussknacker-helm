@@ -87,6 +87,7 @@ deployment:
     periodSeconds: 5
     failureThreshold: 3
     timeoutSeconds: 5
+  annotations: { }
 
 ingress:
   skipHost: false
@@ -147,15 +148,13 @@ nussknacker:
     #Have to be provided if Flink not enabled
     #restUrl:
     #queryableStateProxyUrl:
+  useDefaultScenarioType: true
   modelConfig: {}
   uiConfig:
     environment: "default"
     environmentAlert:
       content: "{{ .Values.nussknacker.uiConfig.environment }}"
       color: "indicator-green"
-    categoriesConfig:
-      #NOTE: all categories have to point to 'default' scenarioType!
-      Default: "default"
   #Use it if you want to skip default kafka configuration and provide your own    
   skipKafkaConfig: false
   usageStatisticsReports: true
