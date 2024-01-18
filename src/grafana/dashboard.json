@@ -3,7 +3,10 @@
     "list": [
       {
         "builtIn": 1,
-        "datasource": "-- Grafana --",
+        "datasource": {
+          "type": "datasource",
+          "uid": "grafana"
+        },
         "enable": true,
         "hide": true,
         "iconColor": "rgba(0, 211, 255, 1)",
@@ -13,15 +16,14 @@
     ]
   },
   "editable": true,
-  "gnetId": null,
+  "fiscalYearStartMonth": 0,
   "graphTooltip": 1,
-  "id": 1,
-  "iteration": 1631534794448,
+  "id": 4,
   "links": [],
+  "liveNow": false,
   "panels": [
     {
       "collapsed": false,
-      "datasource": null,
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -38,7 +40,9 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "influx",
+      "datasource": {
+        "type": "influxdb"
+      },
       "editable": true,
       "error": false,
       "fieldConfig": {
@@ -76,7 +80,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "8.0.6",
+      "pluginVersion": "10.1.5",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -145,9 +149,7 @@
         }
       ],
       "thresholds": [],
-      "timeFrom": null,
       "timeRegions": [],
-      "timeShift": null,
       "title": "Source throughput",
       "tooltip": {
         "msResolution": false,
@@ -157,9 +159,7 @@
       },
       "type": "graph",
       "xaxis": {
-        "buckets": null,
         "mode": "time",
-        "name": null,
         "show": true,
         "values": []
       },
@@ -167,21 +167,17 @@
         {
           "format": "rps",
           "logBase": 1,
-          "max": null,
           "min": "0",
           "show": true
         },
         {
           "format": "short",
           "logBase": 1,
-          "max": null,
-          "min": null,
           "show": true
         }
       ],
       "yaxis": {
-        "align": false,
-        "alignLevel": null
+        "align": false
       }
     },
     {
@@ -189,7 +185,6 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "influx",
       "editable": true,
       "error": false,
       "fieldConfig": {
@@ -229,7 +224,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "8.0.6",
+      "pluginVersion": "10.1.5",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -305,9 +300,7 @@
         }
       ],
       "thresholds": [],
-      "timeFrom": null,
       "timeRegions": [],
-      "timeShift": null,
       "title": "Events that passed whole scenario /s",
       "tooltip": {
         "msResolution": false,
@@ -317,9 +310,7 @@
       },
       "type": "graph",
       "xaxis": {
-        "buckets": null,
         "mode": "time",
-        "name": null,
         "show": true,
         "values": []
       },
@@ -327,21 +318,17 @@
         {
           "format": "short",
           "logBase": 1,
-          "max": null,
           "min": "0",
           "show": true
         },
         {
           "format": "short",
           "logBase": 1,
-          "max": null,
-          "min": null,
           "show": true
         }
       ],
       "yaxis": {
-        "align": false,
-        "alignLevel": null
+        "align": false
       }
     },
     {
@@ -349,7 +336,6 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "influx",
       "editable": true,
       "error": false,
       "fieldConfig": {
@@ -389,7 +375,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "8.0.6",
+      "pluginVersion": "10.1.5",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -465,9 +451,7 @@
         }
       ],
       "thresholds": [],
-      "timeFrom": null,
       "timeRegions": [],
-      "timeShift": null,
       "title": "Rejected events /s",
       "tooltip": {
         "msResolution": false,
@@ -477,32 +461,25 @@
       },
       "type": "graph",
       "xaxis": {
-        "buckets": null,
         "mode": "time",
-        "name": null,
         "show": true,
         "values": []
       },
       "yaxes": [
         {
-          "decimals": null,
           "format": "short",
           "logBase": 1,
-          "max": null,
           "min": "0",
           "show": true
         },
         {
           "format": "short",
           "logBase": 1,
-          "max": null,
-          "min": null,
           "show": true
         }
       ],
       "yaxis": {
-        "align": false,
-        "alignLevel": null
+        "align": false
       }
     },
     {
@@ -510,7 +487,6 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "influx",
       "editable": true,
       "error": false,
       "fieldConfig": {
@@ -550,7 +526,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "8.0.6",
+      "pluginVersion": "10.1.5",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -619,9 +595,7 @@
         }
       ],
       "thresholds": [],
-      "timeFrom": null,
       "timeRegions": [],
-      "timeShift": null,
       "title": "Errors",
       "tooltip": {
         "msResolution": false,
@@ -631,9 +605,7 @@
       },
       "type": "graph",
       "xaxis": {
-        "buckets": null,
         "mode": "time",
-        "name": null,
         "show": true,
         "values": []
       },
@@ -641,21 +613,17 @@
         {
           "format": "rps",
           "logBase": 1,
-          "max": null,
           "min": "0",
           "show": true
         },
         {
           "format": "short",
           "logBase": 1,
-          "max": null,
-          "min": null,
           "show": true
         }
       ],
       "yaxis": {
-        "align": false,
-        "alignLevel": null
+        "align": false
       }
     },
     {
@@ -663,7 +631,6 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "influx",
       "description": "IMPORTANT. \nThis metric does NOT show the overall lag on Kafka source; a largest lag among all the source partitions is shown.",
       "editable": true,
       "error": false,
@@ -702,7 +669,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "8.0.6",
+      "pluginVersion": "10.1.5",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -776,9 +743,7 @@
         }
       ],
       "thresholds": [],
-      "timeFrom": null,
       "timeRegions": [],
-      "timeShift": null,
       "title": "Max lag among Kafka source partitions (events)",
       "tooltip": {
         "msResolution": false,
@@ -788,9 +753,7 @@
       },
       "type": "graph",
       "xaxis": {
-        "buckets": null,
         "mode": "time",
-        "name": null,
         "show": true,
         "values": []
       },
@@ -798,21 +761,16 @@
         {
           "format": "short",
           "logBase": 1,
-          "max": null,
-          "min": null,
           "show": true
         },
         {
           "format": "short",
           "logBase": 1,
-          "max": null,
-          "min": null,
           "show": true
         }
       ],
       "yaxis": {
-        "align": false,
-        "alignLevel": null
+        "align": false
       }
     },
     {
@@ -820,7 +778,6 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "influx",
       "editable": true,
       "error": false,
       "fieldConfig": {
@@ -858,7 +815,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "8.0.6",
+      "pluginVersion": "10.1.5",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -938,9 +895,7 @@
         }
       ],
       "thresholds": [],
-      "timeFrom": null,
       "timeRegions": [],
-      "timeShift": null,
       "title": "Delay since event occurrence - minimum",
       "tooltip": {
         "msResolution": false,
@@ -950,9 +905,7 @@
       },
       "type": "graph",
       "xaxis": {
-        "buckets": null,
         "mode": "time",
-        "name": null,
         "show": true,
         "values": []
       },
@@ -960,21 +913,16 @@
         {
           "format": "ms",
           "logBase": 1,
-          "max": null,
-          "min": null,
           "show": true
         },
         {
           "format": "short",
           "logBase": 1,
-          "max": null,
-          "min": null,
           "show": true
         }
       ],
       "yaxis": {
-        "align": false,
-        "alignLevel": null
+        "align": false
       }
     },
     {
@@ -982,7 +930,6 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "influx",
       "editable": true,
       "error": false,
       "fieldConfig": {
@@ -1020,7 +967,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "8.0.6",
+      "pluginVersion": "10.1.5",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -1100,9 +1047,7 @@
         }
       ],
       "thresholds": [],
-      "timeFrom": null,
       "timeRegions": [],
-      "timeShift": null,
       "title": "Delay since event occurrence - median",
       "tooltip": {
         "msResolution": false,
@@ -1112,9 +1057,7 @@
       },
       "type": "graph",
       "xaxis": {
-        "buckets": null,
         "mode": "time",
-        "name": null,
         "show": true,
         "values": []
       },
@@ -1122,21 +1065,16 @@
         {
           "format": "ms",
           "logBase": 1,
-          "max": null,
-          "min": null,
           "show": true
         },
         {
           "format": "short",
           "logBase": 1,
-          "max": null,
-          "min": null,
           "show": true
         }
       ],
       "yaxis": {
-        "align": false,
-        "alignLevel": null
+        "align": false
       }
     },
     {
@@ -1144,7 +1082,6 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "influx",
       "editable": true,
       "error": false,
       "fieldConfig": {
@@ -1182,7 +1119,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "8.0.6",
+      "pluginVersion": "10.1.5",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -1262,9 +1199,7 @@
         }
       ],
       "thresholds": [],
-      "timeFrom": null,
       "timeRegions": [],
-      "timeShift": null,
       "title": "Delay since event occurrence - maximum",
       "tooltip": {
         "msResolution": false,
@@ -1274,9 +1209,7 @@
       },
       "type": "graph",
       "xaxis": {
-        "buckets": null,
         "mode": "time",
-        "name": null,
         "show": true,
         "values": []
       },
@@ -1284,21 +1217,16 @@
         {
           "format": "ms",
           "logBase": 1,
-          "max": null,
-          "min": null,
           "show": true
         },
         {
           "format": "short",
           "logBase": 1,
-          "max": null,
-          "min": null,
           "show": true
         }
       ],
       "yaxis": {
-        "align": false,
-        "alignLevel": null
+        "align": false
       }
     },
     {
@@ -1306,7 +1234,6 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "influx",
       "editable": true,
       "error": false,
       "fieldConfig": {
@@ -1344,7 +1271,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "8.0.6",
+      "pluginVersion": "10.1.5",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -1424,9 +1351,7 @@
         }
       ],
       "thresholds": [],
-      "timeFrom": null,
       "timeRegions": [],
-      "timeShift": null,
       "title": "Time from latest event",
       "tooltip": {
         "msResolution": false,
@@ -1436,9 +1361,7 @@
       },
       "type": "graph",
       "xaxis": {
-        "buckets": null,
         "mode": "time",
-        "name": null,
         "show": true,
         "values": []
       },
@@ -1446,26 +1369,20 @@
         {
           "format": "ms",
           "logBase": 1,
-          "max": null,
-          "min": null,
           "show": true
         },
         {
           "format": "short",
           "logBase": 1,
-          "max": null,
-          "min": null,
           "show": true
         }
       ],
       "yaxis": {
-        "align": false,
-        "alignLevel": null
+        "align": false
       }
     },
     {
       "collapsed": true,
-      "datasource": null,
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -1479,7 +1396,6 @@
           "bars": false,
           "dashLength": 10,
           "dashes": false,
-          "datasource": "influx",
           "editable": true,
           "error": false,
           "fieldConfig": {
@@ -1516,7 +1432,7 @@
             "alertThreshold": true
           },
           "percentage": false,
-          "pluginVersion": "8.0.6",
+          "pluginVersion": "10.1.5",
           "pointradius": 5,
           "points": false,
           "renderer": "flot",
@@ -1597,9 +1513,7 @@
             }
           ],
           "thresholds": [],
-          "timeFrom": null,
           "timeRegions": [],
-          "timeShift": null,
           "title": "Services - median OK",
           "tooltip": {
             "msResolution": false,
@@ -1609,33 +1523,25 @@
           },
           "type": "graph",
           "xaxis": {
-            "buckets": null,
             "mode": "time",
-            "name": null,
             "show": true,
             "values": []
           },
           "yaxes": [
             {
               "format": "ns",
-              "label": null,
               "logBase": 1,
-              "max": null,
               "min": "0",
               "show": true
             },
             {
               "format": "short",
-              "label": null,
               "logBase": 1,
-              "max": null,
-              "min": null,
               "show": true
             }
           ],
           "yaxis": {
-            "align": false,
-            "alignLevel": null
+            "align": false
           }
         },
         {
@@ -1643,7 +1549,6 @@
           "bars": false,
           "dashLength": 10,
           "dashes": false,
-          "datasource": "influx",
           "editable": true,
           "error": false,
           "fieldConfig": {
@@ -1680,7 +1585,7 @@
             "alertThreshold": true
           },
           "percentage": false,
-          "pluginVersion": "8.0.6",
+          "pluginVersion": "10.1.5",
           "pointradius": 5,
           "points": false,
           "renderer": "flot",
@@ -1761,9 +1666,7 @@
             }
           ],
           "thresholds": [],
-          "timeFrom": null,
           "timeRegions": [],
-          "timeShift": null,
           "title": "Services - 99th percentile OK",
           "tooltip": {
             "msResolution": false,
@@ -1773,9 +1676,7 @@
           },
           "type": "graph",
           "xaxis": {
-            "buckets": null,
             "mode": "time",
-            "name": null,
             "show": true,
             "values": []
           },
@@ -1784,22 +1685,17 @@
               "format": "ns",
               "label": "",
               "logBase": 1,
-              "max": null,
               "min": "0",
               "show": true
             },
             {
               "format": "short",
-              "label": null,
               "logBase": 1,
-              "max": null,
-              "min": null,
               "show": true
             }
           ],
           "yaxis": {
-            "align": false,
-            "alignLevel": null
+            "align": false
           }
         },
         {
@@ -1807,7 +1703,6 @@
           "bars": false,
           "dashLength": 10,
           "dashes": false,
-          "datasource": "influx",
           "editable": true,
           "error": false,
           "fieldConfig": {
@@ -1844,7 +1739,7 @@
             "alertThreshold": true
           },
           "percentage": false,
-          "pluginVersion": "8.0.6",
+          "pluginVersion": "10.1.5",
           "pointradius": 5,
           "points": false,
           "renderer": "flot",
@@ -1919,9 +1814,7 @@
             }
           ],
           "thresholds": [],
-          "timeFrom": null,
           "timeRegions": [],
-          "timeShift": null,
           "title": "Services - throughput OK",
           "tooltip": {
             "msResolution": false,
@@ -1931,33 +1824,25 @@
           },
           "type": "graph",
           "xaxis": {
-            "buckets": null,
             "mode": "time",
-            "name": null,
             "show": true,
             "values": []
           },
           "yaxes": [
             {
               "format": "rps",
-              "label": null,
               "logBase": 1,
-              "max": null,
               "min": "0",
               "show": true
             },
             {
               "format": "short",
-              "label": null,
               "logBase": 1,
-              "max": null,
-              "min": null,
               "show": true
             }
           ],
           "yaxis": {
-            "align": false,
-            "alignLevel": null
+            "align": false
           }
         },
         {
@@ -1965,7 +1850,6 @@
           "bars": false,
           "dashLength": 10,
           "dashes": false,
-          "datasource": "influx",
           "editable": true,
           "error": false,
           "fieldConfig": {
@@ -2002,7 +1886,7 @@
             "alertThreshold": true
           },
           "percentage": false,
-          "pluginVersion": "8.0.6",
+          "pluginVersion": "10.1.5",
           "pointradius": 5,
           "points": false,
           "renderer": "flot",
@@ -2083,9 +1967,7 @@
             }
           ],
           "thresholds": [],
-          "timeFrom": null,
           "timeRegions": [],
-          "timeShift": null,
           "title": "Services - median FAIL",
           "tooltip": {
             "msResolution": false,
@@ -2095,33 +1977,25 @@
           },
           "type": "graph",
           "xaxis": {
-            "buckets": null,
             "mode": "time",
-            "name": null,
             "show": true,
             "values": []
           },
           "yaxes": [
             {
               "format": "ns",
-              "label": null,
               "logBase": 1,
-              "max": null,
               "min": "0",
               "show": true
             },
             {
               "format": "short",
-              "label": null,
               "logBase": 1,
-              "max": null,
-              "min": null,
               "show": true
             }
           ],
           "yaxis": {
-            "align": false,
-            "alignLevel": null
+            "align": false
           }
         },
         {
@@ -2129,7 +2003,6 @@
           "bars": false,
           "dashLength": 10,
           "dashes": false,
-          "datasource": "influx",
           "editable": true,
           "error": false,
           "fieldConfig": {
@@ -2166,7 +2039,7 @@
             "alertThreshold": true
           },
           "percentage": false,
-          "pluginVersion": "8.0.6",
+          "pluginVersion": "10.1.5",
           "pointradius": 5,
           "points": false,
           "renderer": "flot",
@@ -2247,9 +2120,7 @@
             }
           ],
           "thresholds": [],
-          "timeFrom": null,
           "timeRegions": [],
-          "timeShift": null,
           "title": "Services - 99th percentile FAIL",
           "tooltip": {
             "msResolution": false,
@@ -2259,9 +2130,7 @@
           },
           "type": "graph",
           "xaxis": {
-            "buckets": null,
             "mode": "time",
-            "name": null,
             "show": true,
             "values": []
           },
@@ -2270,22 +2139,17 @@
               "format": "ns",
               "label": "",
               "logBase": 1,
-              "max": null,
               "min": "0",
               "show": true
             },
             {
               "format": "short",
-              "label": null,
               "logBase": 1,
-              "max": null,
-              "min": null,
               "show": true
             }
           ],
           "yaxis": {
-            "align": false,
-            "alignLevel": null
+            "align": false
           }
         },
         {
@@ -2293,7 +2157,6 @@
           "bars": false,
           "dashLength": 10,
           "dashes": false,
-          "datasource": "influx",
           "editable": true,
           "error": false,
           "fieldConfig": {
@@ -2330,7 +2193,7 @@
             "alertThreshold": true
           },
           "percentage": false,
-          "pluginVersion": "8.0.6",
+          "pluginVersion": "10.1.5",
           "pointradius": 5,
           "points": false,
           "renderer": "flot",
@@ -2406,9 +2269,7 @@
             }
           ],
           "thresholds": [],
-          "timeFrom": null,
           "timeRegions": [],
-          "timeShift": null,
           "title": "Services - throughput FAIL",
           "tooltip": {
             "msResolution": false,
@@ -2418,42 +2279,38 @@
           },
           "type": "graph",
           "xaxis": {
-            "buckets": null,
             "mode": "time",
-            "name": null,
             "show": true,
             "values": []
           },
           "yaxes": [
             {
               "format": "rps",
-              "label": null,
               "logBase": 1,
-              "max": null,
               "min": "0",
               "show": true
             },
             {
               "format": "short",
-              "label": null,
               "logBase": 1,
-              "max": null,
-              "min": null,
               "show": true
             }
           ],
           "yaxis": {
-            "align": false,
-            "alignLevel": null
+            "align": false
           }
+        }
+      ],
+      "targets": [
+        {
+          "refId": "A"
         }
       ],
       "title": "External services",
       "type": "row"
     },
     {
-      "collapsed": true,
-      "datasource": null,
+      "collapsed": false,
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -2461,439 +2318,409 @@
         "y": 30
       },
       "id": 22,
-      "panels": [
+      "panels": [],
+      "targets": [
         {
-          "aliasColors": {},
-          "bars": false,
-          "dashLength": 10,
-          "dashes": false,
-          "datasource": null,
-          "description": "Estimates of RocksDB state size. Aggregates (such as session windows) can have many internal states, which are reported separately. ",
-          "fill": 1,
-          "fillGradient": 0,
-          "gridPos": {
-            "h": 8,
-            "w": 8,
-            "x": 0,
-            "y": 45
-          },
-          "hiddenSeries": false,
-          "id": 19,
-          "legend": {
-            "avg": false,
-            "current": false,
-            "max": false,
-            "min": false,
-            "show": true,
-            "total": false,
-            "values": false
-          },
-          "lines": true,
-          "linewidth": 1,
-          "nullPointMode": "null",
-          "options": {
-            "alertThreshold": true
-          },
-          "percentage": false,
-          "pluginVersion": "8.0.6",
-          "pointradius": 2,
-          "points": false,
-          "renderer": "flot",
-          "seriesOverrides": [],
-          "spaceLength": 10,
-          "stack": false,
-          "steppedLine": false,
-          "targets": [
-            {
-              "alias": "[[tag_scenario]] - [[tag_operator_name]] ($0)",
-              "groupBy": [
-                {
-                  "params": [
-                    "$__interval"
-                  ],
-                  "type": "time"
-                },
-                {
-                  "params": [
-                    "operator_name"
-                  ],
-                  "type": "tag"
-                },
-                {
-                  "params": [
-                    "slot"
-                  ],
-                  "type": "tag"
-                },
-                {
-                  "params": [
-                    "linear"
-                  ],
-                  "type": "fill"
-                }
-              ],
-              "measurement": "/^.*.cur-size-all-mem-tables/",
-              "orderByTime": "ASC",
-              "policy": "default",
-              "query": "\nSELECT sum(\"value\")\nFROM (\n   SELECT mean(\"gauge\") AS \"value\"\n   FROM /^.*.cur-size-all-mem-tables/ \n   WHERE scenario =~ /^$scenarioName$/ AND env = '$env' AND $timeFilter \n   GROUP BY time($__interval), \"scenario\", \"operator_name\", \"slot\"\n) GROUP BY time($__interval), \"scenario\", \"operator_name\" fill(linear)",
-              "rawQuery": true,
-              "refId": "A",
-              "resultFormat": "time_series",
-              "select": [
-                [
-                  {
-                    "params": [
-                      "gauge"
-                    ],
-                    "type": "field"
-                  },
-                  {
-                    "params": [],
-                    "type": "mean"
-                  }
-                ]
-              ],
-              "tags": []
-            }
-          ],
-          "thresholds": [],
-          "timeFrom": null,
-          "timeRegions": [],
-          "timeShift": null,
-          "title": "RocksDB cur-size-all-mem-tables",
-          "tooltip": {
-            "shared": true,
-            "sort": 0,
-            "value_type": "individual"
-          },
-          "type": "graph",
-          "xaxis": {
-            "buckets": null,
-            "mode": "time",
-            "name": null,
-            "show": true,
-            "values": []
-          },
-          "yaxes": [
-            {
-              "format": "bytes",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": true
-            },
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": true
-            }
-          ],
-          "yaxis": {
-            "align": false,
-            "alignLevel": null
-          }
-        },
-        {
-          "aliasColors": {},
-          "bars": false,
-          "dashLength": 10,
-          "dashes": false,
-          "datasource": null,
-          "description": "Estimates of RocksDB state size. Aggregates (such as session windows) can have many internal states, which are reported separately. ",
-          "fieldConfig": {
-            "defaults": {
-              "links": []
-            },
-            "overrides": []
-          },
-          "fill": 1,
-          "fillGradient": 0,
-          "gridPos": {
-            "h": 8,
-            "w": 8,
-            "x": 8,
-            "y": 45
-          },
-          "hiddenSeries": false,
-          "id": 39,
-          "legend": {
-            "avg": false,
-            "current": false,
-            "max": false,
-            "min": false,
-            "show": true,
-            "total": false,
-            "values": false
-          },
-          "lines": true,
-          "linewidth": 1,
-          "nullPointMode": "null",
-          "options": {
-            "alertThreshold": true
-          },
-          "percentage": false,
-          "pluginVersion": "8.0.6",
-          "pointradius": 2,
-          "points": false,
-          "renderer": "flot",
-          "seriesOverrides": [],
-          "spaceLength": 10,
-          "stack": false,
-          "steppedLine": false,
-          "targets": [
-            {
-              "alias": "[[tag_scenario]] - [[tag_operator_name]] ($0)",
-              "groupBy": [
-                {
-                  "params": [
-                    "$__interval"
-                  ],
-                  "type": "time"
-                },
-                {
-                  "params": [
-                    "operator_name"
-                  ],
-                  "type": "tag"
-                },
-                {
-                  "params": [
-                    "slot"
-                  ],
-                  "type": "tag"
-                },
-                {
-                  "params": [
-                    "linear"
-                  ],
-                  "type": "fill"
-                }
-              ],
-              "measurement": "/^.*.cur-size-all-mem-tables/",
-              "orderByTime": "ASC",
-              "policy": "default",
-              "query": "SELECT sum(\"value\")\nFROM (\n   SELECT mean(\"gauge\") AS \"value\"\n   FROM /^.*.estimate-live-data-size/ \n   WHERE scenario =~ /^$scenarioName$/ AND env = '$env' AND $timeFilter\n   GROUP BY time($__interval), \"scenario\", \"operator_name\", \"slot\"\n) GROUP BY time($__interval), \"scenario\", \"operator_name\" fill(linear)\n",
-              "rawQuery": true,
-              "refId": "A",
-              "resultFormat": "time_series",
-              "select": [
-                [
-                  {
-                    "params": [
-                      "gauge"
-                    ],
-                    "type": "field"
-                  },
-                  {
-                    "params": [],
-                    "type": "mean"
-                  }
-                ]
-              ],
-              "tags": []
-            }
-          ],
-          "thresholds": [],
-          "timeFrom": null,
-          "timeRegions": [],
-          "timeShift": null,
-          "title": "RocksDB estimate-live-data-size",
-          "tooltip": {
-            "shared": true,
-            "sort": 0,
-            "value_type": "individual"
-          },
-          "type": "graph",
-          "xaxis": {
-            "buckets": null,
-            "mode": "time",
-            "name": null,
-            "show": true,
-            "values": []
-          },
-          "yaxes": [
-            {
-              "format": "bytes",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": true
-            },
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": true
-            }
-          ],
-          "yaxis": {
-            "align": false,
-            "alignLevel": null
-          }
-        },
-        {
-          "aliasColors": {},
-          "bars": false,
-          "dashLength": 10,
-          "dashes": false,
-          "datasource": null,
-          "description": "Estimates on number of keys in RocksDB state. Aggregates (e.g. session windows) can have many internal states. Please remember that this is only estimate, based on internal RocksDB metrics",
-          "fill": 1,
-          "fillGradient": 0,
-          "gridPos": {
-            "h": 8,
-            "w": 8,
-            "x": 16,
-            "y": 45
-          },
-          "hiddenSeries": false,
-          "id": 20,
-          "legend": {
-            "avg": false,
-            "current": false,
-            "max": false,
-            "min": false,
-            "show": true,
-            "total": false,
-            "values": false
-          },
-          "lines": true,
-          "linewidth": 1,
-          "nullPointMode": "null",
-          "options": {
-            "alertThreshold": true
-          },
-          "percentage": false,
-          "pluginVersion": "8.0.6",
-          "pointradius": 2,
-          "points": false,
-          "renderer": "flot",
-          "seriesOverrides": [],
-          "spaceLength": 10,
-          "stack": false,
-          "steppedLine": false,
-          "targets": [
-            {
-              "alias": "[[tag_scenario]] - [[tag_operator_name]] ($0)",
-              "groupBy": [
-                {
-                  "params": [
-                    "$__interval"
-                  ],
-                  "type": "time"
-                },
-                {
-                  "params": [
-                    "operator_name"
-                  ],
-                  "type": "tag"
-                },
-                {
-                  "params": [
-                    "slot"
-                  ],
-                  "type": "tag"
-                },
-                {
-                  "params": [
-                    "linear"
-                  ],
-                  "type": "fill"
-                }
-              ],
-              "measurement": "/^.*.estimate-num-keys/",
-              "orderByTime": "ASC",
-              "policy": "default",
-              "query": "SELECT sum(\"value\")\nFROM (\n   SELECT mean(\"gauge\") AS \"value\"\n   FROM /^.*.estimate-num-keys/ \n   WHERE scenario =~ /^$scenarioName$/ AND env = '$env' AND $timeFilter \n   GROUP BY time($__interval), \"scenario\", \"operator_name\", \"slot\"\n) GROUP BY time($__interval), \"scenario\", \"operator_name\" fill(linear)",
-              "rawQuery": true,
-              "refId": "A",
-              "resultFormat": "time_series",
-              "select": [
-                [
-                  {
-                    "params": [
-                      "gauge"
-                    ],
-                    "type": "field"
-                  },
-                  {
-                    "params": [],
-                    "type": "mean"
-                  }
-                ]
-              ],
-              "tags": []
-            }
-          ],
-          "thresholds": [],
-          "timeFrom": null,
-          "timeRegions": [],
-          "timeShift": null,
-          "title": "RocksDB estimate-num-keys",
-          "tooltip": {
-            "shared": true,
-            "sort": 0,
-            "value_type": "individual"
-          },
-          "type": "graph",
-          "xaxis": {
-            "buckets": null,
-            "mode": "time",
-            "name": null,
-            "show": true,
-            "values": []
-          },
-          "yaxes": [
-            {
-              "decimals": null,
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": true
-            },
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": true
-            }
-          ],
-          "yaxis": {
-            "align": false,
-            "alignLevel": null
-          }
+          "refId": "A"
         }
       ],
       "title": "RocksDB state",
       "type": "row"
     },
     {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "description": "Estimates of RocksDB state size. Aggregates (such as session windows) can have many internal states, which are reported separately. ",
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 0,
+        "y": 31
+      },
+      "hiddenSeries": false,
+      "id": 19,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "10.1.5",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "alias": "[[tag_scenario]] - [[tag_operator_name]] ($0)",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "operator_name"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "slot"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "linear"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "/^.*.cur-size-all-mem-tables/",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "\nSELECT sum(\"value\")\nFROM (\n   SELECT mean(\"gauge\") AS \"value\"\n   FROM /^.*.cur-size-all-mem-tables/ \n   WHERE scenario =~ /^$scenarioName$/ AND env = '$env' AND $timeFilter \n   GROUP BY time($__interval), \"scenario\", \"operator_name\", \"slot\"\n) GROUP BY time($__interval), \"scenario\", \"operator_name\" fill(linear)",
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "gauge"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
+        }
+      ],
+      "thresholds": [],
+      "timeRegions": [],
+      "title": "RocksDB cur-size-all-mem-tables",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "mode": "time",
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "bytes",
+          "logBase": 1,
+          "show": true
+        },
+        {
+          "format": "short",
+          "logBase": 1,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "description": "Estimates of RocksDB state size. Aggregates (such as session windows) can have many internal states, which are reported separately. ",
+      "fieldConfig": {
+        "defaults": {
+          "links": []
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 8,
+        "y": 31
+      },
+      "hiddenSeries": false,
+      "id": 39,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "10.1.5",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "alias": "[[tag_scenario]] - [[tag_operator_name]] ($0)",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "operator_name"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "slot"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "linear"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "/^.*.cur-size-all-mem-tables/",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT sum(\"value\")\nFROM (\n   SELECT mean(\"gauge\") AS \"value\"\n   FROM /^.*.estimate-live-data-size/ \n   WHERE scenario =~ /^$scenarioName$/ AND env = '$env' AND $timeFilter\n   GROUP BY time($__interval), \"scenario\", \"operator_name\", \"slot\"\n) GROUP BY time($__interval), \"scenario\", \"operator_name\" fill(linear)\n",
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "gauge"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
+        }
+      ],
+      "thresholds": [],
+      "timeRegions": [],
+      "title": "RocksDB estimate-live-data-size",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "mode": "time",
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "bytes",
+          "logBase": 1,
+          "show": true
+        },
+        {
+          "format": "short",
+          "logBase": 1,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "description": "Estimates on number of keys in RocksDB state. Aggregates (e.g. session windows) can have many internal states. Please remember that this is only estimate, based on internal RocksDB metrics",
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 16,
+        "y": 31
+      },
+      "hiddenSeries": false,
+      "id": 20,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "10.1.5",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "alias": "[[tag_scenario]] - [[tag_operator_name]] ($0)",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "operator_name"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "slot"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "linear"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "/^.*.estimate-num-keys/",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT sum(\"value\")\nFROM (\n   SELECT mean(\"gauge\") AS \"value\"\n   FROM /^.*.estimate-num-keys/ \n   WHERE scenario =~ /^$scenarioName$/ AND env = '$env' AND $timeFilter \n   GROUP BY time($__interval), \"scenario\", \"operator_name\", \"slot\"\n) GROUP BY time($__interval), \"scenario\", \"operator_name\" fill(linear)",
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "gauge"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
+        }
+      ],
+      "thresholds": [],
+      "timeRegions": [],
+      "title": "RocksDB estimate-num-keys",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "mode": "time",
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "logBase": 1,
+          "show": true
+        },
+        {
+          "format": "short",
+          "logBase": 1,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false
+      }
+    },
+    {
       "collapsed": false,
-      "datasource": null,
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 31
+        "y": 39
       },
       "id": 28,
       "panels": [],
+      "targets": [
+        {
+          "refId": "A"
+        }
+      ],
       "title": "Scenario health",
       "type": "row"
     },
     {
-      "datasource": null,
       "fieldConfig": {
         "defaults": {
           "mappings": [],
@@ -2914,7 +2741,7 @@
         "h": 5,
         "w": 12,
         "x": 0,
-        "y": 32
+        "y": 40
       },
       "id": 30,
       "options": {
@@ -2932,7 +2759,7 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "8.0.6",
+      "pluginVersion": "10.1.5",
       "targets": [
         {
           "groupBy": [
@@ -2958,7 +2785,7 @@
             [
               {
                 "params": [
-                  "value"
+                  "gauge"
                 ],
                 "type": "field"
               },
@@ -2983,14 +2810,10 @@
           ]
         }
       ],
-      "timeFrom": null,
-      "timeShift": null,
       "title": "Uptime",
       "type": "stat"
     },
     {
-      "cacheTimeout": null,
-      "datasource": null,
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -3032,10 +2855,9 @@
         "h": 5,
         "w": 12,
         "x": 12,
-        "y": 32
+        "y": 40
       },
       "id": 32,
-      "interval": null,
       "links": [],
       "maxDataPoints": 100,
       "options": {
@@ -3053,7 +2875,7 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "8.0.6",
+      "pluginVersion": "10.1.5",
       "targets": [
         {
           "groupBy": [
@@ -3079,7 +2901,7 @@
             [
               {
                 "params": [
-                  "value"
+                  "gauge"
                 ],
                 "type": "field"
               },
@@ -3108,14 +2930,10 @@
           ]
         }
       ],
-      "timeFrom": null,
-      "timeShift": null,
       "title": "Number of restarts",
       "type": "stat"
     },
     {
-      "cacheTimeout": null,
-      "datasource": null,
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -3153,10 +2971,9 @@
         "h": 5,
         "w": 6,
         "x": 0,
-        "y": 37
+        "y": 45
       },
       "id": 37,
-      "interval": null,
       "links": [],
       "maxDataPoints": 100,
       "options": {
@@ -3174,7 +2991,7 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "8.0.6",
+      "pluginVersion": "10.1.5",
       "targets": [
         {
           "groupBy": [
@@ -3200,7 +3017,7 @@
             [
               {
                 "params": [
-                  "value"
+                  "gauge"
                 ],
                 "type": "field"
               },
@@ -3225,14 +3042,10 @@
           ]
         }
       ],
-      "timeFrom": null,
-      "timeShift": null,
       "title": "Last checkpoint duration",
       "type": "stat"
     },
     {
-      "cacheTimeout": null,
-      "datasource": null,
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -3270,10 +3083,9 @@
         "h": 5,
         "w": 6,
         "x": 6,
-        "y": 37
+        "y": 45
       },
       "id": 38,
-      "interval": null,
       "links": [],
       "maxDataPoints": 100,
       "options": {
@@ -3291,7 +3103,7 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "8.0.6",
+      "pluginVersion": "10.1.5",
       "targets": [
         {
           "groupBy": [
@@ -3317,7 +3129,7 @@
             [
               {
                 "params": [
-                  "value"
+                  "gauge"
                 ],
                 "type": "field"
               },
@@ -3342,14 +3154,10 @@
           ]
         }
       ],
-      "timeFrom": null,
-      "timeShift": null,
       "title": "Last checkpoint size",
       "type": "stat"
     },
     {
-      "cacheTimeout": null,
-      "datasource": null,
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -3391,10 +3199,9 @@
         "h": 5,
         "w": 6,
         "x": 12,
-        "y": 37
+        "y": 45
       },
       "id": 35,
-      "interval": null,
       "links": [],
       "maxDataPoints": 100,
       "options": {
@@ -3412,7 +3219,7 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "8.0.6",
+      "pluginVersion": "10.1.5",
       "targets": [
         {
           "groupBy": [
@@ -3438,7 +3245,7 @@
             [
               {
                 "params": [
-                  "value"
+                  "gauge"
                 ],
                 "type": "field"
               },
@@ -3467,14 +3274,10 @@
           ]
         }
       ],
-      "timeFrom": null,
-      "timeShift": null,
       "title": "Completed checkpoints",
       "type": "stat"
     },
     {
-      "cacheTimeout": null,
-      "datasource": null,
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -3516,10 +3319,9 @@
         "h": 5,
         "w": 6,
         "x": 18,
-        "y": 37
+        "y": 45
       },
       "id": 34,
-      "interval": null,
       "links": [],
       "maxDataPoints": 100,
       "options": {
@@ -3537,7 +3339,7 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "8.0.6",
+      "pluginVersion": "10.1.5",
       "targets": [
         {
           "groupBy": [
@@ -3563,7 +3365,7 @@
             [
               {
                 "params": [
-                  "value"
+                  "gauge"
                 ],
                 "type": "field"
               },
@@ -3592,37 +3394,30 @@
           ]
         }
       ],
-      "timeFrom": null,
-      "timeShift": null,
       "title": "Failed checkpoints",
       "type": "stat"
     }
   ],
   "refresh": "30s",
-  "schemaVersion": 30,
+  "schemaVersion": 38,
   "style": "dark",
   "tags": [],
   "templating": {
     "list": [
       {
         "allFormat": "regex wildcard",
-        "allValue": null,
         "current": {
-          "selected": false,
+          "selected": true,
           "text": [
-            "All"
+            "DetectLargeTransactions"
           ],
           "value": [
-            "$__all"
+            "DetectLargeTransactions"
           ]
         },
-        "datasource": "influx",
         "definition": "",
-        "description": null,
-        "error": null,
         "hide": 0,
         "includeAll": true,
-        "label": null,
         "multi": true,
         "multiFormat": "pipe",
         "name": "scenarioName",
@@ -3638,19 +3433,14 @@
         "useTags": false
       },
       {
-        "allValue": null,
         "current": {
           "selected": false,
-          "text": "local",
-          "value": "local"
+          "text": "sandbox",
+          "value": "sandbox"
         },
-        "datasource": "influx",
         "definition": "",
-        "description": null,
-        "error": null,
         "hide": 0,
         "includeAll": false,
-        "label": null,
         "multi": false,
         "name": "env",
         "options": [],
@@ -3673,10 +3463,7 @@
           "text": "30s",
           "value": "30s"
         },
-        "description": null,
-        "error": null,
         "hide": 0,
-        "label": null,
         "name": "interval",
         "options": [
           {
@@ -3784,5 +3571,6 @@
   "timezone": "browser",
   "title": "Scenario",
   "uid": "nussknacker-scenario",
-  "version": 4
+  "version": 5,
+  "weekStart": ""
 }

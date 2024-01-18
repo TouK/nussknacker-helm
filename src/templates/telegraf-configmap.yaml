@@ -18,65 +18,27 @@ data:
       env = "{{ .Values.nussknacker.uiConfig.environment }}"
 
     #FIXME: handle case where Flink is disabled but telegraf *is* enabled
+
+    {{- /* Workaround for backward compatibility, and we cannot put this template in default chart values. */ -}}
+    {{- if .Values.telegraf.nussknacker.inputs }}
+    {{ template "telegraf.nussknacker.inputs" .Values.telegraf.nussknacker.inputs }}
+    {{- else }}
     [[inputs.prometheus]]
       urls=[
           "http://{{ include "flink.fullname" (dict "Chart" (dict "Name" "flink") "Values" .Values.flink "Release" .Release "Capabilities" .Capabilities) }}-jobmanager-headless:9999/metrics",
           "http://{{ include "flink.fullname" (dict "Chart" (dict "Name" "flink") "Values" .Values.flink "Release" .Release "Capabilities" .Capabilities) }}-taskmanager:9999/metrics"
       ]
-
-    [[processors.rename]]
-
-      [[processors.rename.replace]]
-        tag = "job_name"
-        dest = "scenario"
-
-      [[processors.rename.replace]]
-        tag = "subtask_index"
-        dest = "slot"
-
-      #TODO: this is test model specific, figure out way to remove it...
-      [[processors.rename.replace]]
-        tag = "originalProcessName"
-        dest = "process"
-
-    #We remove tag names from measurement names to have more stable measurement names
-    [[processors.strings]]
-      [[processors.strings.replace]]
-       measurement = "*"
-       old = "taskmanager_job_task_operator_"
-       new = ""
-
-      [[processors.strings.replace]]
-        measurement = "*"
-        old = "flink_"
-        new = ""
-
-      [[processors.strings.replace]]
-        measurement = "*"
-        old = "nodeId_"
-        new = ""
-
-      [[processors.strings.replace]]
-        measurement = "*"
-        old = "serviceName_"
-        new = ""
-
-      [[processors.strings.replace]]
-        measurement = "*"
-        old = "namespace_"
-        new = ""
-      [[processors.strings.replace]]
-        measurement = "*"
-        old = "originalProcessName_"
-        new = ""
+    {{- end }}
+    {{ template "telegraf.nussknacker.processors" .Values.telegraf.nussknacker.processors }}
+    {{ template "telegraf.nussknacker.aggregators" .Values.telegraf.nussknacker.aggregators }}
 
     [[outputs.influxdb]]
       urls = ["{{ include "nussknacker.influxUrl" . }}"]
       skip_database_creation = true
-      database = "nussknacker"
+      database = "{{ .Values.telegraf.influxdb.database | default "nussknacker" }}"
       {{- if .Values.telegraf.influxdb.username }}
       username = "{{ .Values.telegraf.influxdb.username }}"
       password = "{{ .Values.telegraf.influxdb.password }}"
       {{- end }}
-
+    {{ template "telegraf.nussknacker.outputs" .Values.telegraf.nussknacker.outputs }}
 {{- end }}
