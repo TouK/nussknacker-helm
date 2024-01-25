@@ -1,5 +1,5 @@
 image:
-  tag: staging-latest
+  tag: 1.13.0
   pullPolicy: Always
 
 flink:
