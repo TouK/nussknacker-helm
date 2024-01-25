@@ -17,7 +17,8 @@ on:
         type: string
 
 env:
-  NUSSKNACKER_VERSION: ${{ inputs.nussknacker_version != '' && inputs.nussknacker_version || 'staging-latest' }}
+  RELEASED_VERSION: ${{[[ $GITHUB_REF == refs/heads/release-* ]] && version=${GITHUB_REF##*/release-} && echo $version || echo ""}}
+  NUSSKNACKER_VERSION: ${{ inputs.nussknacker_version != '' && inputs.nussknacker_version || $RELEASED_VERSION ||'staging-latest' }}
   CHART_SRC_DIR: ./src
   XDG_CACHE_HOME: $GITHUB_WORKSPACE/.cache/
   RELEASE_NAME: nu-helm-release-${{github.run_id}}
