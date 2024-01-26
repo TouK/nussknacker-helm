@@ -79,7 +79,7 @@ jobs:
             --trace
       - name: Set Nussknacker image version
         id: setNussknackerVersion
-        run: echo "nuVersion=$([[ $GITHUB_REF == refs/heads/release-* ]] && version=${GITHUB_REF##*/release-} && echo $version)" >> $GITHUB_OUTPUT
+        run: echo $GITHUB_REF && echo "nuVersion=$([[ $GITHUB_REF == refs/heads/release-* ]] && version=${GITHUB_REF##*/release-} && echo $version)" >> $GITHUB_OUTPUT
       - name: helmUpgrade
         run: helm upgrade -i "${{env.RELEASE_NAME}}" dist/*.tgz --version "${{needs.build.outputs.version}}"  --wait --debug -f deploy-values.yaml -f deploy-values-kafka-config.yaml --set "image.tag=${{steps.setNussknackerVersion.outputs.nuVersion}}"
       - name: helmTestRelease
