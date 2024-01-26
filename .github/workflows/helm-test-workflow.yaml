@@ -18,7 +18,6 @@ on:
         type: string
 
 env:
-  RELEASED_VERSION: ${GITHUB_REF##*/release-}
   NUSSKNACKER_VERSION: ${{ inputs.nussknacker_version != '' && inputs.nussknacker_version || 'staging-latest' }}
   CHART_SRC_DIR: ./src
   XDG_CACHE_HOME: $GITHUB_WORKSPACE/.cache/
@@ -78,9 +77,9 @@ jobs:
           args: >-
             --config=.k3d/single-cluster.yml
             --trace
-      - name: Set Nussknacker image version
+      - name: Set Nussknacker image version for release
         id: setNussknackerVersion
-        run: echo $GITHUB_REF && echo "nuVersion=$([[ $GITHUB_REF == refs/heads/release-* ]] && version=${GITHUB_REF##*/release-} && echo $version)" >> $GITHUB_OUTPUT
+        run: [[ $GITHUB_REF == refs/heads/release-* ]] && version=${GITHUB_REF##*/release-} && echo "Using version from release branch name: " && echo "nuVersion=$version" >> $GITHUB_OUTPUT) || echo "Using supplied version" &&  echo "nuVersion=${{env.NUSSKNACKER_VERSION}}" >> $GITHUB_OUTPUT)
       - name: helmUpgrade
         run: helm upgrade -i "${{env.RELEASE_NAME}}" dist/*.tgz --version "${{needs.build.outputs.version}}"  --wait --debug -f deploy-values.yaml -f deploy-values-kafka-config.yaml --set "image.tag=${{steps.setNussknackerVersion.outputs.nuVersion}}_scala-2.12"
       - name: helmTestRelease
