@@ -79,7 +79,7 @@ jobs:
             --trace
       - name: Set Nussknacker image version for release
         id: setNussknackerVersion
-        run: '[[ $GITHUB_REF == refs/heads/release-* ]] && version=${GITHUB_REF##*/release-} && echo "Using version based on release branch name: $version" && echo "nuVersion=$version" >> $GITHUB_OUTPUT || echo "Using supplied version" && echo "nuVersion=${{env.NUSSKNACKER_VERSION}}" >> $GITHUB_OUTPUT'
+        run: '[[ $GITHUB_REF == refs/heads/release-* ]] && version=${GITHUB_REF##*/release-} && echo "Using version based on release branch name: $version" && echo "nuVersion=$version" >> $GITHUB_OUTPUT || echo "Using default version" && echo "nuVersion=${{env.NUSSKNACKER_VERSION}}" >> $GITHUB_OUTPUT'
       - name: helmUpgrade
         run: helm upgrade -i "${{env.RELEASE_NAME}}" dist/*.tgz --version "${{needs.build.outputs.version}}"  --wait --debug -f deploy-values.yaml -f deploy-values-kafka-config.yaml --set "image.tag=${{steps.setNussknackerVersion.outputs.nuVersion}}_scala-2.12"
       - name: helmTestRelease
@@ -101,8 +101,12 @@ jobs:
           args: >-
             --config=.k3d/single-cluster.yml
             --trace
+      - name: Set Nussknacker image version for release
+        id: setNussknackerVersion
+        run: '[[ $GITHUB_REF == refs/heads/release-* ]] && version=${GITHUB_REF##*/release-} && echo "Using version based on release branch name: $version" && echo "nuVersion=$version" >> $GITHUB_OUTPUT || echo "Using default version" && echo "nuVersion=${{env.NUSSKNACKER_VERSION}}" >> $GITHUB_OUTPUT'
+      
       - name: helmUpgrade
-        run: helm upgrade -i "${{env.RELEASE_NAME}}" dist/*.tgz --version "${{needs.build.outputs.version}}" --wait --debug -f deploy-values.yaml -f deploy-values-kafka-config.yaml -f deploy-values-streaming-lite.yaml
+        run: helm upgrade -i "${{env.RELEASE_NAME}}" dist/*.tgz --version "${{needs.build.outputs.version}}" --wait --debug -f deploy-values.yaml -f deploy-values-kafka-config.yaml -f deploy-values-streaming-lite.yaml --set "image.tag=${{steps.setNussknackerVersion.outputs.nuVersion}}_scala-2.12"
       - name: helmTestRelease
         run: ./test.sh "${{env.RELEASE_NAME}}"
   test-request-response:
@@ -122,8 +126,12 @@ jobs:
           args: >-
             --config=.k3d/single-cluster.yml
             --trace
+      - name: Set Nussknacker image version for release
+        id: setNussknackerVersion
+        run: '[[ $GITHUB_REF == refs/heads/release-* ]] && version=${GITHUB_REF##*/release-} && echo "Using version based on release branch name: $version" && echo "nuVersion=$version" >> $GITHUB_OUTPUT || echo "Using default version" && echo "nuVersion=${{env.NUSSKNACKER_VERSION}}" >> $GITHUB_OUTPUT'
+    
       - name: helmUpgrade
-        run: helm upgrade -i "${{env.RELEASE_NAME}}" dist/*.tgz --version "${{needs.build.outputs.version}}" --wait --debug -f deploy-values.yaml -f deploy-values-request-response.yaml --set "image.tag=${{env.NUSSKNACKER_VERSION}}"
+        run: helm upgrade -i "${{env.RELEASE_NAME}}" dist/*.tgz --version "${{needs.build.outputs.version}}" --wait --debug -f deploy-values.yaml -f deploy-values-request-response.yaml --set "image.tag=${{steps.setNussknackerVersion.outputs.nuVersion}}_scala-2.12"
       - name: helmTestRelease
         run: ./test.sh "${{env.RELEASE_NAME}}"
   publish-snapshot:
