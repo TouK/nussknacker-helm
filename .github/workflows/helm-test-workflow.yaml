@@ -84,7 +84,7 @@ jobs:
           args: >-
             --config=.k3d/single-cluster.yml
             --trace
-      - <<: setNussknackerVersion
+      - *setNussknackerVersion
       - name: helmUpgrade
         run: helm upgrade -i "${{env.RELEASE_NAME}}" dist/*.tgz --version "${{needs.build.outputs.version}}"  --wait --debug -f deploy-values.yaml -f deploy-values-kafka-config.yaml --set "image.tag=${{steps.setNussknackerVersion.outputs.nuVersion}}_scala-2.12"
       - name: helmTestRelease
