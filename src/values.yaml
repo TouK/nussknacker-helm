@@ -155,7 +155,7 @@ nussknacker:
     environmentAlert:
       content: "{{ .Values.nussknacker.uiConfig.environment }}"
       color: "indicator-green"
-    categoriesConfig: # we need it for a backward compatibility (Nu < 1.13)
+    categoriesConfig: {} # we need it for a backward compatibility (Nu < 1.13)
   #Use it if you want to skip default kafka configuration and provide your own    
   skipKafkaConfig: false
   usageStatisticsReports: true
