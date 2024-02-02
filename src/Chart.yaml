@@ -1,5 +1,6 @@
 apiVersion: v2
 name: nussknacker
+# In the main branch it should be always the -SNAPSHOT version. Release versions should be on the release branch
 version: 1.14.0-SNAPSHOT
 description: Nussknacker - a design, development, and deployment tool for stream processing
 home: https://nussknacker.io/
