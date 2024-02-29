@@ -150,6 +150,7 @@ nussknacker:
     #queryableStateProxyUrl:
   useDefaultScenarioType: true
   modelConfig: {}
+  configExecutionOverrides: {}
   uiConfig:
     environment: "default"
     environmentAlert:

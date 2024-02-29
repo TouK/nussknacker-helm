@@ -63,7 +63,7 @@ data:
              {{- with .Values.runtimeCommonConfigMapForLogback }}
              commonConfigMapForLogback: {{ . }}
              {{- end }}
-             configExecutionOverrides {
+             configExecutionOverrides: {
                {{- if .Values.influxdb.enabled }}
                metrics {
                  environment: ${environment},
@@ -75,7 +75,7 @@ data:
                  }
                }
                {{- end }}
-             }
+             }{{- tpl ( mustToJson .Values.nussknacker.configExecutionOverrides ) . }}
           }
           {{- end }}
 
