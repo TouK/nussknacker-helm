@@ -194,7 +194,7 @@ kafka:
 apicurio-registry:
   enabled: true
   image:
-    tag: 2.2.5.Final
+    tag: 2.5.8.Final
   kafka:
     enabled: false
 

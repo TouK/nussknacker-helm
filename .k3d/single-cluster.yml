@@ -1,19 +1,27 @@
 apiVersion: k3d.io/v1alpha4
 kind: Simple
-image: docker.io/rancher/k3s:v1.26.3-k3s1
+image: docker.io/rancher/k3s:v1.29.1-k3s2
 servers: 1
 agents: 1
 options:
   k3d:
     wait: true
     timeout: "60s"
-    disableLoadbalancer: true
+    disableLoadbalancer: false
     disableRollback: true
   k3s:
     extraArgs:
-      - arg: --disable=metrics-server
+      - arg: --disable=traefik,metrics-server # instead of traefik we deploy ingress-nginx-controller by custom manifests in k3s
         nodeFilters:
           - server:*
   kubeconfig:
     updateDefaultKubeconfig: true
     switchCurrentContext: true
+ports:
+  - port: 8081:80 # same as `--port '8081:80@loadbalancer'`
+    nodeFilters:
+      - loadbalancer
+volumes:
+  - volume: $PROJECT_ROOT/.k3d/k3s_manifests/:/var/lib/rancher/k3s/server/manifests
+    nodeFilters:
+      - server:*
