@@ -6,3 +6,7 @@ uninstall.sh
 logintopod.sh
 nussknacker-helm-chart.iml
 *.iml
+.k3d/k3s_manifests/ccm.yaml
+.k3d/k3s_manifests/coredns.yaml
+.k3d/k3s_manifests/local-storage.yaml
+.k3d/k3s_manifests/rolebindings.yaml
