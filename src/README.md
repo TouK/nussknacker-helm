@@ -7,9 +7,7 @@ it is highly configurable.
 
 Quickstart
 ----------
-To go through the whole process of installation, configuration of messages schemas and defining of scenarios,
-see [Quickstart guide](https://nussknacker.io/documentation/quickstart/helm/)
-or `k8s-helm` directory in [nussknacker-quickstart repository](https://github.com/TouK/nussknacker-quickstart)
+Check [Quickstart guide](https://nussknacker.io/documentation/quickstart/lite-streaming/) relevant to your [engine](https://nussknacker.io/documentation/about/engines/) and [processing mode](https://nussknacker.io/documentation/about/ProcessingModes/) to see the whole process of installation, configuration of messages schemas and defining of scenarios. You can also check `k8s-helm` directory in [nussknacker-quickstart repository](https://github.com/TouK/nussknacker-quickstart) for an example of K8s based installation. Finally, the `examples` folder of the [Helm chart repo](https://github.com/TouK/nussknacker-helm.git) contains examples how to apply configurations typical to Nussknacker K8s deployment. 
 
 Requirements
 ------------
@@ -124,6 +122,10 @@ Nussknacker configuration consists of three [configuration areas](https://nusskn
 - the Deployment Manager configuration parameters (and Helm variables) are documented fully in Nussknacker configuration [documentation](https://nussknacker.io/documentation/docs/next/installation_configuration_guide/DeploymentManagerConfiguration#lite-engine-based-on-kubernetes); below we mention just those which are most often modified:
   - `k8sDeploymentConfig` - here you can specify your own k8s runtime deployment yaml config in `streaming-lite` and `request-response` modes
   - `requestResponse` - here you can specify `servicePort` and `ingress` configuration for deployed scenarios on k8s when running in `request-response` mode
+
+Yaml keys expected by Nussknacker to be in the form of nested yaml structures in the Values file are converted to json; check the chart implementation if in doubt.  
+
+Please note that not all configurations are one-to-one mapped to Values key names and that in few cases Values key names are different from configuration keys names.
 
 Finally, if you use external (not generated through this chart) Flink instance, use `flinkConfig` to configure it. Check `values.yaml` for available options. These settings are included in ```engineConfig``` section   of ```application.conf ```.
 

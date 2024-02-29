@@ -13,7 +13,9 @@ data:
     db.password: ${?DB_PASSWORD}
 
     scenarioTypes {
+    {{- if .Values.nussknacker.useDefaultScenarioType }}
       "default": {
+          category: "Default"
           {{- if eq .Values.nussknacker.mode "flink" }}
           deploymentConfig: {
              type: "flinkStreaming"
@@ -21,7 +23,15 @@ data:
              restUrl: "{{ include "nussknacker.flinkJobManagerUrl" . }}"
              queryableStateProxyUrl: "{{ include "nussknacker.flinkTaskManagerUrl" . }}"
           } {{ tpl (.Values.nussknacker.flinkConfig | mustToJson) . }}
-
+          {{- else if eq .Values.nussknacker.mode "ververica" }}
+          deploymentConfig: {
+              type: "ververica"
+              username: {{ .Values.nussknacker.ververica.username | quote }}
+              password: {{ .Values.nussknacker.ververica.password | quote }}
+              remoteSyslogIp: {{ .Values.nussknacker.ververica.remoteSyslogIp | quote }}
+              remoteSyslogPort: {{ .Values.nussknacker.ververica.remoteSyslogPort }}
+              engineVersion: {{ .Values.nussknacker.ververica.engineVersion | quote }}
+          }
           {{- else if or (eq .Values.nussknacker.mode "streaming-lite") (eq .Values.nussknacker.mode "request-response") }}
           deploymentConfig: {
              type: "lite-k8s"
@@ -91,6 +101,7 @@ data:
             {{- end }}
           }{{- tpl ( mustToJson .Values.nussknacker.modelConfig ) . }}
       }
+    {{- end }}
     }
 
     {{- if .Values.influxdb.enabled }}

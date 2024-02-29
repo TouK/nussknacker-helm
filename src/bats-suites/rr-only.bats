@@ -37,7 +37,7 @@ function given_a_proxy_process() {
 
   curl ${PROCESS_URL} || curl -X POST ${PROCESS_URL%/}/Default
   export PROCESS_NAME GROUP INPUT_TOPIC OUTPUT_TOPIC
-  cat ${BATS_TEST_DIRNAME}/rr-testprocess.json | envsubst  | /usr/bin/curl -f -k -v -H "Authorization: ${AUTHORIZATION}" ${PROCESS_IMPORT_URL} -F process=@- | (echo '{ "comment": "created by a bats test", "process": '; cat; echo '}') | curl -X PUT ${PROCESS_URL} -d @-
+  cat ${BATS_TEST_DIRNAME}/rr-testprocess.json | envsubst  | /usr/bin/curl -f -k -v -H "Authorization: ${AUTHORIZATION}" ${PROCESS_IMPORT_URL} -F process=@- | jq .scenarioGraph | (echo '{ "comment": "created by a bats test", "scenarioGraph": '; cat; echo '}') | curl -X PUT ${PROCESS_URL} -d @-
 
   [[ $(curl ${PROCESS_URL%/}/status | jq -r .status.name) = RUNNING ]] && cancel_process "$PROCESS_NAME"
   curl -X POST ${PROCESS_DEPLOY_URL}

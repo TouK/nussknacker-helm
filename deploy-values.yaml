@@ -17,9 +17,6 @@ ingress:
   annotations:
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
 
-zookeeper:
-  replicaCount: 1
-
 kafka:
   replicas: 1
 
