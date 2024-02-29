@@ -87,6 +87,9 @@ data:
                 "bootstrap.servers": "{{ include "nussknacker.kafkaBootstrapServers" . }}"
                 "schema.registry.url": "{{ include "nussknacker.schemaRegistryUrl" . }}"
               }
+              {{- with .Values.nussknacker.schemaRegistryCacheConfig }}
+              schemaRegistryCacheConfig: {{ tpl (toJson .) $ }}
+              {{- end }}
             }
             rocksDB {
               enable: true
@@ -97,6 +100,9 @@ data:
                 "bootstrap.servers": "{{ include "nussknacker.kafkaBootstrapServers" . }}"
                 "schema.registry.url": "{{ include "nussknacker.schemaRegistryUrl" . }}"
               }
+              {{- with .Values.nussknacker.schemaRegistryCacheConfig }}
+              schemaRegistryCacheConfig: {{ tpl (toJson .) $ }}
+              {{- end }}
             }
             {{- end }}
           }{{- tpl ( mustToJson .Values.nussknacker.modelConfig ) . }}
