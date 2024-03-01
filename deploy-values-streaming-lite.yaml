@@ -6,7 +6,9 @@ flink:
   enabled: false
 
 nussknacker:
-  mode: "streaming-lite"
+  mode: "lite-k8s"
+  requestResponse:
+    enabled: false
 
 telegraf:
   enabled: false

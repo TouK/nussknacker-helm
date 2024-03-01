@@ -169,34 +169,41 @@ http://{{ include "apicurio-registry.fullname" ( index .Subcharts "apicurio-regi
     http://{{ include "influxdb.fullname" (dict "Chart" (dict "Name" "influxdb") "Values" .Values.influxdb "Release" .Release "Capabilities" .Capabilities) }}:8086
 {{- end -}}
 
-{{- define "nussknacker.defaultDashboard" -}}
+{{- define "nussknacker.streaming.dashboard" -}}
 {{- if eq .Values.nussknacker.mode "flink" -}}
 nussknacker-scenario
-{{- else if eq .Values.nussknacker.mode "streaming-lite" -}}
+{{- else if eq .Values.nussknacker.mode "lite-k8s" -}}
 nussknacker-lite-scenario
-{{- else if eq .Values.nussknacker.mode "request-response" -}}
-nussknacker-request-response-scenario
 {{- else -}}
-{{- .Values.nussknacker.defaultDashboard }}
+{{- .Values.nussknacker.streaming.dashboard }}
 {{- end -}}
 {{- end -}}
 
-{{- define "nussknacker.modelClassPath" -}}
-{{- if .Values.nussknacker.modelClassPath -}}
-{{ tpl ( mustToJson .Values.nussknacker.modelClassPath) . }}
+{{- define "nussknacker.streaming.modelClassPath" -}}
+{{- if .Values.nussknacker.streaming.modelClassPath -}}
+{{ tpl ( mustToJson .Values.nussknacker.streaming.modelClassPath) . }}
 {{- else if eq .Values.nussknacker.mode "flink" -}}
 ["model/defaultModel.jar", "model/flinkExecutor.jar", "components/flink", "components/common"]
 {{- else if eq .Values.nussknacker.mode "ververica" -}}
 ["model/defaultModel.jar", "model/flinkExecutor.jar", "components/flink", "components/common", "compatibility-provider/nussknacker-ververica-compatibility-provider.jar"]
-{{- else if eq .Values.nussknacker.mode "streaming-lite" -}}
+{{- else if eq .Values.nussknacker.mode "lite-k8s" -}}
 ["model/defaultModel.jar", "components/lite/liteBase.jar", "components/lite/liteKafka.jar", "components/common"]
-{{- else if eq .Values.nussknacker.mode "request-response" -}}
-["model/defaultModel.jar", "components/lite/liteBase.jar", "components/lite/liteRequestResponse.jar", "components/common"]
 {{- else -}}
-{{- fail "Value for .Values.nussknacker.mode is not supported. Supported modes are: flink, streaming-lite and request-response" }}
+{{- fail "Value for .Values.nussknacker.mode is not supported. Supported modes are: flink, ververica and lite-k8s" }}
 {{- end -}}
 {{- end -}}
 
+{{- define "nussknacker.requestResponse.modelClassPath" -}}
+{{- if .Values.nussknacker.requestResponse.modelClassPath -}}
+{{ tpl ( mustToJson .Values.nussknacker.requestResponse.modelClassPath) . }}
+{{- else if or (eq .Values.nussknacker.mode "flink") (eq .Values.nussknacker.mode "ververica") -}}
+[]
+{{- else if eq .Values.nussknacker.mode "lite-k8s" -}}
+["model/defaultModel.jar", "components/lite/liteBase.jar", "components/lite/liteRequestResponse.jar", "components/common"]
+{{- else -}}
+{{- fail "Value for .Values.nussknacker.mode is not supported. Supported modes are: flink, ververica and lite-k8s" }}
+{{- end -}}
+{{- end -}}
 
 {{- define "nussknacker.influxDbConfig" -}}
     {
@@ -211,12 +218,15 @@ nussknacker-request-response-scenario
     }
 {{- end -}}
 
+{{/*
+TODO: make both streaming.enabled and requestResponse.enabled allowed
+*/}}
 {{- define "nussknacker.scenarioType" -}}
 {{- if eq .Values.nussknacker.mode "flink" -}}
 StreamMetaData
-{{- else if eq .Values.nussknacker.mode "streaming-lite" -}}
+{{- else if and (eq .Values.nussknacker.mode "lite-k8s") (.Values.nussknacker.streaming.enabled) -}}
 LiteStreamMetaData
-{{- else if eq .Values.nussknacker.mode "request-response" -}}
+{{- else if and (eq .Values.nussknacker.mode "lite-k8s") (.Values.nussknacker.requestResponse.enabled) -}}
 RequestResponseMetaData
 {{- end -}}
 {{- end -}}
