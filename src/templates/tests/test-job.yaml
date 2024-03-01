@@ -23,7 +23,7 @@ spec:
             - /usr/local/bin/bats
           args:
             - -t
-            {{- if .Values.nussknacker.requestResponse.enabled }}
+            {{- if and (.Values.nussknacker.requestResponse.enabled) (eq .Values.nussknacker.mode "lite-k8s") }}
             - //suites/rr-only.bats
             {{- end }}
             {{- if .Values.nussknacker.streaming.enabled }}
