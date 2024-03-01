@@ -37,8 +37,8 @@ spec:
               value: {{ .Release.Name }}
             - name: KAFKA_BOOTSTRAP_SERVER
               value: "{{ include "nussknacker.kafkaBootstrapServers" . }}"
-            - name: SCENARIO_TYPE
-              value: "{{ include "nussknacker.scenarioType" . }}"  
+            - name: STREAMING_SCENARIO_TYPE
+              value: "{{ include "nussknacker.streamingScenarioType" . }}"
             - name: SCHEMA_REGISTRY_URL
               value: "{{ include "nussknacker.schemaRegistryUrl" . }}"
             - name: SCENARIO_URL

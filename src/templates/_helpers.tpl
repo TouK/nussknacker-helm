@@ -218,16 +218,11 @@ nussknacker-lite-scenario
     }
 {{- end -}}
 
-{{/*
-TODO: make both streaming.enabled and requestResponse.enabled allowed
-*/}}
-{{- define "nussknacker.scenarioType" -}}
+{{- define "nussknacker.streamingScenarioType" -}}
 {{- if eq .Values.nussknacker.mode "flink" -}}
 StreamMetaData
-{{- else if and (eq .Values.nussknacker.mode "lite-k8s") (.Values.nussknacker.streaming.enabled) -}}
+{{- else if eq .Values.nussknacker.mode "lite-k8s" -}}
 LiteStreamMetaData
-{{- else if and (eq .Values.nussknacker.mode "lite-k8s") (.Values.nussknacker.requestResponse.enabled) -}}
-RequestResponseMetaData
 {{- end -}}
 {{- end -}}
 

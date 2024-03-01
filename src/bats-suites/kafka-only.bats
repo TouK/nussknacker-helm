@@ -4,7 +4,7 @@
 : "${AUTHORIZATION:?required environment value not set}"
 : "${KAFKA_BOOTSTRAP_SERVER:?required environment value not set}"
 : "${SCHEMA_REGISTRY_URL:?required environment value not set}"
-: "${SCENARIO_TYPE:?required environment value not set}"
+: "${STREAMING_SCENARIO_TYPE:?required environment value not set}"
 
 function curl() {
   /usr/bin/curl -f -k -v -H "Content-type: application/json" -H "Authorization: ${AUTHORIZATION}" "$@"

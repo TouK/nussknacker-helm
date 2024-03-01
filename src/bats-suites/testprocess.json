@@ -3,7 +3,7 @@
     "id": "${PROCESS_NAME}",
     "typeSpecificData": {
       "parallelism": 1,
-      "type": "${SCENARIO_TYPE}"
+      "type": "${STREAMING_SCENARIO_TYPE}"
     },
     "isSubprocess": false,
     "additionalFields": {
