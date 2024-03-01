@@ -1,0 +1,21 @@
+image:
+  tag: staging-latest
+  pullPolicy: Always
+
+flink:
+  enabled: false
+
+nussknacker:
+  mode: "lite-k8s"
+
+telegraf:
+  enabled: false
+
+zookeeper:
+  enabled: false
+
+kafka:
+  kraft:
+    enabled: true
+  externalZookeeper:
+    servers: []

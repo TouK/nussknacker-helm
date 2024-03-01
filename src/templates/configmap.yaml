@@ -169,7 +169,7 @@ data:
           {{- if .Values.nussknacker.streaming.enabled }}
           "streaming": "{{ include "nussknacker.streaming.dashboard" .}}"
           {{- end }}
-          {{- if and (.Values.nussknacker.requestResponse.enabled) (eq .Values.nussknacker.mode "lite-k8s") }}
+          {{- if .Values.nussknacker.requestResponse.enabled }}
           "request-response": "{{ .Values.nussknacker.requestResponse.dashboard }}"
           {{- end }}
         }

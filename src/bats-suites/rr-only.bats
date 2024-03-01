@@ -30,11 +30,12 @@ function wait_for_status() {
 
 function given_a_proxy_process() {
   local PROCESS_NAME="${1:?required}"
+  local PROCESSES_URL="${NUSSKNACKER_URL%/}/api/processes"
   local PROCESS_URL=$(echo ${NUSSKNACKER_URL%/}/api/processes/${PROCESS_NAME} | sed -e 's/ /%20/g')
   local PROCESS_DEPLOY_URL=$(echo ${NUSSKNACKER_URL%/}/api/processManagement/deploy/${PROCESS_NAME} | sed -e 's/ /%20/g')
   local PROCESS_IMPORT_URL=$( echo ${NUSSKNACKER_URL%/}/api/processes/import/${PROCESS_NAME} | sed -e 's/ /%20/g')
 
-  curl ${PROCESS_URL} || curl -X POST ${PROCESS_URL%/}/Default
+  curl ${PROCESS_URL} || echo "{ \"name\": \"$PROCESS_NAME\", \"processingMode\": \"Request-Response\", \"isFragment\": false }" | curl -X POST ${PROCESSES_URL} -d @-
   export PROCESS_NAME GROUP INPUT_TOPIC OUTPUT_TOPIC
   cat ${BATS_TEST_DIRNAME}/rr-testprocess.json | envsubst  | /usr/bin/curl -f -k -v -H "Authorization: ${AUTHORIZATION}" ${PROCESS_IMPORT_URL} -F process=@- | jq .scenarioGraph | (echo '{ "comment": "created by a bats test", "scenarioGraph": '; cat; echo '}') | curl -X PUT ${PROCESS_URL} -d @-
 
