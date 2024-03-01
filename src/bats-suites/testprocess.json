@@ -1,24 +1,13 @@
 {
   "metaData": {
     "id": "${PROCESS_NAME}",
-    "typeSpecificData": {
-      "parallelism": 1,
-      "type": "${STREAMING_SCENARIO_TYPE}"
-    },
-    "isSubprocess": false,
     "additionalFields": {
       "description": null,
-      "groups": [
-      ],
       "properties": {
-      }
-    },
-    "subprocessVersions": {
+        "parallelism": "1"
+      },
+      "metaDataType": "${STREAMING_SCENARIO_TYPE}"
     }
-  },
-  "exceptionHandlerRef": {
-    "parameters": [
-    ]
   },
   "nodes": [
     {
