@@ -164,15 +164,15 @@ data:
     {{- if .Values.grafana.enabled }}
     metricsSettings: {
       url: "{{ include "nussknacker.grafanaUrl" .}}/d/$dashboard?theme=dark&var-scenarioName=$scenarioName&var-env="${environment}
-        defaultDashboard: ""
-        scenarioTypeToDashboard: {
-          {{- if .Values.nussknacker.streaming.enabled }}
-          "streaming": "{{ include "nussknacker.streaming.dashboard" .}}"
-          {{- end }}
-          {{- if and (.Values.nussknacker.requestResponse.enabled) (eq .Values.nussknacker.mode "lite-k8s") }}
-          "request-response": "{{ .Values.nussknacker.requestResponse.dashboard }}"
-          {{- end }}
-        }
+      defaultDashboard: ""
+      scenarioTypeToDashboard: {
+        {{- if .Values.nussknacker.streaming.enabled }}
+        "streaming": "{{ include "nussknacker.streaming.dashboard" .}}"
+        {{- end }}
+        {{- if and (.Values.nussknacker.requestResponse.enabled) (eq .Values.nussknacker.mode "lite-k8s") }}
+        "request-response": "{{ .Values.nussknacker.requestResponse.dashboard }}"
+        {{- end }}
+      }
     }
     {{- end }}
 

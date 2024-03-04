@@ -42,7 +42,7 @@ spec:
               value: "{{ include "nussknacker.streamingScenarioType" . }}"
             - name: SCHEMA_REGISTRY_URL
               value: "{{ include "nussknacker.schemaRegistryUrl" . }}"
-            - name: SCENARIO_URL
+            - name: RR_SCENARIO_INPUT_URL
               value: "http://{{ .Release.Name }}-test-scenario-for-rr-only:{{ .Values.nussknacker.requestResponse.servicePort }}"
           volumeMounts:
             - name: suites

@@ -145,8 +145,6 @@ nussknacker:
   configFile: /etc/nussknacker/application.conf
   flinkConfig:
     jobManagerTimeout: "1m"
-    #Have to be provided if Flink not enabled
-    #restUrl:
   useDefaultScenarioType: true
   modelConfig: {}
   configExecutionOverrides: {}

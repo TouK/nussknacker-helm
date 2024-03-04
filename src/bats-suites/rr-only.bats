@@ -58,7 +58,7 @@ function setup() {
   INPUT_MESSAGE='{"productId":10}'
   EXPECTED_OUTPUT_MESSAGE='{"productId":20}'
 
-  if [[ $(curl $SCENARIO_URL -d $INPUT_MESSAGE) == $EXPECTED_OUTPUT_MESSAGE ]]; then echo ok; else exit 1; fi
+  if [[ $(curl $RR_SCENARIO_INPUT_URL -d $INPUT_MESSAGE) == $EXPECTED_OUTPUT_MESSAGE ]]; then echo ok; else exit 1; fi
 
   cancel_process "$PROCESS_NAME"
   wait_for_status "$PROCESS_NAME" "CANCELED"
