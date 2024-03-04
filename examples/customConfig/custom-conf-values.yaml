@@ -1,6 +1,6 @@
 #This configuration shows how to run NU designer using configuration from external file provided from configmap
 nussknacker:
-  mode: "streaming-lite"
+  mode: "lite-k8s"
   configFile: /etc/nussknacker/application.conf,/etc/nussknacker/extra/extra-application.conf
 
 additionalVolumes:

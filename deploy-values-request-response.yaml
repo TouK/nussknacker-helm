@@ -3,7 +3,9 @@ image:
   pullPolicy: Always
 
 nussknacker:
-  mode: "request-response"
+  mode: "lite-k8s"
+  streaming:
+    enabled: false
 
 flink:
   enabled: false

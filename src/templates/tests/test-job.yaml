@@ -23,9 +23,10 @@ spec:
             - /usr/local/bin/bats
           args:
             - -t
-            {{- if eq .Values.nussknacker.mode "request-response" }}
+            {{- if and (.Values.nussknacker.requestResponse.enabled) (eq .Values.nussknacker.mode "lite-k8s") }}
             - //suites/rr-only.bats
-            {{- else }}
+            {{- end }}
+            {{- if .Values.nussknacker.streaming.enabled }}
             - //suites/kafka-only.bats
             {{- end }}
           env:
@@ -37,14 +38,12 @@ spec:
               value: {{ .Release.Name }}
             - name: KAFKA_BOOTSTRAP_SERVER
               value: "{{ include "nussknacker.kafkaBootstrapServers" . }}"
-            - name: SCENARIO_TYPE
-              value: "{{ include "nussknacker.scenarioType" . }}"  
+            - name: STREAMING_SCENARIO_TYPE
+              value: "{{ include "nussknacker.streamingScenarioType" . }}"
             - name: SCHEMA_REGISTRY_URL
               value: "{{ include "nussknacker.schemaRegistryUrl" . }}"
-            {{- if eq .Values.nussknacker.mode "request-response" }}
-            - name: SCENARIO_URL
+            - name: RR_SCENARIO_INPUT_URL
               value: "http://{{ .Release.Name }}-test-scenario-for-rr-only:{{ .Values.nussknacker.requestResponse.servicePort }}"
-            {{- end }}
           volumeMounts:
             - name: suites
               mountPath: /suites

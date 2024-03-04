@@ -7,8 +7,6 @@ flink:
 
 nussknacker:
   mode: "lite-k8s"
-  requestResponse:
-    enabled: false
 
 telegraf:
   enabled: false

@@ -1,19 +1,14 @@
 {
   "metaData" : {
     "id" : "test-scenario-for-rr-only",
-    "typeSpecificData" : {
-      "slug" : "test-scenario-for-rr-only",
-      "type" : "RequestResponseMetaData"
-    },
     "additionalFields" : {
       "description" : null,
       "properties" : {
+        "slug" : "test-scenario-for-rr-only",
         "inputSchema" : "{\n  \"title\": \"Product\",\n  \"description\": \"A product from Acme's catalog\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"productId\": {\n      \"description\": \"The unique identifier for a product\",\n      \"type\": \"integer\"\n    }\n  },\n  \"required\": [ \"productId\" ]\n}",
         "outputSchema" : "{\n  \"title\": \"Product\",\n  \"description\": \"A product from Acme's catalog\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"productId\": {\n      \"description\": \"The unique identifier for a product\",\n      \"type\": \"integer\"\n    }\n  },\n  \"required\": [ \"productId\" ]\n}"
-      }
-    },
-    "subprocessVersions" : {
-      
+      },
+      "metaDataType": "RequestResponseMetaData"
     }
   },
   "nodes" : [

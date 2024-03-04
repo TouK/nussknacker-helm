@@ -4,7 +4,7 @@
 : "${AUTHORIZATION:?required environment value not set}"
 : "${KAFKA_BOOTSTRAP_SERVER:?required environment value not set}"
 : "${SCHEMA_REGISTRY_URL:?required environment value not set}"
-: "${SCENARIO_TYPE:?required environment value not set}"
+: "${STREAMING_SCENARIO_TYPE:?required environment value not set}"
 
 function curl() {
   /usr/bin/curl -f -k -v -H "Content-type: application/json" -H "Authorization: ${AUTHORIZATION}" "$@"
@@ -38,12 +38,13 @@ _END
 function given_a_proxy_process() {
   local PROCESS_NAME="${1:?required}"
   local PROCESS_OBJECT="${2:?required}"
+  local PROCESSES_URL="${NUSSKNACKER_URL%/}/api/processes"
   local PROCESS_URL=$(echo ${NUSSKNACKER_URL%/}/api/processes/${PROCESS_NAME} | sed -e 's/ /%20/g')
   local PROCESS_DEPLOY_URL=$(echo ${NUSSKNACKER_URL%/}/api/processManagement/deploy/${PROCESS_NAME} | sed -e 's/ /%20/g')
   local PROCESS_CANCEL_URL=$(echo ${NUSSKNACKER_URL%/}/api/processManagement/cancel/${PROCESS_NAME} | sed -e 's/ /%20/g')
   local PROCESS_IMPORT_URL=$(echo ${NUSSKNACKER_URL%/}/api/processes/import/${PROCESS_NAME} | sed -e 's/ /%20/g')
 
-  curl ${PROCESS_URL} || curl -X POST ${PROCESS_URL%/}/Default
+  curl ${PROCESS_URL} || echo "{ \"name\": \"$PROCESS_NAME\", \"processingMode\": \"Unbounded-Stream\", \"isFragment\": false }" | curl -X POST ${PROCESSES_URL} -d @-
   echo ${PROCESS_OBJECT} | /usr/bin/curl -f -k -v -H "Authorization: ${AUTHORIZATION}" ${PROCESS_IMPORT_URL} -F process=@- | jq .scenarioGraph | (echo '{ "comment": "created by a bats test", "scenarioGraph": '; cat; echo '}') | curl -X PUT ${PROCESS_URL} -d @-
 
   [[ $(curl ${PROCESS_URL%/}/status | jq -r .status.name) == "RUNNING" ]] && curl -X POST ${PROCESS_CANCEL_URL}

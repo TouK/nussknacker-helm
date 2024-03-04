@@ -145,9 +145,6 @@ nussknacker:
   configFile: /etc/nussknacker/application.conf
   flinkConfig:
     jobManagerTimeout: "1m"
-    #Have to be provided if Flink not enabled
-    #restUrl:
-    #queryableStateProxyUrl:
   useDefaultScenarioType: true
   modelConfig: {}
   configExecutionOverrides: {}
@@ -161,7 +158,11 @@ nussknacker:
   usageStatisticsReports: true
   usageStatisticsReportsFingerprint: ~
   usageStatisticsReportsSource: "helmchart"
+  streaming:
+    enabled: true
   requestResponse:
+    enabled: true
+    dashboard: "nussknacker-request-response-scenario"
     servicePort: 80
     ingress:
       enabled: true
