@@ -7,9 +7,7 @@ it is highly configurable.
 
 Quickstart
 ----------
-To go through the whole process of installation, configuration of messages schemas and defining of scenarios,
-see [Quickstart guide](https://nussknacker.io/documentation/quickstart/helm/)
-or `k8s-helm` directory in [nussknacker-quickstart repository](https://github.com/TouK/nussknacker-quickstart)
+Check [Quickstart guide](https://nussknacker.io/documentation/quickstart/lite-streaming/) relevant to your [engine](https://nussknacker.io/documentation/about/engines/) and [processing mode](https://nussknacker.io/documentation/about/ProcessingModes/) to see the whole process of installation, configuration of messages schemas and defining of scenarios. You can also check `k8s-helm` directory in [nussknacker-quickstart repository](https://github.com/TouK/nussknacker-quickstart) for an example of K8s based installation. Finally, the `examples` folder of the [Helm chart repo](https://github.com/TouK/nussknacker-helm.git) contains examples how to apply configurations typical to Nussknacker K8s deployment. 
 
 Requirements
 ------------
@@ -71,28 +69,31 @@ Modes
 
 The `mode` configuration variable is a convenient umbrella term for the processing mode and engine. See [Glossary](https://nussknacker.io/documentation/about/GLOSSARY) for the explanation of these terms.
 
-By default, the chart runs Nussknacker in `flink` mode which deploys scenarios to Flink engine (either installed directly by the chart, or external one). It is also possible to run Nussknacker on K8s in `streaming-lite` and `request-response` modes. You will need to manually adjust values of the following variables if you use `mode` other than `flink`.
-
-For:
-* `streaming-lite` mode:
+By default, the chart runs Nussknacker in `flink` mode which deploys scenarios to Flink engine (either installed directly by the chart, or external one). It is also possible to run Nussknacker on K8s in `lite-k8s` mode. You will need to manually adjust values of the following variables if you use this `mode`:
     ```
     nussknacker:
-       mode: streaming-lite
+       mode: lite-k8s
      flink:
        enable: false
      telegraf:
        enabled: false  
     ```
-    
-* `request-response` mode
+
+In case if you want to  use only request-response processing mode in your scenarios you can also disable streaming part of the application stack:
     ```
     nussknacker:
-       mode: request-response
+       mode: lite-k8s
+       streaming:
+         enabled: false
      flink:
        enable: false
      telegraf:
        enabled: false  
      kafka:
+       enabled: false
+     zookeeper:
+       enabled: false
+     apicurio-registry:
        enabled: false
     ```
 
@@ -122,8 +123,12 @@ Nussknacker configuration consists of three [configuration areas](https://nusskn
   included in ```modelConfig``` section of the configuration
 - `uiConfig` - modifies the Designer configuration options. You can override things like environment name, metrics and so on. They are included on the root level of ```application.conf```
 - the Deployment Manager configuration parameters (and Helm variables) are documented fully in Nussknacker configuration [documentation](https://nussknacker.io/documentation/docs/next/installation_configuration_guide/DeploymentManagerConfiguration#lite-engine-based-on-kubernetes); below we mention just those which are most often modified:
-  - `k8sDeploymentConfig` - here you can specify your own k8s runtime deployment yaml config in `streaming-lite` and `request-response` modes
-  - `requestResponse` - here you can specify `servicePort` and `ingress` configuration for deployed scenarios on k8s when running in `request-response` mode
+  - `k8sDeploymentConfig` - here you can specify your own k8s runtime deployment yaml config in `lite-k8s` mode
+  - `requestResponse` - here you can specify `servicePort` and `ingress` configuration for deployed scenarios on k8s when running in `lite-k8s` mode
+
+Yaml keys expected by Nussknacker to be in the form of nested yaml structures in the Values file are converted to json; check the chart implementation if in doubt.  
+
+Please note that not all configurations are one-to-one mapped to Values key names and that in few cases Values key names are different from configuration keys names.
 
 Finally, if you use external (not generated through this chart) Flink instance, use `flinkConfig` to configure it. Check `values.yaml` for available options. These settings are included in ```engineConfig``` section   of ```application.conf ```.
 
@@ -163,20 +168,21 @@ configuration adding additional JDBC driver for [SQL enrichers](https://docs.nus
 ```
 nussknacker:
   #At the moment one has to override whole classPath to add custom entries
-  modelClassPath: &modelClassPath
-    - "model/defaultModel.jar"
-    - "components/lite/liteBase.jar"
-    - "components/lite/liteKafka.jar"
-    - "components/common"
-    - "https://repo1.maven.org/maven2/org/hsqldb/hsqldb/2.6.1/hsqldb-2.6.1.jar"
+  streaming:
+    modelClassPath: &streamingModelClassPath
+      - "model/defaultModel.jar"
+      - "components/lite/liteBase.jar"
+      - "components/lite/liteKafka.jar"
+      - "components/common"
+      - "https://repo1.maven.org/maven2/org/hsqldb/hsqldb/2.6.1/hsqldb-2.6.1.jar"
   uiConfig:
     scenarioTypes:
       default:
         deploymentConfig:
           configExecutionOverrides: 
-            modelClassPath: *modelClassPath
+            modelClassPath: *streamingModelClassPath
 ```
-Again, for `flink` mode it's only necessary to set `modelClassPath`.
+Again, for `flink` mode it's only necessary to set `streamingModelClassPath`.
 
 Security/RBAC
 -------------
@@ -275,7 +281,7 @@ You can deploy configMap/secret on your own using, or use special `extraDeploy` 
 Example:
 ```
 nussknacker:
-  mode: "streaming-lite"
+  mode: "lite-k8s"
   configFile: /etc/nussknacker/application.conf,/etc/nussknacker/extra/extra-application.conf
 
 additionalVolumes:

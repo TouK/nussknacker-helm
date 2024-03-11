@@ -13,31 +13,35 @@ data:
     db.password: ${?DB_PASSWORD}
 
     scenarioTypes {
-      "default": {
+    {{- if .Values.nussknacker.useDefaultScenarioType }}
+    {{- if .Values.nussknacker.streaming.enabled }}
+      "streaming": {
+          category: "Default"
           {{- if eq .Values.nussknacker.mode "flink" }}
           deploymentConfig: {
              type: "flinkStreaming"
              {{- /* Find easier way of passing it through values */}}
              restUrl: "{{ include "nussknacker.flinkJobManagerUrl" . }}"
-             queryableStateProxyUrl: "{{ include "nussknacker.flinkTaskManagerUrl" . }}"
           } {{ tpl (.Values.nussknacker.flinkConfig | mustToJson) . }}
-
-          {{- else if or (eq .Values.nussknacker.mode "streaming-lite") (eq .Values.nussknacker.mode "request-response") }}
+          {{- else if eq .Values.nussknacker.mode "ververica" }}
+          deploymentConfig: {
+              type: "ververica"
+              username: {{ .Values.nussknacker.ververica.username | quote }}
+              password: {{ .Values.nussknacker.ververica.password | quote }}
+              remoteSyslogIp: {{ .Values.nussknacker.ververica.remoteSyslogIp | quote }}
+              remoteSyslogPort: {{ .Values.nussknacker.ververica.remoteSyslogPort }}
+              engineVersion: {{ .Values.nussknacker.ververica.engineVersion | quote }}
+          }
+          {{- else if eq .Values.nussknacker.mode "lite-k8s" }}
           deploymentConfig: {
              type: "lite-k8s"
-             mode: {{ .Values.nussknacker.mode | replace "-lite" "" }}
+             mode: "streaming"
              {{- if .Values.nussknacker.k8sDeploymentConfig }}
              k8sDeploymentConfig: {{- tpl ( mustToJson .Values.nussknacker.k8sDeploymentConfig ) . }}
              {{- end }}
              {{- if .Values.nussknacker.runtimeImage }}
              dockerImageName: {{- .Values.nussknacker.runtimeImage.repository }}
              dockerImageTag: {{- .Values.nussknacker.runtimeImage.tag }}
-             {{- end }}
-             {{- if eq .Values.nussknacker.mode "request-response" }}
-             servicePort: {{ .Values.nussknacker.requestResponse.servicePort }}
-             {{- if .Values.nussknacker.requestResponse.ingress.enabled }}
-             ingress: {{- tpl ( mustToJson .Values.nussknacker.requestResponse.ingress ) . }}
-             {{- end}}
              {{- end }}
              {{- if .Values.prometheusMetrics.enabled }}
              prometheusMetrics: {
@@ -53,7 +57,7 @@ data:
              {{- with .Values.runtimeCommonConfigMapForLogback }}
              commonConfigMapForLogback: {{ . }}
              {{- end }}
-             configExecutionOverrides {
+             configExecutionOverrides: {
                {{- if .Values.influxdb.enabled }}
                metrics {
                  environment: ${environment},
@@ -65,32 +69,92 @@ data:
                  }
                }
                {{- end }}
-             }
+             }{{- tpl ( mustToJson .Values.nussknacker.configExecutionOverrides ) . }}
           }
           {{- end }}
 
           modelConfig: {
-            classPath: {{ include "nussknacker.modelClassPath" . }}
+            classPath: {{ include "nussknacker.streaming.modelClassPath" . }}
             {{- if and (eq .Values.nussknacker.mode "flink") (not .Values.nussknacker.skipKafkaConfig ) }}
             components.kafka.config {
               kafkaProperties {
                 "bootstrap.servers": "{{ include "nussknacker.kafkaBootstrapServers" . }}"
                 "schema.registry.url": "{{ include "nussknacker.schemaRegistryUrl" . }}"
               }
+              {{- with .Values.nussknacker.schemaRegistryCacheConfig }}
+              schemaRegistryCacheConfig: {{ tpl (toJson .) $ }}
+              {{- end }}
             }
             rocksDB {
               enable: true
             }
-            {{- else if and (eq .Values.nussknacker.mode "streaming-lite") (not .Values.nussknacker.skipKafkaConfig ) }}
+            {{- else if not .Values.nussknacker.skipKafkaConfig }}
             kafka {
               kafkaProperties {
                 "bootstrap.servers": "{{ include "nussknacker.kafkaBootstrapServers" . }}"
                 "schema.registry.url": "{{ include "nussknacker.schemaRegistryUrl" . }}"
               }
+              {{- with .Values.nussknacker.schemaRegistryCacheConfig }}
+              schemaRegistryCacheConfig: {{ tpl (toJson .) $ }}
+              {{- end }}
             }
             {{- end }}
           }{{- tpl ( mustToJson .Values.nussknacker.modelConfig ) . }}
       }
+      {{- end }}
+      {{- if and (.Values.nussknacker.requestResponse.enabled) (eq .Values.nussknacker.mode "lite-k8s") }}
+      "request-response": {
+          category: "Default"
+
+          deploymentConfig: {
+             type: "lite-k8s"
+             mode: "request-response"
+             {{- if .Values.nussknacker.k8sDeploymentConfig }}
+             k8sDeploymentConfig: {{- tpl ( mustToJson .Values.nussknacker.k8sDeploymentConfig ) . }}
+             {{- end }}
+             {{- if .Values.nussknacker.runtimeImage }}
+             dockerImageName: {{- .Values.nussknacker.runtimeImage.repository }}
+             dockerImageTag: {{- .Values.nussknacker.runtimeImage.tag }}
+             {{- end }}
+             servicePort: {{ .Values.nussknacker.requestResponse.servicePort }}
+             {{- if .Values.nussknacker.requestResponse.ingress.enabled }}
+             ingress: {{- tpl ( mustToJson .Values.nussknacker.requestResponse.ingress ) . }}
+             {{- end }}
+             {{- if .Values.prometheusMetrics.enabled }}
+             prometheusMetrics: {
+                enabled: true
+                port: {{ .Values.prometheusMetrics.port }}
+             }
+             {{- end }}
+             {{- if .Values.nussknacker.scalingConfig }}
+             scalingConfig: {{- tpl ( mustToJson .Values.nussknacker.scalingConfig  ) . }}
+             {{- end }}
+             nussknackerInstanceName: ${?HELM_RELEASE_NAME}
+             logbackConfigPath: ${?RUNTIME_LOGBACK_FILE}
+             {{- with .Values.runtimeCommonConfigMapForLogback }}
+             commonConfigMapForLogback: {{ . }}
+             {{- end }}
+             configExecutionOverrides: {
+               {{- if .Values.influxdb.enabled }}
+               metrics {
+                 environment: ${environment},
+                 influx {
+                   url: "{{ include "nussknacker.influxUrl" .}}/write",
+                   database: "nussknacker"
+                   username: ${INFLUXDB_USER}
+                   password: ${INFLUXDB_PASSWORD}
+                 }
+               }
+               {{- end }}
+             }{{- tpl ( mustToJson .Values.nussknacker.configExecutionOverrides ) . }}
+          }
+
+          modelConfig: {
+            classPath: {{ include "nussknacker.requestResponse.modelClassPath" . }}
+          }
+      }
+      {{- end }}
+    {{- end }}
     }
 
     {{- if .Values.influxdb.enabled }}
@@ -100,7 +164,15 @@ data:
     {{- if .Values.grafana.enabled }}
     metricsSettings: {
       url: "{{ include "nussknacker.grafanaUrl" .}}/d/$dashboard?theme=dark&var-scenarioName=$scenarioName&var-env="${environment}
-      defaultDashboard: "{{ include "nussknacker.defaultDashboard" .}}"
+      defaultDashboard: ""
+      scenarioTypeToDashboard: {
+        {{- if .Values.nussknacker.streaming.enabled }}
+        "streaming": "{{ include "nussknacker.streaming.dashboard" .}}"
+        {{- end }}
+        {{- if and (.Values.nussknacker.requestResponse.enabled) (eq .Values.nussknacker.mode "lite-k8s") }}
+        "request-response": "{{ .Values.nussknacker.requestResponse.dashboard }}"
+        {{- end }}
+      }
     }
     {{- end }}
 

@@ -31,6 +31,9 @@ spec:
   rules:
     - http:
         paths:
+          {{- if .Values.ingress.customPaths }}
+          {{- toYaml .Values.ingress.customPaths | nindent 10 }}
+          {{- else }}
           {{- if .Values.grafana.enabled }}
           - path: /grafana
             {{- if semverCompare ">=1.19-0" $.Capabilities.KubeVersion.GitVersion }}
@@ -61,6 +64,7 @@ spec:
               serviceName: {{ $fullName }}
               servicePort: {{ $svcPort }}
               {{- end }}
+            {{- end }}
       {{- if not .Values.ingress.skipHost }}
       host: {{ include "nussknacker.fqdn" . | quote }}
       {{- end }}  

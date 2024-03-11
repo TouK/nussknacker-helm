@@ -2,6 +2,17 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+global:
+  kafka:
+    name: kafka
+    port: 9092
+  zookeeper: &zookeeper_ports_config
+    ports:
+      client: 2181
+  schemaRegistry:
+    name: apicurio-registry
+    path: /apis/ccompat/v6/
+
 replicaCount: 1
 
 image:
@@ -73,6 +84,7 @@ deployment:
     periodSeconds: 5
     failureThreshold: 3
     timeoutSeconds: 5
+  annotations: { }
 
 statefulSet:
   ## If true, use a statefulset instead of a deployment for pod management.
@@ -87,6 +99,21 @@ ingress:
   # domain: <a TLD must be set>
   # host: .Release.Name-nussknacker
   # tlsSecretName: .Release.Name-nussknacker-tls
+  ## Custom ingress paths for each host. This feature can be used to override the default paths
+  customPaths: []
+  # Example for Kubernetes > 1.19:
+  # - path: /custom-path
+  #   pathType: Prefix
+  #   backend:
+  #     service:
+  #       name: custom-service
+  #       port:
+  #         number: 8080
+  # Example for Kubernetes < 1.19:
+  # - path: /custom-path
+  #   backend:
+  #     serviceName: custom-service
+  #     servicePort: 8080
 
 resources: { }
   # We usually recommend not to specify default resources and to leave this as a conscious
@@ -120,24 +147,24 @@ nussknacker:
   configFile: /etc/nussknacker/application.conf
   flinkConfig:
     jobManagerTimeout: "1m"
-    #Have to be provided if Flink not enabled
-    #restUrl:
-    #queryableStateProxyUrl:
+  useDefaultScenarioType: true
   modelConfig: {}
+  configExecutionOverrides: {}
   uiConfig:
     environment: "default"
     environmentAlert:
       content: "{{ .Values.nussknacker.uiConfig.environment }}"
       color: "indicator-green"
-    categoriesConfig:
-      #NOTE: all categories have to point to 'default' scenarioType!
-      Default: "default"
   #Use it if you want to skip default kafka configuration and provide your own    
   skipKafkaConfig: false
   usageStatisticsReports: true
   usageStatisticsReportsFingerprint: ~
   usageStatisticsReportsSource: "helmchart"
+  streaming:
+    enabled: true
   requestResponse:
+    enabled: true
+    dashboard: "nussknacker-request-response-scenario"
     servicePort: 80
     ingress:
       enabled: true
@@ -151,20 +178,26 @@ postgresql:
   volumePermissions:
     enabled: true
 
+zookeeper:
+  enabled: true
+  service: *zookeeper_ports_config
+
 kafka:
   enabled: true
   persistence:
     enabled: true
+  kraft:
+    enabled: false
   zookeeper:
     enabled: false
   externalZookeeper:
     servers:
-      - "{{ .Release.Name }}-zookeeper:{{ .Values.zookeeper.service.ports.client }}"
+      - "{{ .Release.Name }}-zookeeper:{{ .Values.global.zookeeper.ports.client }}"
 
 apicurio-registry:
   enabled: true
   image:
-    tag: 2.2.5.Final
+    tag: 2.5.8.Final
   kafka:
     enabled: false
 
@@ -235,6 +268,9 @@ telegraf:
   enabled: true
   rbac:
     create: false
+  influxdb:
+    username: ""
+    password: ""
   args:
     - "--config-directory"
     - "/etc/telegraf/telegraf.d"
@@ -245,20 +281,42 @@ telegraf:
   mountPoints:
     - name: telegraf-nussknacker
       mountPath: /etc/telegraf/telegraf.d
+  nussknacker:
+    processors:
+      - rename:
+         replace:
+            - tag: "job_name"
+              dest: "scenario"
+            - tag: "subtask_index"
+              dest: "slot"
+            - tag: "originalProcessName"
+              dest: "process"
+      - strings:
+         replace:
+            - measurement: "*"
+              old: "taskmanager_job_task_operator_"
+              new: ""
+            - measurement: "*"
+              old: "flink_"
+              new: ""
+            - measurement: "*"
+              old: "nodeId_"
+              new: ""
+            - measurement: "*"
+              old: "serviceName_"
+              new: ""
+            - measurement: "*"
+              old: "namespace_"
+              new: ""
+            - measurement: "*"
+              old: "originalProcessName_"
+              new: ""
+    inputs:
+    aggregators:
+    outputs:
   config:
     #We suppress default influxDB configuration from chart, as we cannot easily template influxdb url
     outputs: []
-
-global:
-  kafka:
-    name: kafka
-    port: 9092
-  zookeeper:
-    name: zookeeper
-    port: 2181
-  schemaRegistry:
-    name: apicurio-registry
-    path: /apis/ccompat/v6/
 
 nussknackerInitContainers: [ ]
 
