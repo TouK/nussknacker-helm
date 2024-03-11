@@ -1,4 +1,4 @@
-{{- if and .Values.persistence.enabled (not .Values.persistence.existingClaim) }}
+{{- if and .Values.persistence.enabled (not .Values.statefulSet.enabled) (not .Values.persistence.existingClaim) -}}
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
@@ -6,6 +6,7 @@ metadata:
   namespace: {{ .Release.Namespace }}
 {{- with .Values.persistence.annotations  }}
   annotations:
+    helm.sh/resource-policy: keep
 {{ toYaml . | indent 4 }}
 {{- end }}
   labels:
@@ -23,4 +24,4 @@ spec:
   storageClassName: "{{ .Values.persistence.storageClass }}"
 {{- end }}
 {{- end }}
-{{- end }}
+{{- end -}}
