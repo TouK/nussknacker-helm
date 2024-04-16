@@ -155,7 +155,7 @@ nussknacker:
     environmentAlert:
       content: "{{ .Values.nussknacker.uiConfig.environment }}"
       color: "indicator-green"
-  #Use it if you want to skip default kafka configuration and provide your own    
+  #Use it if you want to skip default kafka configuration and provide your own
   skipKafkaConfig: false
   usageStatisticsReports: true
   usageStatisticsReportsFingerprint: ~
@@ -204,22 +204,20 @@ apicurio-registry:
 flink:
   enabled: true
   image:
-    tag: 1.16.0-scala_2.12-java11
+    tag: 1.18.1-scala_2.12-java11
   flink:
-    #TODO: system metrics fail on Flink 1.16
+    # Monitoring configuration in flink helm chart used by us is not compatible with flinks >= 1.16,
+    # so we set flink.monitoring.system.enable=false and configure metrics.reporter.prom.factory.class for our own.
+    # See templates/_flink_config.tpl in flink helm chart
     monitoring:
       system:
         enabled: false
-    #Have to override default setting from chart, as it's not compatible with Flink 1.16    
-    params: "metrics.reporter.prom.factory.class: org.apache.flink.metrics.prometheus.PrometheusReporterFactory"    
+    params: "metrics.reporter.prom.factory.class: org.apache.flink.metrics.prometheus.PrometheusReporterFactory"
   taskmanager:
     statefulset: false
     numberOfTaskSlots: 3
   jobmanager:
     statefulset: true
-#  prometheus:
-#    serviceMonitor:
-#      enabled: false
 
 grafana:
   enabled: true
