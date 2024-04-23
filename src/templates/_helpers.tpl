@@ -180,9 +180,9 @@ nussknacker-lite-scenario
 {{- end -}}
 
 {{- define "nussknacker.additionalClassPathModules" -}}
-{{- $list := .Values.nussknacker.additionalClassPathModules -}}
-{{- if gt (len $list) 0 -}}
-{{- printf ",%s" (join $list ",") -}}
+{{- $additionalClassPathModules := default (list) .Values.nussknacker.additionalClassPathModules }}
+{{- if gt (len $additionalClassPathModules) 0 -}}
+{{- printf ", \"%s\"" (join "\", \"" $additionalClassPathModules) -}}
 {{- else -}}
 {{- "" -}}
 {{- end -}}
