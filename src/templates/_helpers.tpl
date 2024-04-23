@@ -179,15 +179,24 @@ nussknacker-lite-scenario
 {{- end -}}
 {{- end -}}
 
+{{- define "nussknacker.additionalClassPathModules" -}}
+{{- $list := .Values.nussknacker.additionalClassPathModules -}}
+{{- if gt (len $list) 0 -}}
+{{- printf ",%s" (join $list ",") -}}
+{{- else -}}
+{{- "" -}}
+{{- end -}}
+{{- end -}}
+
 {{- define "nussknacker.streaming.modelClassPath" -}}
 {{- if .Values.nussknacker.streaming.modelClassPath -}}
 {{ tpl ( mustToJson .Values.nussknacker.streaming.modelClassPath) . }}
 {{- else if eq .Values.nussknacker.mode "flink" -}}
-["model/defaultModel.jar", "model/flinkExecutor.jar", "components/flink", "components/common"]
+["model/defaultModel.jar", "model/flinkExecutor.jar", "components/flink", "components/common"{{ include "nussknacker.additionalClassPathModules" . }} ]
 {{- else if eq .Values.nussknacker.mode "ververica" -}}
-["model/defaultModel.jar", "model/flinkExecutor.jar", "components/flink", "components/common", "compatibility-provider/nussknacker-ververica-compatibility-provider.jar"]
+["model/defaultModel.jar", "model/flinkExecutor.jar", "components/flink", "components/common", "compatibility-provider/nussknacker-ververica-compatibility-provider.jar"{{ include "nussknacker.additionalClassPathModules" . }}]
 {{- else if eq .Values.nussknacker.mode "lite-k8s" -}}
-["model/defaultModel.jar", "components/lite/liteBase.jar", "components/lite/liteKafka.jar", "components/common"]
+["model/defaultModel.jar", "components/lite/liteBase.jar", "components/lite/liteKafka.jar", "components/common"{{ include "nussknacker.additionalClassPathModules" . }}]
 {{- else -}}
 {{- fail "Value for .Values.nussknacker.mode is not supported. Supported modes are: flink, ververica and lite-k8s" }}
 {{- end -}}
@@ -199,7 +208,7 @@ nussknacker-lite-scenario
 {{- else if or (eq .Values.nussknacker.mode "flink") (eq .Values.nussknacker.mode "ververica") -}}
 []
 {{- else if eq .Values.nussknacker.mode "lite-k8s" -}}
-["model/defaultModel.jar", "components/lite/liteBase.jar", "components/lite/liteRequestResponse.jar", "components/common"]
+["model/defaultModel.jar", "components/lite/liteBase.jar", "components/lite/liteRequestResponse.jar", "components/common"{{ include "nussknacker.additionalClassPathModules" . }}]
 {{- else -}}
 {{- fail "Value for .Values.nussknacker.mode is not supported. Supported modes are: flink, ververica and lite-k8s" }}
 {{- end -}}
