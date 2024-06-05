@@ -1,7 +1,7 @@
 apiVersion: v2
 name: nussknacker
 # In the main branch it should be always the -SNAPSHOT version. Release versions should be on the tags only
-version: 1.16.0-SNAPSHOT
+version: 1.15.1
 description: Nussknacker - a design, development, and deployment tool for stream processing
 home: https://nussknacker.io/
 icon: https://nussknacker.io/wp-content/uploads/2021/10/Nussknacker-short-black.svg
@@ -15,7 +15,7 @@ type: application
 # latest-staging version is used when someone run the snapshot build of this chart manually. scala_2.12 is because it can be used with Flink
 # During release it is replaced by the released image version. In the main we should always keep this version
 # TODO The best would be to publish X.Y.Z-latest docker image version in core and use it here to make it more explicit
-appVersion: 1.16.0-SNAPSHOT
+appVersion: 1.15.1
 dependencies:
   - name: postgresql
     version: ~12.1.15
@@ -38,7 +38,7 @@ dependencies:
     repository: "@riskfocus"
     condition: flink.enabled
   - name: grafana
-    # Grafana has changed its license after v7.5 - 6.11.0 is it's helm version
+    # Grafana has changed its license after v7.5 - 6.11.0 is its helm version
     version: 6.11.0
     repository: "@grafana"
     condition: grafana.enabled
