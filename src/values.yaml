@@ -221,6 +221,8 @@ flink:
 
 grafana:
   enabled: true
+  image:
+    tag: 7.5.15
   grafana.ini:
     server:
       root_url: "%(protocol)s://%(domain)s/grafana"
