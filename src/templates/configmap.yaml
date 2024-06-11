@@ -23,6 +23,11 @@ data:
              {{- /* Find easier way of passing it through values */}}
              restUrl: "{{ include "nussknacker.flinkJobManagerUrl" . }}"
           } {{ tpl (.Values.nussknacker.flinkConfig | mustToJson) . }}
+          {{- else if eq .Values.nussknacker.mode "flink-k8s-operator" }}
+          deploymentConfig: {
+            type: "flink-k8s-operator"
+            k8sNamespace: {{ template "nussknacker.namespace" . }}
+          }
           {{- else if eq .Values.nussknacker.mode "ververica" }}
           deploymentConfig: {
               type: "ververica"
