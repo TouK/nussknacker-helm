@@ -191,7 +191,7 @@ nussknacker-lite-scenario
 {{- define "nussknacker.streaming.modelClassPath" -}}
 {{- if .Values.nussknacker.streaming.modelClassPath -}}
 {{ tpl ( mustToJson .Values.nussknacker.streaming.modelClassPath) . }}
-{{- else if eq .Values.nussknacker.mode "flink" -}}
+{{- else if or (eq .Values.nussknacker.mode "flink") (eq .Values.nussknacker.mode "flink-k8s-operator") -}}
 ["model/defaultModel.jar", "model/flinkExecutor.jar", "components/flink", "components/common"{{ include "nussknacker.additionalClassPathModules" . }} ]
 {{- else if eq .Values.nussknacker.mode "ververica" -}}
 ["model/defaultModel.jar", "model/flinkExecutor.jar", "components/flink", "components/common", "compatibility-provider/nussknacker-ververica-compatibility-provider.jar"{{ include "nussknacker.additionalClassPathModules" . }}]
