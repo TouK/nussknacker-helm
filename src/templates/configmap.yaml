@@ -27,7 +27,7 @@ data:
           deploymentConfig: {
             type: "flink-k8s-operator"
             k8sNamespace: {{ template "nussknacker.namespace" . }}
-            localDirectoryForPayloadJars: "/mnt/payloads"
+            sharedDirectory: "/mnt/payloads"
           }
           {{- else if eq .Values.nussknacker.mode "ververica" }}
           deploymentConfig: {
