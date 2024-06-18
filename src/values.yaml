@@ -220,7 +220,7 @@ flink:
     statefulset: true
 
 flinkK8sOperator:
-  enabled: true
+  enabled: false
 
 grafana:
   enabled: true
