@@ -1,4 +1,4 @@
-{{- if and (hasKey .Values "flink-k8s-operator") .Values.flink-k8s-operator.enabled }}
+{{- if and (hasKey .Values "flinkK8sOperator") .Values.flinkK8sOperator.enabled }}
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:

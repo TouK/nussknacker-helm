@@ -219,7 +219,7 @@ flink:
   jobmanager:
     statefulset: true
 
-flink-k8s-operator:
+flinkK8sOperator:
   enabled: true
 
 grafana:
