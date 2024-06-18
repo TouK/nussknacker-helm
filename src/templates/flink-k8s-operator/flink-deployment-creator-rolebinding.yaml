@@ -1,3 +1,4 @@
+{{- if .Values.flink-k8s-operator.enabled }}
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
@@ -9,3 +10,4 @@ roleRef:
   kind: Role
   name: flink-deployment-creator
   apiGroup: rbac.authorization.k8s.io
+{{- end }}
