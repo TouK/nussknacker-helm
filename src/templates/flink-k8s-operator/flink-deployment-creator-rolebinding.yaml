@@ -1,0 +1,11 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: flink-deployment-creator-binding
+subjects:
+- kind: ServiceAccount
+  name: nussknacker
+roleRef:
+  kind: Role
+  name: flink-deployment-creator
+  apiGroup: rbac.authorization.k8s.io

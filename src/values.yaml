@@ -219,6 +219,9 @@ flink:
   jobmanager:
     statefulset: true
 
+flink-k8s-operator:
+  enabled: true
+
 grafana:
   enabled: true
   grafana.ini:

@@ -1,0 +1,8 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: flink-deployment-creator
+rules:
+- apiGroups: ["flink.apache.org"]
+  resources: ["flinkdeployments"]
+  verbs: ["create", "delete", "list", "update", "get"]
