@@ -1,4 +1,4 @@
-{{- if and (hasKey .Values "flink-k8s-operator") .Values.flink-k8s-operator.enabled }}
+{{- if and (hasKey .Values "flinkK8sOperator") .Values.flinkK8sOperator.enabled }}
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
