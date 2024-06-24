@@ -1,4 +1,4 @@
-{{- if and (hasKey .Values "flinkK8sOperator") .Values.flinkK8sOperator.enabled }}
+{{- if and (hasKey .Values "flinkK8sOperatorDeploymentManager") .Values.flinkK8sOperatorDeploymentManager.enabled }}
 apiVersion: batch/v1
 kind: Job
 metadata:
@@ -15,7 +15,7 @@ spec:
       labels:
         {{ include "nussknacker.labels" . | nindent 8 }}
     spec:
-      serviceAccountName: nussknacker
+      serviceAccountName: {{ include "nussknacker.serviceAccountName" . }}
       containers:
         - name: delete-flinkdeployments
           image: bitnami/kubectl:latest

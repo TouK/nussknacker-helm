@@ -1,13 +1,13 @@
-{{- if and (hasKey .Values "flinkK8sOperator") .Values.flinkK8sOperator.enabled }}
+{{- if and (hasKey .Values "flinkK8sOperatorDeploymentManager") .Values.flinkK8sOperatorDeploymentManager.enabled }}
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
-  name: flink-deployment-creator-binding
+  name: {{ default "flink-deployment-creator" .Values.flinkK8sOperatorDeploymentManager.flinkDeploymentCreatorRole }}-rolebinding
 subjects:
 - kind: ServiceAccount
   name: {{ include "nussknacker.serviceAccountName" . }}
 roleRef:
   kind: Role
-  name: flink-deployment-creator
+  name: {{ default "flink-deployment-creator" .Values.flinkK8sOperatorDeploymentManager.flinkDeploymentCreatorRole }}
   apiGroup: rbac.authorization.k8s.io
 {{- end }}

@@ -219,8 +219,10 @@ flink:
   jobmanager:
     statefulset: true
 
-flinkK8sOperator:
+flinkK8sOperatorDeploymentManager:
   enabled: false
+  sharedPVC:
+    name: payload-pvc-nfs
 
 grafana:
   enabled: true

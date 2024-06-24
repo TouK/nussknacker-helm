@@ -1,15 +1,17 @@
-{{- if and (hasKey .Values "flinkK8sOperator") .Values.flinkK8sOperator.enabled }}
+{{- if and (hasKey .Values "flinkK8sOperatorDeploymentManager") .Values.flinkK8sOperatorDeploymentManager.enabled }}
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: payload-pvc-nfs
+  name: {{ .Values.flinkK8sOperatorDeploymentManager.sharedPVC.name }}
+{{- if and (hasKey .Values.flinkK8sOperatorDeploymentManager.sharedPVC "keepAfterUninstall") .Values.flinkK8sOperatorDeploymentManager.sharedPVC.keepAfterUninstall }}
   annotations:
     "helm.sh/resource-policy": keep
+{{- end }}
 spec:
   accessModes:
     - ReadWriteMany
   resources:
     requests:
-      storage: 1Gi
+      storage: {{ default "1Gi" .Values.flinkK8sOperatorDeploymentManager.sharedPVC.storageSize }}
   storageClassName: nfs
 {{- end }}
