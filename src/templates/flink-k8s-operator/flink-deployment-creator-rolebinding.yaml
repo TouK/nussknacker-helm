@@ -5,7 +5,7 @@ metadata:
   name: flink-deployment-creator-binding
 subjects:
 - kind: ServiceAccount
-  name: nussknacker
+  name: {{ include "nussknacker.serviceAccountName" . }}
 roleRef:
   kind: Role
   name: flink-deployment-creator
