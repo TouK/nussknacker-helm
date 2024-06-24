@@ -3,6 +3,8 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
   name: {{ default "flink-deployment-creator" .Values.flinkK8sOperatorDeploymentManager.flinkDeploymentCreatorRole }}
+  labels:
+    {{ include "nussknacker.labels" . | nindent 4 }}
 rules:
 - apiGroups: ["flink.apache.org"]
   resources: ["flinkdeployments"]
