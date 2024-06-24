@@ -1,8 +1,8 @@
-{{- if and (hasKey .Values "flinkK8sOperator") .Values.flinkK8sOperator.enabled }}
+{{- if and (hasKey .Values "flinkK8sOperatorDeploymentManager") .Values.flinkK8sOperatorDeploymentManager.enabled }}
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
-  name: flink-deployment-creator
+  name: {{ default "flink-deployment-creator" .Values.flinkK8sOperatorDeploymentManager.flinkDeploymentCreatorRole }}
 rules:
 - apiGroups: ["flink.apache.org"]
   resources: ["flinkdeployments"]
