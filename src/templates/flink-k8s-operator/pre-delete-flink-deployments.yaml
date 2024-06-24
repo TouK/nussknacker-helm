@@ -15,6 +15,7 @@ spec:
       labels:
         {{ include "nussknacker.labels" . | nindent 8 }}
     spec:
+      serviceAccountName: nussknacker
       containers:
         - name: delete-flinkdeployments
           image: bitnami/kubectl:latest
