@@ -1,8 +1,8 @@
-{{- if and (hasKey .Values "flinkK8sOperatorDeploymentManager") .Values.flinkK8sOperatorDeploymentManager.enabled }}
+{{- if and (hasKey .Values "enterprise.flinkK8sOperatorDeploymentManager") .Values.enterprise.flinkK8sOperatorDeploymentManager.enabled }}
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
-  name: {{ default "flink-deployment-creator" .Values.flinkK8sOperatorDeploymentManager.flinkDeploymentCreatorRole }}
+  name: {{ default "flink-deployment-creator" .Values.enterprise.flinkK8sOperatorDeploymentManager.flinkDeploymentCreatorRole }}
   labels:
     {{ include "nussknacker.labels" . | nindent 4 }}
 rules:

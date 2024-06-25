@@ -219,12 +219,6 @@ flink:
   jobmanager:
     statefulset: true
 
-flinkK8sOperatorDeploymentManager:
-  enabled: false
-  sharedDirectoryMount: /mnt/payloads
-  sharedPVC:
-    name: payload-pvc-nfs
-
 grafana:
   enabled: true
   grafana.ini:
@@ -326,3 +320,13 @@ nussknackerInitContainers: [ ]
 
 #Extra resources to deploy
 extraDeploy: []
+
+###########################################################    
+### Configuration for Nussknacker enterprise components ### 
+###########################################################
+enterprise:
+  flinkK8sOperatorDeploymentManager:
+    enabled: false
+    sharedDirectoryMount: /mnt/payloads
+    sharedPVC:
+      name: payload-pvc-nfs
