@@ -27,7 +27,7 @@ data:
           deploymentConfig: {
             type: "flink-k8s-operator"
             k8sNamespace: {{ template "nussknacker.namespace" . }}
-            sharedDirectory: {{ .Values.flinkK8sOperatorDeploymentManager.sharedDirectoryMount | quote }}
+            sharedDirectoryMount: {{ .Values.flinkK8sOperatorDeploymentManager.sharedDirectoryMount | quote }}
             persistenceVolumeClaimName: {{ .Values.flinkK8sOperatorDeploymentManager.sharedPVC.name | quote }}
           }
           {{- else if eq .Values.nussknacker.mode "ververica" }}
