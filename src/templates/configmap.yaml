@@ -29,6 +29,8 @@ data:
             k8sNamespace: {{ template "nussknacker.namespace" . }}
             sharedDirectoryMount: {{ .Values.flinkK8sOperatorDeploymentManager.sharedDirectoryMount | quote }}
             persistenceVolumeClaimName: {{ .Values.flinkK8sOperatorDeploymentManager.sharedPVC.name | quote }}
+            influxdbUsername: ${INFLUXDB_USER}
+            influxdbPassword: ${INFLUXDB_PASSWORD}
           }
           {{- else if eq .Values.nussknacker.mode "ververica" }}
           deploymentConfig: {
