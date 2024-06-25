@@ -219,6 +219,12 @@ flink:
   jobmanager:
     statefulset: true
 
+flinkK8sOperatorDeploymentManager:
+  enabled: false
+  sharedDirectoryMount: /mnt/payloads
+  sharedPVC:
+    name: payload-pvc-nfs
+
 grafana:
   enabled: true
   grafana.ini:
