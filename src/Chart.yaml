@@ -38,8 +38,7 @@ dependencies:
     repository: "@riskfocus"
     condition: flink.enabled
   - name: grafana
-    # Grafana has changed its license after v7.5 - 6.11.0 is its helm version
-    version: 6.11.0
+    version: 8.3.1
     repository: "@grafana"
     condition: grafana.enabled
   - name: influxdb
