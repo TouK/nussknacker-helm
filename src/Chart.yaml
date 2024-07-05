@@ -1,7 +1,7 @@
 apiVersion: v2
 name: nussknacker
 # In the main branch it should be always the -SNAPSHOT version. Release versions should be on the tags only
-version: 1.15.3
+version: 1.15.3-SNAPSHOT
 description: Nussknacker - a design, development, and deployment tool for stream processing
 home: https://nussknacker.io/
 icon: https://nussknacker.io/wp-content/uploads/2021/10/Nussknacker-short-black.svg
