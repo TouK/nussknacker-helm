@@ -2,8 +2,8 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: {{ .Values.flinkK8sOperatorDeploymentManager.sharedPVC.name }}
-{{- if and (hasKey .Values.flinkK8sOperatorDeploymentManager.sharedPVC "keepAfterUninstall") .Values.flinkK8sOperatorDeploymentManager.sharedPVC.keepAfterUninstall }}
+  name: {{ .Values.flinkK8sOperatorDeploymentManager.jobStateStorage.pvcName }}
+{{- if and (hasKey .Values.flinkK8sOperatorDeploymentManager.jobStateStorage "keepAfterUninstall") .Values.flinkK8sOperatorDeploymentManager.jobStateStorage.keepAfterUninstall }}
   annotations:
     "helm.sh/resource-policy": keep
 {{- end }}
@@ -14,6 +14,6 @@ spec:
     - ReadWriteMany
   resources:
     requests:
-      storage: {{ default "1Gi" .Values.flinkK8sOperatorDeploymentManager.sharedPVC.storageSize }}
+      storage: {{ default "1Gi" .Values.flinkK8sOperatorDeploymentManager.jobStateStorage.pvcSize }}
   storageClassName: nfs
 {{- end }}
