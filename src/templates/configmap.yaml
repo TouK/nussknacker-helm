@@ -27,8 +27,10 @@ data:
           deploymentConfig: {
             type: "flink-k8s-operator"
             k8sNamespace: {{ template "nussknacker.namespace" . }}
-            sharedDirectoryMount: {{ .Values.flinkK8sOperatorDeploymentManager.sharedDirectoryMount | quote }}
-            persistenceVolumeClaimName: {{ .Values.flinkK8sOperatorDeploymentManager.sharedPVC.name | quote }}
+            jobJarStoragePVCName: {{ .Values.flinkK8sOperatorDeploymentManager.jobJarStorage.pvcName | quote }}
+            jobJarStorageMountPoint: {{ .Values.flinkK8sOperatorDeploymentManager.jobJarStorage.mountPoint | quote }}            
+            jobStateStoragePVCName: {{ .Values.flinkK8sOperatorDeploymentManager.jobStateStorage.pvcName | quote }}
+            jobStateStorageMountPoint: {{ .Values.flinkK8sOperatorDeploymentManager.jobStateStorage.mountPoint | quote }}
             influxdbUsername: ${INFLUXDB_USER}
             influxdbPassword: ${INFLUXDB_PASSWORD}
           }
