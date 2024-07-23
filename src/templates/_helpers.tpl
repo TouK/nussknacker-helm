@@ -170,7 +170,7 @@ http://{{ include "apicurio-registry.fullname" ( index .Subcharts "apicurio-regi
 {{- end -}}
 
 {{- define "nussknacker.streaming.dashboard" -}}
-{{- if eq .Values.nussknacker.mode "flink" -}}
+{{- if or (eq .Values.nussknacker.mode "flink") (eq .Values.nussknacker.mode "flink-k8s-operator") -}}
 nussknacker-scenario
 {{- else if eq .Values.nussknacker.mode "lite-k8s" -}}
 nussknacker-lite-scenario
