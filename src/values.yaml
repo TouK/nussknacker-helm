@@ -223,7 +223,7 @@ flinkK8sOperatorDeploymentManager:
   enabled: false
   jobJarStorage:
     pvcName: job-jars-pvc
-    mountPoint: /mnt/payloads
+    mountPoint: /mnt/jobjars
   jobStateStorage:
     pvcName: job-states-pvc
     mountPoint: /mnt/jobstates
