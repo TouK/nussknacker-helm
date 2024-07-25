@@ -27,6 +27,7 @@ data:
           deploymentConfig: {
             type: "flink-k8s-operator"
             k8sNamespace: {{ template "nussknacker.namespace" . }}
+            flinkVersion: {{ .Values.flinkK8sOperatorDeploymentManager.flinkVersion | quote }}
             jobJarStoragePVCName: {{ .Values.flinkK8sOperatorDeploymentManager.jobJarStorage.pvcName | quote }}
             jobJarStorageMountPoint: {{ .Values.flinkK8sOperatorDeploymentManager.jobJarStorage.mountPoint | quote }}            
             jobStateStoragePVCName: {{ .Values.flinkK8sOperatorDeploymentManager.jobStateStorage.pvcName | quote }}
