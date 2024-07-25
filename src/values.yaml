@@ -221,6 +221,7 @@ flink:
 
 flinkK8sOperatorDeploymentManager:
   enabled: false
+  flinkVersion: "1.17"
   jobJarStorage:
     pvcName: job-jars-pvc
     mountPoint: /mnt/jobjars
