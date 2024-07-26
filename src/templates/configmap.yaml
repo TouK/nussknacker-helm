@@ -31,7 +31,7 @@ data:
             limitOfRunningScenarios: {{ .Values.flinkK8sOperatorDeploymentManager.limitOfRunningScenarios }}
             {{- end }}
             {{- if .Values.flinkK8sOperatorDeploymentManager.customLimitOfRunningScenarioExceededMessage }}
-            customLimitOfRunningScenarioExceededMessage: {{ .Values.flinkK8sOperatorDeploymentManager.customLimitOfRunningScenarioExceededMessage }}
+            customLimitOfRunningScenarioExceededMessage: {{ .Values.flinkK8sOperatorDeploymentManager.customLimitOfRunningScenarioExceededMessage | quote }}
             {{- end }}
             flinkVersion: {{ .Values.flinkK8sOperatorDeploymentManager.flinkVersion | quote }}
             jobJarStoragePVCName: {{ .Values.flinkK8sOperatorDeploymentManager.jobJarStorage.pvcName | quote }}
