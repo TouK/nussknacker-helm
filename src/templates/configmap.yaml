@@ -27,7 +27,7 @@ data:
           deploymentConfig: {
             type: "flink-k8s-operator"
             k8sNamespace: {{ template "nussknacker.namespace" . }}
-            limitOfRunningScenarios: {{ .Values.flinkK8sOperatorDeploymentManager.limitOfRunningScenarios }}
+            limitOfRunningScenarios: {{ .Values.flinkK8sOperatorDeploymentManager.limitOfRunningScenarios | quote }}
             flinkVersion: {{ .Values.flinkK8sOperatorDeploymentManager.flinkVersion | quote }}
             jobJarStoragePVCName: {{ .Values.flinkK8sOperatorDeploymentManager.jobJarStorage.pvcName | quote }}
             jobJarStorageMountPoint: {{ .Values.flinkK8sOperatorDeploymentManager.jobJarStorage.mountPoint | quote }}            
