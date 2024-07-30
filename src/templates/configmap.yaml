@@ -27,43 +27,43 @@ data:
           deploymentConfig: {
             type: "flink-k8s-operator"
             k8sNamespace: {{ template "nussknacker.namespace" . }}
-            {{- if .Values.flinkK8sOperatorDeploymentManager.limitOfRunningScenarios }}
-            limitOfRunningScenarios: {{ .Values.flinkK8sOperatorDeploymentManager.limitOfRunningScenarios }}
+            {{- if .Values.enterprise.flinkK8sOperatorDeploymentManager.limitOfRunningScenarios }}
+            limitOfRunningScenarios: {{ .Values.enterprise.flinkK8sOperatorDeploymentManager.limitOfRunningScenarios }}
             {{- end }}
-            {{- if .Values.flinkK8sOperatorDeploymentManager.customLimitOfRunningScenarioExceededMessage }}
-            customLimitOfRunningScenarioExceededMessage: {{ .Values.flinkK8sOperatorDeploymentManager.customLimitOfRunningScenarioExceededMessage | quote }}
+            {{- if .Values.enterprise.flinkK8sOperatorDeploymentManager.customLimitOfRunningScenarioExceededMessage }}
+            customLimitOfRunningScenarioExceededMessage: {{ .Values.enterprise.flinkK8sOperatorDeploymentManager.customLimitOfRunningScenarioExceededMessage | quote }}
             {{- end }}
-            flinkVersion: {{ .Values.flinkK8sOperatorDeploymentManager.flinkVersion | quote }}
-            jobJarStoragePVCName: {{ .Values.flinkK8sOperatorDeploymentManager.jobJarStorage.pvcName | quote }}
-            jobJarStorageMountPoint: {{ .Values.flinkK8sOperatorDeploymentManager.jobJarStorage.mountPoint | quote }}            
-            jobStateStoragePVCName: {{ .Values.flinkK8sOperatorDeploymentManager.jobStateStorage.pvcName | quote }}
-            jobStateStorageMountPoint: {{ .Values.flinkK8sOperatorDeploymentManager.jobStateStorage.mountPoint | quote }}
-            {{- if .Values.flinkK8sOperatorDeploymentManager.numberOfTaskSlotsInTaskManager }}
-            numberOfTaskSlotsInTaskManager: {{ .Values.flinkK8sOperatorDeploymentManager.numberOfTaskSlotsInTaskManager }}
+            flinkVersion: {{ .Values.enterprise.flinkK8sOperatorDeploymentManager.flinkVersion | quote }}
+            jobJarStoragePVCName: {{ .Values.enterprise.flinkK8sOperatorDeploymentManager.jobJarStorage.pvcName | quote }}
+            jobJarStorageMountPoint: {{ .Values.enterprise.flinkK8sOperatorDeploymentManager.jobJarStorage.mountPoint | quote }}            
+            jobStateStoragePVCName: {{ .Values.enterprise.flinkK8sOperatorDeploymentManager.jobStateStorage.pvcName | quote }}
+            jobStateStorageMountPoint: {{ .Values.enterprise.flinkK8sOperatorDeploymentManager.jobStateStorage.mountPoint | quote }}
+            {{- if .Values.enterprise.flinkK8sOperatorDeploymentManager.numberOfTaskSlotsInTaskManager }}
+            numberOfTaskSlotsInTaskManager: {{ .Values.enterprise.flinkK8sOperatorDeploymentManager.numberOfTaskSlotsInTaskManager }}
             {{- end }}
-            {{- if .Values.flinkK8sOperatorDeploymentManager.jobParallelism }}
-            jobParallelism: {{ .Values.flinkK8sOperatorDeploymentManager.jobParallelism }}
+            {{- if .Values.enterprise.flinkK8sOperatorDeploymentManager.jobParallelism }}
+            jobParallelism: {{ .Values.enterprise.flinkK8sOperatorDeploymentManager.jobParallelism }}
             {{- end }}
-            {{- if .Values.flinkK8sOperatorDeploymentManager.jobUpgradeMode }}
-            jobUpgradeMode: {{ .Values.flinkK8sOperatorDeploymentManager.jobUpgradeMode | quote }}
+            {{- if .Values.enterprise.flinkK8sOperatorDeploymentManager.jobUpgradeMode }}
+            jobUpgradeMode: {{ .Values.enterprise.flinkK8sOperatorDeploymentManager.jobUpgradeMode | quote }}
             {{- end }}
-            {{- if .Values.flinkK8sOperatorDeploymentManager.allowNonRestoredState }}
-            allowNonRestoredState: {{ .Values.flinkK8sOperatorDeploymentManager.allowNonRestoredState }}
+            {{- if .Values.enterprise.flinkK8sOperatorDeploymentManager.allowNonRestoredState }}
+            allowNonRestoredState: {{ .Values.enterprise.flinkK8sOperatorDeploymentManager.allowNonRestoredState }}
             {{- end }}
-            {{- if .Values.flinkK8sOperatorDeploymentManager.jobManagerMemory }}
-            jobManagerMemory: {{ .Values.flinkK8sOperatorDeploymentManager.jobManagerMemory | quote }}
+            {{- if .Values.enterprise.flinkK8sOperatorDeploymentManager.jobManagerMemory }}
+            jobManagerMemory: {{ .Values.enterprise.flinkK8sOperatorDeploymentManager.jobManagerMemory | quote }}
             {{- end }}
-            {{- if .Values.flinkK8sOperatorDeploymentManager.jobManagerCpu }}
-            jobManagerCpu: {{ .Values.flinkK8sOperatorDeploymentManager.jobManagerCpu }}
+            {{- if .Values.enterprise.flinkK8sOperatorDeploymentManager.jobManagerCpu }}
+            jobManagerCpu: {{ .Values.enterprise.flinkK8sOperatorDeploymentManager.jobManagerCpu }}
             {{- end }}
-            {{- if .Values.flinkK8sOperatorDeploymentManager.taskManagerMemory }}
-            taskManagerMemory: {{ .Values.flinkK8sOperatorDeploymentManager.taskManagerMemory | quote }}
+            {{- if .Values.enterprise.flinkK8sOperatorDeploymentManager.taskManagerMemory }}
+            taskManagerMemory: {{ .Values.enterprise.flinkK8sOperatorDeploymentManager.taskManagerMemory | quote }}
             {{- end }}
-            {{- if .Values.flinkK8sOperatorDeploymentManager.taskManagerCpu }}
-            taskManagerCpu: {{ .Values.flinkK8sOperatorDeploymentManager.taskManagerCpu }}
+            {{- if .Values.enterprise.flinkK8sOperatorDeploymentManager.taskManagerCpu }}
+            taskManagerCpu: {{ .Values.enterprise.flinkK8sOperatorDeploymentManager.taskManagerCpu }}
             {{- end }}
-            {{- if .Values.flinkK8sOperatorDeploymentManager.taskManagerReplicas }}
-            taskManagerReplicas: {{ .Values.flinkK8sOperatorDeploymentManager.taskManagerReplicas | quote }}
+            {{- if .Values.enterprise.flinkK8sOperatorDeploymentManager.taskManagerReplicas }}
+            taskManagerReplicas: {{ .Values.enterprise.flinkK8sOperatorDeploymentManager.taskManagerReplicas | quote }}
             {{- end }}
           }
           {{- else if eq .Values.nussknacker.mode "ververica" }}
