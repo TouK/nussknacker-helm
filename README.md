@@ -36,3 +36,9 @@ Examples:
 - `./build-deploy-verify.sh release-name -f deploy-values-streaming-lite.yaml -f examples/customSecret/custom-secret-values.yaml` - deploy chart in streaming-lite mode, passing secret to both designer and runtime container (see description in `custom-secret-values.yaml`)
 - `./build-deploy-verify.sh release-name -f deploy-values-streaming-lite.yaml -f examples/custom-logging.yaml` - deploy chart in streaming-lite mode with custom logging configuration of the designer and runtime containers (see description in `custom-logging.yaml`) 
 - `./build-deploy-verify.sh release-name -f examples/customConfig/custom-conf-values.yaml` - deploy chart in streaming-lite mode with additional config map with custom application.conf configuration of the designer
+
+### Rendering helm locally
+To check how helm is rendered with default values, you can execute helm this way in root directory:
+```
+helm template -f deploy-values.yaml --set "image.tag=staging-latest" --debug ./src
+```

@@ -320,3 +320,17 @@ nussknackerInitContainers: [ ]
 
 #Extra resources to deploy
 extraDeploy: []
+
+###########################################################    
+### Configuration for Nussknacker enterprise components ### 
+###########################################################
+enterprise:
+  flinkK8sOperatorDeploymentManager:
+    enabled: false
+    flinkVersion: "1.17"
+    jobJarStorage:
+      pvcName: job-jars-pvc
+      mountPoint: /mnt/jobjars
+    jobStateStorage:
+      pvcName: job-states-pvc
+      mountPoint: /mnt/jobstates
