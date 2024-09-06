@@ -331,6 +331,8 @@ enterprise:
     jobJarStorage:
       pvcName: job-jars-pvc
       mountPoint: /mnt/jobjars
+      # pvcStorageClassName: default
     jobStateStorage:
       pvcName: job-states-pvc
       mountPoint: /mnt/jobstates
+      # pvcStorageClassName: default
