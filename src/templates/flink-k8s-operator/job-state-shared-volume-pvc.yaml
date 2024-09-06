@@ -15,5 +15,7 @@ spec:
   resources:
     requests:
       storage: {{ default "1Gi" .Values.enterprise.flinkK8sOperatorDeploymentManager.jobStateStorage.pvcSize }}
-  storageClassName: {{ .Values.enterprise.flinkK8sOperatorDeploymentManager.jobStateStorage.pvcStorageClassName }}
+  {{- with .Values.enterprise.flinkK8sOperatorDeploymentManager.jobStateStorage.pvcStorageClassName }}
+  storageClassName: {{ . }}
+  {{- end }}
 {{- end }}
