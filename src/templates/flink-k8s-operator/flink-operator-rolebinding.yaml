@@ -1,4 +1,5 @@
-{{- with .Values.enterprise.flinkK8sOperatorDeploymentManager -}}
+{{- with .Values.enterprise -}}
+{{- with .flinkK8sOperatorDeploymentManager -}}
 {{- if .enabled }}
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
@@ -13,5 +14,6 @@ roleRef:
   kind: Role
   name: {{ default "flink-operator" .flinkOperatorRole }}
   apiGroup: rbac.authorization.k8s.io
+{{- end }}
 {{- end }}
 {{- end }}
