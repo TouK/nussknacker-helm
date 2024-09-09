@@ -55,7 +55,7 @@ jobs:
       - name: packageAll
         run: helm package ${{env.CHART_SRC_DIR}} -d dist --version "${{steps.setVersion.outputs.version}}"
       - name: Store target
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: helm-build
           path: "dist/${{env.NAME}}-${{steps.setVersion.outputs.version}}.tgz"
