@@ -1,5 +1,0 @@
-
-enterprise:
-  {{ .Values.enterprise.flinkK8sOperatorDeploymentManager | toYaml }}
-nonenterprise:
-  {{ .Values.flinkK8sOperatorDeploymentManager | toYaml }}
