@@ -7,7 +7,7 @@ kind: RoleBinding
 metadata:
   name: {{ default "flink-operator" .flinkOperatorRole }}-rolebinding
   labels:
-    {{ include "nussknacker.labels" $originalContext | nindent 4 }}
+    {{- include "nussknacker.labels" $originalContext | nindent 4 }}
 subjects:
 - kind: ServiceAccount
   name: {{ default "flink-service-account" .flinkServiceAccount }}
