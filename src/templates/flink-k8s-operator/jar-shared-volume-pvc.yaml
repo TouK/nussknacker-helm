@@ -1,21 +1,28 @@
-{{- if and (hasKey .Values "enterprise.flinkK8sOperatorDeploymentManager") .Values.enterprise.flinkK8sOperatorDeploymentManager.enabled }}
+{{- $originalContext := . -}}
+{{- with .Values.enterprise -}}
+{{- with .flinkK8sOperatorDeploymentManager -}}
+{{- if .enabled }}
+{{- with .jobJarStorage -}}
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: {{ .Values.enterprise.flinkK8sOperatorDeploymentManager.jobJarStorage.pvcName }}
-{{- if and (hasKey .Values.enterprise.flinkK8sOperatorDeploymentManager.jobJarStorage "keepAfterUninstall") .Values.enterprise.flinkK8sOperatorDeploymentManager.jobJarStorage.keepAfterUninstall }}
+  name: {{ .pvcName }}
+{{- if and (hasKey . "keepAfterUninstall") .keepAfterUninstall }}
   annotations:
     "helm.sh/resource-policy": keep
 {{- end }}
   labels:
-    {{ include "nussknacker.labels" . | nindent 4 }}
+    {{ include "nussknacker.labels" $originalContext | nindent 4 }}
 spec:
   accessModes:
     - ReadWriteMany
   resources:
     requests:
-      storage: {{ default "1Gi" .Values.enterprise.flinkK8sOperatorDeploymentManager.jobJarStorage.pvcSize }}
-  {{- with .Values.enterprise.flinkK8sOperatorDeploymentManager.jobJarStorage.pvcStorageClassName }}
+      storage: {{ default "1Gi" .pvcSize }}
+  {{- with .pvcStorageClassName }}
   storageClassName: {{ . }}
   {{- end }}
+{{- end }}
+{{- end }}
+{{- end }}
 {{- end }}
