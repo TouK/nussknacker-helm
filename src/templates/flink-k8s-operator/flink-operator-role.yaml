@@ -1,10 +1,13 @@
-{{- if and (hasKey .Values "enterprise.flinkK8sOperatorDeploymentManager") .Values.enterprise.flinkK8sOperatorDeploymentManager.enabled }}
+{{- $originalContext := . -}}
+{{- with .Values.enterprise -}}
+{{- with .flinkK8sOperatorDeploymentManager -}}
+{{- if .enabled }}
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
-  name: {{ default "flink-operator" .Values.enterprise.flinkK8sOperatorDeploymentManager.flinkOperatorRole }}
+  name: {{ default "flink-operator" .flinkOperatorRole }}
   labels:
-    {{ include "nussknacker.labels" . | nindent 4 }}
+    {{ include "nussknacker.labels" $originalContext | nindent 4 }}
 rules:
 - apiGroups: [""]
   resources: ["pods"]
@@ -15,4 +18,6 @@ rules:
 - apiGroups: ["apps"]
   resources: ["deployments"]
   verbs: ["create", "get", "list", "watch", "update", "delete"]
+{{- end }}
+{{- end }}
 {{- end }}
