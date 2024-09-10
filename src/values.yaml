@@ -325,14 +325,14 @@ extraDeploy: []
 ### Configuration for Nussknacker enterprise components ### 
 ###########################################################
 enterprise:
-  # flinkK8sOperatorDeploymentManager:
-    # enabled: false
-    # flinkVersion: "1.17"
-    # jobJarStorage:
-      # pvcName: job-jars-pvc
-      # mountPoint: /mnt/jobjars
+  flinkK8sOperatorDeploymentManager:
+    enabled: false
+    flinkVersion: "1.17"
+    jobJarStorage:
+      pvcName: job-jars-pvc
+      mountPoint: /mnt/jobjars
       # pvcStorageClassName: default
-    # jobStateStorage:
-      # pvcName: job-states-pvc
-      # mountPoint: /mnt/jobstates
+    jobStateStorage:
+      pvcName: job-states-pvc
+      mountPoint: /mnt/jobstates
       # pvcStorageClassName: default
