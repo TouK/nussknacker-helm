@@ -65,6 +65,9 @@ data:
             {{- if .Values.enterprise.flinkK8sOperatorDeploymentManager.taskManagerReplicas }}
             taskManagerReplicas: {{ .Values.enterprise.flinkK8sOperatorDeploymentManager.taskManagerReplicas | quote }}
             {{- end }}
+            {{- with .Values.enterprise.flinkK8sOperatorDeploymentManager.additionalFlinkConfiguration}}
+            additionalFlinkConfiguration: {{ . }}
+            {{- end }}
           }
           {{- else if eq .Values.nussknacker.mode "ververica" }}
           deploymentConfig: {
