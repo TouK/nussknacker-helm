@@ -26,6 +26,7 @@ data:
           {{- else if eq .Values.nussknacker.mode "flink-k8s-operator" }}
           deploymentConfig: {
             type: "flink-k8s-operator"
+            engineSetupName: {{ .Values.enterprise.flinkK8sOperatorDeploymentManager.engineSetupName | quote }}
             k8sNamespace: {{ template "nussknacker.namespace" . }}
             {{- if .Values.enterprise.flinkK8sOperatorDeploymentManager.limitOfRunningScenarios }}
             limitOfRunningScenarios: {{ .Values.enterprise.flinkK8sOperatorDeploymentManager.limitOfRunningScenarios }}

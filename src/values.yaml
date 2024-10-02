@@ -327,6 +327,7 @@ extraDeploy: []
 enterprise:
   flinkK8sOperatorDeploymentManager:
     enabled: false
+    engineSetupName: "Flink K8s Operator"
     flinkVersion: "1.17"
     jobJarStorage:
       pvcName: job-jars-pvc
