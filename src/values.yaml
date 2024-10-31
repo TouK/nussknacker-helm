@@ -204,7 +204,7 @@ apicurio-registry:
 flink:
   enabled: true
   image:
-    tag: 1.18.1-scala_2.12-java11
+    tag: 1.19.1-scala_2.12-java11
   flink:
     # Monitoring configuration in flink helm chart used by us is not compatible with flinks >= 1.16,
     # so we set flink.monitoring.system.enable=false and configure metrics.reporter.prom.factory.class for our own.
@@ -328,7 +328,7 @@ enterprise:
   flinkK8sOperatorDeploymentManager:
     enabled: false
     engineSetupName: "Flink K8s Operator"
-    flinkVersion: "1.17"
+    flinkVersion: "1.19"
     jobJarStorage:
       pvcName: job-jars-pvc
       mountPoint: /mnt/jobjars
