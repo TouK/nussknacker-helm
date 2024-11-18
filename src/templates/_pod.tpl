@@ -11,7 +11,7 @@ containers:
   - name: {{ .Chart.Name }}
     securityContext:
       {{- toYaml .Values.securityContext | nindent 6 }}
-    image: "{{ .Values.image.repository }}:{{ default .Chart.AppVersion .Values.image.tag }}"
+    image: "{{ .Values.image.repository }}:{{ include "nussknacker.imageTag" . }}"
     imagePullPolicy: {{ .Values.image.pullPolicy }}
     volumeMounts:
       - name: config

@@ -11,7 +11,13 @@ shift
 
 cd "$(dirname "$0")" && rm -rf dist/
 helm package -d dist/ src/
-kubectl get secret "$RELEASE-postgresql" || cat postgres-secret.yaml | POSTGRES_PASSWORD=`date +%s | sha256sum | base64 | head -c 32` RELEASE=$RELEASE MAYBE_NAMESPACE=`kubectl config view --minify -o jsonpath='{..namespace}'` NAMESPACE=${MAYBE_NAMESPACE:-default} envsubst | kubectl apply -f -
+POSTGRES_PASSWORD=$(date +%s | sha256sum | base64 | head -c 32)
+MAYBE_NAMESPACE=$(kubectl config view --minify -o jsonpath='{..namespace}')
+NAMESPACE=${MAYBE_NAMESPACE:-default}
+kubectl get secret "$RELEASE-postgresql" || \
+ cat postgres-secret.yaml | \
+ POSTGRES_PASSWORD=$POSTGRES_PASSWORD RELEASE=$RELEASE NAMESPACE=$NAMESPACE envsubst | \
+ kubectl apply -f -
 
 helm upgrade -i "${RELEASE}" dist/*.tgz \
   --wait \

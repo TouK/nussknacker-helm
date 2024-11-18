@@ -24,10 +24,11 @@ data:
     {{ template "telegraf.nussknacker.inputs" .Values.telegraf.nussknacker.inputs }}
     {{- else }}
     [[inputs.prometheus]]
-      urls=[
-          "http://{{ include "flink.fullname" (dict "Chart" (dict "Name" "flink") "Values" .Values.flink "Release" .Release "Capabilities" .Capabilities) }}-jobmanager-headless:9999/metrics",
-          "http://{{ include "flink.fullname" (dict "Chart" (dict "Name" "flink") "Values" .Values.flink "Release" .Release "Capabilities" .Capabilities) }}-taskmanager:9999/metrics"
-      ]
+      kubernetes_label_selector = "app.kubernetes.io/name=flink"
+      monitor_kubernetes_pods = true
+      monitor_kubernetes_pods_method = "settings"
+      monitor_kubernetes_pods_namespace = "{{ template "nussknacker.namespace" . }}"
+      monitor_kubernetes_pods_port = 9999
     {{- end }}
     {{ template "telegraf.nussknacker.processors" .Values.telegraf.nussknacker.processors }}
     {{ template "telegraf.nussknacker.aggregators" .Values.telegraf.nussknacker.aggregators }}

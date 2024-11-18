@@ -179,6 +179,16 @@ nussknacker-lite-scenario
 {{- end -}}
 {{- end -}}
 
+{{- define "nussknacker.imageTag" -}}
+{{- if .Values.image.tag -}}
+{{- .Values.image.tag }}
+{{- else if or (eq .Values.nussknacker.mode "flink") (eq .Values.nussknacker.mode "flink-k8s-operator") -}}
+{{- .Chart.AppVersion }}_scala-2.12
+{{- else -}}
+{{- .Chart.AppVersion }}
+{{- end -}}
+{{- end -}}
+
 {{- define "nussknacker.additionalClassPathModules" -}}
 {{- $additionalClassPathModules := default (list) .Values.nussknacker.additionalClassPathModules }}
 {{- if gt (len $additionalClassPathModules) 0 -}}
