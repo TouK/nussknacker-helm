@@ -1,5 +1,4 @@
 image:
-  tag: staging-latest_scala-2.12
   pullPolicy: Always
 
 imagePullSecrets:
@@ -43,15 +42,3 @@ nussknacker:
 extraEnv:
   - name: NUSSKNACKER_LOG_LEVEL
     value: DEBUG
-
-telegraf:
-  enabled: true
-
-influxdb:
-  enabled: true
-
-grafana:
-  enabled: true
-
-apicurio-registry:
-  enabled: true

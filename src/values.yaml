@@ -212,7 +212,9 @@ flink:
     monitoring:
       system:
         enabled: false
-    params: "metrics.reporter.prom.factory.class: org.apache.flink.metrics.prometheus.PrometheusReporterFactory"
+    params: |+
+      metrics.reporter.prom.factory.class: org.apache.flink.metrics.prometheus.PrometheusReporterFactory
+      metrics.reporter.prom.filterLabelValueCharacters: false
   taskmanager:
     statefulset: false
     numberOfTaskSlots: 3
@@ -265,10 +267,21 @@ influxdb:
 telegraf:
   enabled: true
   rbac:
-    create: false
+    create: true
+    clusterWide: false
+    rules:
+      - apiGroups: [""]
+        resources:
+          - nodes
+          - nodes/proxy
+          - services
+          - endpoints
+          - pods
+          - namespaces
+        verbs: ["get", "list", "watch"]
   influxdb:
-    username: ""
-    password: ""
+    username: "nussknacker"
+    password: "changeme"
   args:
     - "--config-directory"
     - "/etc/telegraf/telegraf.d"

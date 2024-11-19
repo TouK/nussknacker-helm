@@ -67,35 +67,38 @@ provided outside. The table below lists components and their roles
 Modes
 -----
 
-The `mode` configuration variable is a convenient umbrella term for the processing mode and engine. See [Glossary](https://nussknacker.io/documentation/about/GLOSSARY) for the explanation of these terms.
+The `mode` configuration variable is used to set up the engine. To read more about engines see [Documentation](https://nussknacker.io/documentation/docs/about/engines).
 
-By default, the chart runs Nussknacker in `flink` mode which deploys scenarios to Flink engine (either installed directly by the chart, or external one). It is also possible to run Nussknacker on K8s in `lite-k8s` mode. You will need to manually adjust values of the following variables if you use this `mode`:
-    ```
-    nussknacker:
-       mode: lite-k8s
-     flink:
-       enable: false
-     telegraf:
-       enabled: false  
-    ```
+By default, the chart runs Nussknacker in `flink` mode which deploys scenarios to Flink engine (either installed directly by the chart, or external one). 
+It is also possible to run Nussknacker on K8s in `lite-k8s` mode. You will need to manually adjust values of the following variables if you use this `mode`:
+```
+nussknacker:
+   mode: lite-k8s
+flink:
+  enable: false
+telegraf:
+  enabled: false  
+zookeeper:
+  enabled: false
+```
 
 In case if you want to  use only request-response processing mode in your scenarios you can also disable streaming part of the application stack:
-    ```
-    nussknacker:
-       mode: lite-k8s
-       streaming:
-         enabled: false
-     flink:
-       enable: false
-     telegraf:
-       enabled: false  
-     kafka:
-       enabled: false
-     zookeeper:
-       enabled: false
-     apicurio-registry:
-       enabled: false
-    ```
+```
+nussknacker:
+  mode: lite-k8s
+  streaming:
+    enabled: false
+flink:
+  enable: false
+telegraf:
+  enabled: false  
+kafka:
+  enabled: false
+zookeeper:
+  enabled: false
+apicurio-registry:
+  enabled: false
+```
 
 Configuration
 -------------
