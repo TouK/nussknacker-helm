@@ -66,6 +66,10 @@ data:
             {{- if .Values.enterprise.flinkK8sOperatorDeploymentManager.taskManagerReplicas }}
             taskManagerReplicas: {{ .Values.enterprise.flinkK8sOperatorDeploymentManager.taskManagerReplicas | quote }}
             {{- end }}
+            {{- if .Values.enterprise.flinkK8sOperatorDeploymentManager.nodeSelector }}
+            nodeSelector:
+            {{ .Values.enterprise.flinkK8sOperatorDeploymentManager.nodeSelector | toYaml | indent 2 }}
+            {{- end }}
           }
           {{- else if eq .Values.nussknacker.mode "ververica" }}
           deploymentConfig: {
