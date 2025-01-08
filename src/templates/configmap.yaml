@@ -69,7 +69,7 @@ data:
             {{- if .Values.enterprise.flinkK8sOperatorDeploymentManager.nodeSelector }}
             nodeSelector: {
             {{- range $key, $value := .Values.enterprise.flinkK8sOperatorDeploymentManager.nodeSelector }}
-              {{ quote $key }}: {{ quote $value }}
+              {{ $key | quote }}: {{ $value | quote }}
             {{- end }}
             }
             {{- end }}
