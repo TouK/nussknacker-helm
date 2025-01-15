@@ -66,14 +66,14 @@ data:
             {{- if .Values.enterprise.flinkK8sOperatorDeploymentManager.taskManagerReplicas }}
             taskManagerReplicas: {{ .Values.enterprise.flinkK8sOperatorDeploymentManager.taskManagerReplicas | quote }}
             {{- end }}
-            {{- if .Values.enterprise.flinkK8sOperatorDeploymentManager.nodeSelector }}
+            {{- if gt (len (default dict .Values.enterprise.flinkK8sOperatorDeploymentManager.nodeSelector)) 0 }}
             nodeSelector: {
             {{- range $key, $value := .Values.enterprise.flinkK8sOperatorDeploymentManager.nodeSelector }}
               {{ $key | quote }}: {{ $value | quote }}
             {{- end }}
             }
             {{- end }}
-            {{- if .Values.enterprise.flinkK8sOperatorDeploymentManager.additionalLibs }}
+            {{- if gt (len (default dict .Values.enterprise.flinkK8sOperatorDeploymentManager.additionalLibs)) 0 }}
             additionalLibs: {
               libsNames: {{ tpl ( mustToJson .Values.enterprise.flinkK8sOperatorDeploymentManager.additionalLibs.libsNames) . }}
               imageName: {{ .Values.enterprise.flinkK8sOperatorDeploymentManager.additionalLibs.imageName | quote }}
