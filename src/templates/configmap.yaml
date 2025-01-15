@@ -73,17 +73,14 @@ data:
             {{- end }}
             }
             {{- end }}
-            {{- if hasKey .Values.enterprise.flinkK8sOperatorDeploymentManager "additionalLibsNames" }}
-            additionalLibsNames: {{ tpl ( mustToJson .Values.enterprise.flinkK8sOperatorDeploymentManager.additionalLibsNames) . }}
-            {{- end }}
-            {{- if hasKey .Values.enterprise.flinkK8sOperatorDeploymentManager "additionalLibsImageName" }}
-            additionalLibsImageName: {{ .Values.enterprise.flinkK8sOperatorDeploymentManager.additionalLibsImageName | quote }}
-            {{- end }}
-            {{- if hasKey .Values.enterprise.flinkK8sOperatorDeploymentManager "additionalLibsImagePullSecrets" }}
-            additionalLibsImagePullSecrets: {{ .Values.enterprise.flinkK8sOperatorDeploymentManager.additionalLibsImagePullSecrets | quote }}
-            {{- end }}
-            {{- if hasKey .Values.enterprise.flinkK8sOperatorDeploymentManager "additionalLibsPathOnImageContainer" }}
-            additionalLibsPathOnImageContainer: {{ .Values.enterprise.flinkK8sOperatorDeploymentManager.additionalLibsPathOnImageContainer | quote }}
+            {{- if hasKey .Values.enterprise.flinkK8sOperatorDeploymentManager "additionalLibs" }}
+            additionalLibs:
+              libsNames: {{ tpl ( mustToJson .Values.enterprise.flinkK8sOperatorDeploymentManager.additionalLibs.libsNames) . }}
+              imageName: {{ .Values.enterprise.flinkK8sOperatorDeploymentManager.additionalLibs.imageName | quote }}
+              libsPath: {{ .Values.enterprise.flinkK8sOperatorDeploymentManager.additionalLibs.libsPath | quote }}
+              {{- if hasKey .Values.enterprise.flinkK8sOperatorDeploymentManager.additionalLibs "imagePullSecrets" }}
+              imagePullSecrets: {{ .Values.enterprise.flinkK8sOperatorDeploymentManager.additionalLibs.imagePullSecrets | quote }}
+              {{- end }}
             {{- end }}
           }
           {{- else if eq .Values.nussknacker.mode "ververica" }}
