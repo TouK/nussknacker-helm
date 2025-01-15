@@ -73,7 +73,7 @@ data:
             {{- end }}
             }
             {{- end }}
-            {{- if hasKey .Values.enterprise.flinkK8sOperatorDeploymentManager "additionalLibs" }}
+            {{- if .Values.enterprise.flinkK8sOperatorDeploymentManager.additionalLibs }}
             additionalLibs: {
               libsNames: {{ tpl ( mustToJson .Values.enterprise.flinkK8sOperatorDeploymentManager.additionalLibs.libsNames) . }}
               imageName: {{ .Values.enterprise.flinkK8sOperatorDeploymentManager.additionalLibs.imageName | quote }}
