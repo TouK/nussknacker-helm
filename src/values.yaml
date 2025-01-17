@@ -351,3 +351,4 @@ enterprise:
       mountPoint: /mnt/jobstates
       # pvcStorageClassName: default
     nodeSelector: { }
+    additionalLibs: { }
