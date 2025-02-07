@@ -15,6 +15,7 @@ spec:
     spec:
       template:
         spec:
+          serviceAccountName: {{ include "nussknacker.serviceAccountName" $originalContext }}
           containers:
           - name: cleanup
             image: bitnami/kubectl:latest
