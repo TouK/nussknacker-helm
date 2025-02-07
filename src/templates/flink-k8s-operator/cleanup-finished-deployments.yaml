@@ -1,0 +1,35 @@
+{{- $originalContext := . -}}
+{{- with .Values.enterprise -}}
+{{- with .flinkK8sOperatorDeploymentManager -}}
+{{- if .enabled }}
+{{- if not (and (hasKey . "disableCleanupOfFinishedDeployments") (.disableCleanupOfFinishedDeployments)) }}
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: cleanup-finished-deployments
+  labels:
+    {{ include "nussknacker.labels" $originalContext | nindent 4 }}
+spec:
+  schedule: "*/10 * * * *"  # Run every 10 minutes
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: cleanup
+            image: bitnami/kubectl:latest
+            command:
+              - /bin/sh
+              - "-c"
+              - |
+                kubectl get flinkdeployments -o json | jq -r '
+                  .items[] | 
+                  select(.status.jobStatus.state == "FAILED" or 
+                        (.status.jobStatus.state == "FINISHED" and .status.lifecycleState == "STABLE")) | 
+                  .metadata.name' | 
+                xargs -r kubectl delete flinkdeployment
+          restartPolicy: Never
+{{- end }}
+{{- end }}
+{{- end }}
+{{- end }}
