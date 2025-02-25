@@ -170,9 +170,9 @@ http://{{ include "apicurio-registry.fullname" ( index .Subcharts "apicurio-regi
 {{- end -}}
 
 {{- define "nussknacker.streaming.dashboard" -}}
-{{- if or (eq .Values.nussknacker.mode "flink") (eq .Values.nussknacker.mode "flink-k8s-operator") -}}
+{{- if or (eq .Values.nussknacker.streaming.deploymentMode "flink") (eq .Values.nussknacker.streaming.deploymentMode "flink-k8s-operator") -}}
 nussknacker-scenario
-{{- else if eq .Values.nussknacker.mode "lite-k8s" -}}
+{{- else if eq .Values.nussknacker.streaming.deploymentMode "lite-k8s" -}}
 nussknacker-lite-scenario
 {{- else -}}
 {{- .Values.nussknacker.streaming.dashboard }}
@@ -182,10 +182,8 @@ nussknacker-lite-scenario
 {{- define "nussknacker.imageTag" -}}
 {{- if .Values.image.tag -}}
 {{- .Values.image.tag }}
-{{- else if or (eq .Values.nussknacker.mode "flink") (eq .Values.nussknacker.mode "flink-k8s-operator") -}}
-{{- .Chart.AppVersion }}_scala-2.12
 {{- else -}}
-{{- .Chart.AppVersion }}
+{{- .Chart.AppVersion }}_scala-2.12
 {{- end -}}
 {{- end -}}
 
@@ -201,26 +199,22 @@ nussknacker-lite-scenario
 {{- define "nussknacker.streaming.modelClassPath" -}}
 {{- if .Values.nussknacker.streaming.modelClassPath -}}
 {{ tpl ( mustToJson .Values.nussknacker.streaming.modelClassPath) . }}
-{{- else if or (eq .Values.nussknacker.mode "flink") (eq .Values.nussknacker.mode "flink-k8s-operator") -}}
+{{- else if or (eq .Values.nussknacker.streaming.deploymentMode "flink") (eq .Values.nussknacker.streaming.deploymentMode "flink-k8s-operator") -}}
 ["model/defaultModel.jar", "model/flinkExecutor.jar", "components/flink", "components/common"{{ include "nussknacker.additionalClassPathModules" . }} ]
-{{- else if eq .Values.nussknacker.mode "ververica" -}}
+{{- else if eq .Values.nussknacker.streaming.deploymentMode "ververica" -}}
 ["model/defaultModel.jar", "model/flinkExecutor.jar", "components/flink", "components/common", "compatibility-provider/nussknacker-ververica-compatibility-provider.jar"{{ include "nussknacker.additionalClassPathModules" . }}]
-{{- else if eq .Values.nussknacker.mode "lite-k8s" -}}
+{{- else if eq .Values.nussknacker.streaming.deploymentMode "lite-k8s" -}}
 ["model/defaultModel.jar", "components/lite/liteBase.jar", "components/lite/liteKafka.jar", "components/common"{{ include "nussknacker.additionalClassPathModules" . }}]
 {{- else -}}
-{{- fail "Value for .Values.nussknacker.mode is not supported. Supported modes are: flink, ververica and lite-k8s" }}
+{{- fail "Value for .Values.nussknacker.streaming.deploymentMode is not supported. Supported modes are: flink, ververica and lite-k8s" }}
 {{- end -}}
 {{- end -}}
 
 {{- define "nussknacker.requestResponse.modelClassPath" -}}
 {{- if .Values.nussknacker.requestResponse.modelClassPath -}}
 {{ tpl ( mustToJson .Values.nussknacker.requestResponse.modelClassPath) . }}
-{{- else if or (eq .Values.nussknacker.mode "flink") (eq .Values.nussknacker.mode "ververica") -}}
-[]
-{{- else if eq .Values.nussknacker.mode "lite-k8s" -}}
-["model/defaultModel.jar", "components/lite/liteBase.jar", "components/lite/liteRequestResponse.jar", "components/common"{{ include "nussknacker.additionalClassPathModules" . }}]
 {{- else -}}
-{{- fail "Value for .Values.nussknacker.mode is not supported. Supported modes are: flink, ververica and lite-k8s" }}
+["model/defaultModel.jar", "components/lite/liteBase.jar", "components/lite/liteRequestResponse.jar", "components/common"{{ include "nussknacker.additionalClassPathModules" . }}]
 {{- end -}}
 {{- end -}}
 
@@ -230,7 +224,7 @@ nussknacker-lite-scenario
       "password": ${INFLUXDB_PASSWORD}
       "influxUrl": "{{- include "nussknacker.influxUrl" . -}}/query"
       "database": "nussknacker"
-      {{- if eq .Values.nussknacker.mode "flink" -}}
+      {{- if eq .Values.nussknacker.streaming.deploymentMode "flink" -}}
       {{/* We use prometheus reporter     */}}
       metricsConfig: {  "countField": "gauge"}
       {{- end -}}
@@ -238,9 +232,9 @@ nussknacker-lite-scenario
 {{- end -}}
 
 {{- define "nussknacker.streamingScenarioType" -}}
-{{- if eq .Values.nussknacker.mode "flink" -}}
+{{- if eq .Values.nussknacker.streaming.deploymentMode "flink" -}}
 StreamMetaData
-{{- else if eq .Values.nussknacker.mode "lite-k8s" -}}
+{{- else if eq .Values.nussknacker.streaming.deploymentMode "lite-k8s" -}}
 LiteStreamMetaData
 {{- end -}}
 {{- end -}}

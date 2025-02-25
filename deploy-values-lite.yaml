@@ -5,9 +5,8 @@ flink:
   enabled: false
 
 nussknacker:
-  mode: "lite-k8s"
-  requestResponse:
-    enabled: false
+  streaming:
+    deploymentMode: "lite-k8s"
 
 telegraf:
   enabled: false
@@ -20,3 +19,4 @@ kafka:
     enabled: true
   externalZookeeper:
     servers: []
+

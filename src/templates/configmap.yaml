@@ -17,13 +17,13 @@ data:
     {{- if .Values.nussknacker.streaming.enabled }}
       "streaming": {
           category: "Default"
-          {{- if eq .Values.nussknacker.mode "flink" }}
+          {{- if eq .Values.nussknacker.streaming.deploymentMode "flink" }}
           deploymentConfig: {
              type: "flinkStreaming"
              {{- /* Find easier way of passing it through values */}}
              restUrl: "{{ include "nussknacker.flinkJobManagerUrl" . }}"
           } {{ tpl (.Values.nussknacker.flinkConfig | mustToJson) . }}
-          {{- else if eq .Values.nussknacker.mode "flink-k8s-operator" }}
+          {{- else if eq .Values.nussknacker.streaming.deploymentMode "flink-k8s-operator" }}
           deploymentConfig: {
             type: "flink-k8s-operator"
             engineSetupName: {{ .Values.enterprise.flinkK8sOperatorDeploymentManager.engineSetupName | quote }}
@@ -84,7 +84,7 @@ data:
             }
             {{- end }}
           }
-          {{- else if eq .Values.nussknacker.mode "ververica" }}
+          {{- else if eq .Values.nussknacker.streaming.deploymentMode "ververica" }}
           deploymentConfig: {
               type: "ververica"
               username: {{ .Values.nussknacker.ververica.username | quote }}
@@ -93,7 +93,7 @@ data:
               remoteSyslogPort: {{ .Values.nussknacker.ververica.remoteSyslogPort }}
               engineVersion: {{ .Values.nussknacker.ververica.engineVersion | quote }}
           }
-          {{- else if eq .Values.nussknacker.mode "lite-k8s" }}
+          {{- else if eq .Values.nussknacker.streaming.deploymentMode "lite-k8s" }}
           deploymentConfig: {
              type: "lite-k8s"
              mode: "streaming"
@@ -136,7 +136,7 @@ data:
 
           modelConfig: {
             classPath: {{ include "nussknacker.streaming.modelClassPath" . }}
-            {{- if and (eq .Values.nussknacker.mode "flink") (not .Values.nussknacker.skipKafkaConfig ) }}
+            {{- if and (eq .Values.nussknacker.streaming.deploymentMode "flink") (not .Values.nussknacker.skipKafkaConfig ) }}
             components.kafka.config {
               kafkaProperties {
                 "bootstrap.servers": "{{ include "nussknacker.kafkaBootstrapServers" . }}"
@@ -163,7 +163,7 @@ data:
           }{{- tpl ( mustToJson .Values.nussknacker.modelConfig ) . }}
       }
       {{- end }}
-      {{- if and (.Values.nussknacker.requestResponse.enabled) (eq .Values.nussknacker.mode "lite-k8s") }}
+      {{- if .Values.nussknacker.requestResponse.enabled }}
       "request-response": {
           category: "Default"
 
@@ -230,7 +230,7 @@ data:
         {{- if .Values.nussknacker.streaming.enabled }}
         "streaming": "{{ include "nussknacker.streaming.dashboard" .}}"
         {{- end }}
-        {{- if and (.Values.nussknacker.requestResponse.enabled) (eq .Values.nussknacker.mode "lite-k8s") }}
+        {{- if .Values.nussknacker.requestResponse.enabled }}
         "request-response": "{{ .Values.nussknacker.requestResponse.dashboard }}"
         {{- end }}
       }
