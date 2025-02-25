@@ -1,8 +1,5 @@
 image:
   pullPolicy: Always
-  # FIXME abr remove
-  #  tag: staging-latest
-  tag: 1.19.0-preview_k8s-dm-classpath-fix-2025-02-25-23076-05f409f76-SNAPSHOT
 
 imagePullSecrets:
   - name: gitlab-registry
