@@ -1,4 +1,4 @@
-#This configuration shows how to use custom components/libs by custom URL for lite-k8s mode (for Flink mode you only have to configure nussknacker.streaming.modelClassPath)
+#This configuration shows how to use custom components/libs by custom URL for Lite engine (for Flink engine you only have to configure nussknacker.streaming.modelClassPath)
 #This assumes that URL points to location accessible from container, which contains jar with all needed dependencies
 #Here we add custom DB driver, as it's easy to use 
 nussknacker:

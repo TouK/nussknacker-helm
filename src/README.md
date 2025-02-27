@@ -64,16 +64,18 @@ provided outside. The table below lists components and their roles
 | Flink           | Runtime for Nussknacker jobs                                              | true               |
 | Telegraf        | Relay passing metrics from Flink to InfluxDB                              | true               |
 
-Modes
+Streaming deployment modes
 -----
 
-The `mode` configuration variable is used to set up the engine. To read more about engines see [Documentation](https://nussknacker.io/documentation/docs/about/engines).
+The `streaming.deploymentMode` configuration variable is used to set up the deployment mode used for streaming processing mode.
+To read more about engines see [Documentation](https://nussknacker.io/documentation/docs/about/engines).
 
-By default, the chart runs Nussknacker in `flink` mode which deploys scenarios to Flink engine (either installed directly by the chart, or external one). 
-It is also possible to run Nussknacker on K8s in `lite-k8s` mode. You will need to manually adjust values of the following variables if you use this `mode`:
+By default, the chart runs Nussknacker in `flink` deployment mode for streaming which deploys streaming scenarios to Flink engine (either installed directly by the chart, or external one). 
+It is also possible to deploy Nussknacker scenarios on K8s when `lite-k8s` deployment mode for streaming is configured. You will need to manually adjust values of the following variables if you use this `deploymentMode`:
 ```
 nussknacker:
-   mode: lite-k8s
+  streaming:
+    deploymentMode: lite-k8s
 flink:
   enable: false
 telegraf:
@@ -85,7 +87,6 @@ zookeeper:
 In case if you want to  use only request-response processing mode in your scenarios you can also disable streaming part of the application stack:
 ```
 nussknacker:
-  mode: lite-k8s
   streaming:
     enabled: false
 flink:
@@ -126,8 +127,8 @@ Nussknacker configuration consists of three [configuration areas](https://nusskn
   included in ```modelConfig``` section of the configuration
 - `uiConfig` - modifies the Designer configuration options. You can override things like environment name, metrics and so on. They are included on the root level of ```application.conf```
 - the Deployment Manager configuration parameters (and Helm variables) are documented fully in Nussknacker configuration [documentation](https://nussknacker.io/documentation/docs/next/installation_configuration_guide/DeploymentManagerConfiguration#lite-engine-based-on-kubernetes); below we mention just those which are most often modified:
-  - `k8sDeploymentConfig` - here you can specify your own k8s runtime deployment yaml config in `lite-k8s` mode
-  - `requestResponse` - here you can specify `servicePort` and `ingress` configuration for deployed scenarios on k8s when running in `lite-k8s` mode
+  - `k8sDeploymentConfig` - here you can specify your own k8s runtime deployment yaml config. it is applicable for request-response and for streaming in `lite-k8s` deployment mode
+  - `requestResponse` - here you can specify `servicePort` and `ingress` configuration for deployed scenarios on k8s
 
 Yaml keys expected by Nussknacker to be in the form of nested yaml structures in the Values file are converted to json; check the chart implementation if in doubt.  
 
@@ -149,7 +150,7 @@ Using your own components/image
 By default, this chart is installed with the official Nussknacker image, which contains generic components:
 
 - integration with Kafka and Confluent Schema Registry
-- base aggregations (accessible only in flink mode)
+- base aggregations (accessible only in flink streaming deployment mode)
 
 Should you need to run Nussknacker with your own components/customizations, the best way is to create an image based on the official one and
 install the chart with appropriate image configuration. Please note that when using Lite engine you also have to create image of Lite runtime with 
@@ -164,7 +165,7 @@ image:
   repository: nussknacker-sample-components
   tag: 1.15
 ```  
-For flink mode, only `image.repository` configuration is needed, as Designer itself prepares fatjar with dependencies of the Flink job.
+For `flink` streaming deployment mode, only `image.repository` configuration is needed, as Designer itself prepares fatjar with dependencies of the Flink job.
 
 Other way of installing custom components is direct configuration of classpath, adding URL accessible in the K8s cluster. Below sample 
 configuration adding additional JDBC driver for [SQL enrichers](https://docs.nussknacker.io/documentation/docs/scenarios_authoring/Enrichers#sql-enricher):
@@ -185,7 +186,7 @@ nussknacker:
           configExecutionOverrides: 
             modelClassPath: *streamingModelClassPath
 ```
-Again, for `flink` mode it's only necessary to set `streamingModelClassPath`.
+Again, for `flink` streaming deployment mode it's only necessary to set `streamingModelClassPath`.
 
 Security/RBAC
 -------------
@@ -229,9 +230,9 @@ The chart comes with the following monitoring components:
 
 - Influxdb
 - Grafana
-- Telegraf (used in flink mode)
+- Telegraf (used in flink streaming deployment mode)
 
-In the `flink` mode, the metrics from Nussknacker are exposed via Prometheus interface. They are read (and preprocessed)
+In the `flink` streaming deployment mode, the metrics from Nussknacker are exposed via Prometheus interface. They are read (and preprocessed)
 with Telegraf and sent to InfluxDB. When using the Lite engine, the metrics are sent directly from pods running scenarios to InfluxDB.
 Grafana with a predefined dashboard is used to visualize process data in Nussknacker.
 
@@ -284,7 +285,8 @@ You can deploy configMap/secret on your own using, or use special `extraDeploy` 
 Example:
 ```
 nussknacker:
-  mode: "lite-k8s"
+  streaming:
+    deploymentMode: "lite-k8s"
   configFile: /etc/nussknacker/application.conf,/etc/nussknacker/extra/extra-application.conf
 
 additionalVolumes:
