@@ -4,7 +4,9 @@ set -e
 set -x
 
 CHART_VERSION=$1
+shift
 NUSSKNACKER_VERSION=$1
+shift
 
 function logOnExit {
     echo -e "\n\n\n\n\n"
