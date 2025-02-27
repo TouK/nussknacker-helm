@@ -12,10 +12,10 @@ keywords:
   - stream processing
   - event stream processing
 type: application
-# latest-staging version is used when someone run the snapshot build of this chart manually. scala_2.12 is because it can be used with Flink
+# staging-latest version is used when someone run the snapshot build of this chart manually.
 # During release it is replaced by the released image version. In the main we should always keep this version
 # TODO The best would be to publish X.Y.Z-latest docker image version in core and use it here to make it more explicit
-appVersion: 1.19.0-SNAPSHOT
+appVersion: staging-latest
 dependencies:
   - name: postgresql
     version: ~12.1.15
@@ -25,10 +25,6 @@ dependencies:
     version: ~22.1.6
     repository: "@bitnami"
     condition: kafka.enabled
-  - name: zookeeper
-    version: ~11.0.3
-    repository: "@bitnami"
-    condition: zookeeper.enabled
   - name: apicurio-registry
     repository: "@touk"
     version: ~0.1.5

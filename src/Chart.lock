@@ -5,11 +5,8 @@ dependencies:
 - name: kafka
   repository: https://charts.bitnami.com/bitnami
   version: 22.1.6
-- name: zookeeper
-  repository: https://charts.bitnami.com/bitnami
-  version: 11.0.3
 - name: apicurio-registry
-  repository: https://helm-charts.touk.pl/public/
+  repository: https://helm-charts.touk.pl/public
   version: 0.1.5
 - name: flink
   repository: https://riskfocus.github.io/helm-charts-public/
@@ -22,6 +19,6 @@ dependencies:
   version: 4.12.5
 - name: telegraf
   repository: https://helm.influxdata.com/
-  version: 1.8.53
-digest: sha256:840544ff09e87b5c7f37c83c8b84ee5fa97c7516c2d6dcdef10de7e44f37b230
-generated: "2024-09-13T16:12:08.987227+02:00"
+  version: 1.8.55
+digest: sha256:04a67925ba27e25d6ac99f89628390604acf5951096777d0b5c717cb24a9dd32
+generated: "2025-02-27T17:22:09.569793976+01:00"

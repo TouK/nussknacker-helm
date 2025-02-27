@@ -1,22 +1,13 @@
 image:
   pullPolicy: Always
 
-flink:
-  enabled: false
-
 nussknacker:
   streaming:
     deploymentMode: "lite-k8s"
 
+flink:
+  enabled: false
+
 telegraf:
   enabled: false
-
-zookeeper:
-  enabled: false
-
-kafka:
-  kraft:
-    enabled: true
-  externalZookeeper:
-    servers: []
 

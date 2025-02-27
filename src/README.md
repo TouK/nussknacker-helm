@@ -80,8 +80,6 @@ flink:
   enable: false
 telegraf:
   enabled: false  
-zookeeper:
-  enabled: false
 ```
 
 In case if you want to  use only request-response processing mode in your scenarios you can also disable streaming part of the application stack:
@@ -94,8 +92,6 @@ flink:
 telegraf:
   enabled: false  
 kafka:
-  enabled: false
-zookeeper:
   enabled: false
 apicurio-registry:
   enabled: false
