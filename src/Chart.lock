@@ -6,7 +6,7 @@ dependencies:
   repository: https://charts.bitnami.com/bitnami
   version: 22.1.6
 - name: apicurio-registry
-  repository: https://helm-charts.touk.pl/public
+  repository: https://helm-charts.touk.pl/public/
   version: 0.1.5
 - name: flink
   repository: https://riskfocus.github.io/helm-charts-public/
@@ -20,5 +20,5 @@ dependencies:
 - name: telegraf
   repository: https://helm.influxdata.com/
   version: 1.8.55
-digest: sha256:04a67925ba27e25d6ac99f89628390604acf5951096777d0b5c717cb24a9dd32
-generated: "2025-02-27T17:22:09.569793976+01:00"
+digest: sha256:d424b5b2e69b0d057d08e4f0d604245f45775fb8d2f15c90fd96fb13ba6a4d2e
+generated: "2025-02-27T17:42:35.448756775+01:00"
