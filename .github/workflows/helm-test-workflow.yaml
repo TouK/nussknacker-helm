@@ -18,8 +18,7 @@ on:
         type: string
 
 env:
-  # FIXME abr revert staging-latest
-  NUSSKNACKER_VERSION: ${{ inputs.nussknacker_version != '' && inputs.nussknacker_version || '1.19.0-preview_k8s-dm-classpath-fix-2025-02-25-23076-05f409f76-SNAPSHOT' }}
+  NUSSKNACKER_VERSION: ${{ inputs.nussknacker_version != '' && inputs.nussknacker_version || 'staging-latest' }}
   CHART_SRC_DIR: ./src
   XDG_CACHE_HOME: $GITHUB_WORKSPACE/.cache/
   RELEASE_NAME: nu-helm-release-${{github.run_id}}
