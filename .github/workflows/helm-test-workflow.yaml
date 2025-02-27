@@ -79,7 +79,7 @@ jobs:
             --trace
       - name: Set Nussknacker image version
         id: setNussknackerVersion
-        run: '[[ $GITHUB_REF == refs/heads/release-* || $GITHUB_REF == refs/tags/release-* ]] && version=${GITHUB_REF##*/release-} && echo "Using version based on release branch/tag name: $version" && echo "nuVersion=$version" >> $GITHUB_OUTPUT || (echo "Using default version" && echo "nuVersion=${{env.NUSSKNACKER_VERSION}}" >> $GITHUB_OUTPUT)'
+        run: '[[ $GITHUB_REF == refs/heads/release-* || $GITHUB_REF == refs/tags/release-* ]] && version=$(echo $GITHUB_REF | sed -e s/release-// -e s/-[0-9]*$//) && echo "Using version based on release branch/tag name: $version" && echo "nuVersion=$version" >> $GITHUB_OUTPUT || (echo "Using default version" && echo "nuVersion=${{env.NUSSKNACKER_VERSION}}" >> $GITHUB_OUTPUT)'
       - name: helmTestRelease
         run: |
           ./ci-deploy-verify.sh "${{needs.build.outputs.version}}" "${{steps.setNussknackerVersion.outputs.nuVersion}}"
@@ -103,7 +103,7 @@ jobs:
             --trace
       - name: Set Nussknacker image version
         id: setNussknackerVersion
-        run: '[[ $GITHUB_REF == refs/heads/release-* || $GITHUB_REF == refs/tags/release-* ]] && version=${GITHUB_REF##*/release-} && echo "Using version based on release branch/tag name: $version" && echo "nuVersion=$version" >> $GITHUB_OUTPUT || (echo "Using default version" && echo "nuVersion=${{env.NUSSKNACKER_VERSION}}" >> $GITHUB_OUTPUT)'
+        run: '[[ $GITHUB_REF == refs/heads/release-* || $GITHUB_REF == refs/tags/release-* ]] && version=$(echo $GITHUB_REF | sed -e s/release-// -e s/-[0-9]*$//) && echo "Using version based on release branch/tag name: $version" && echo "nuVersion=$version" >> $GITHUB_OUTPUT || (echo "Using default version" && echo "nuVersion=${{env.NUSSKNACKER_VERSION}}" >> $GITHUB_OUTPUT)'
       - name: helmTestRelease
         run: |
           ./ci-deploy-verify.sh "${{needs.build.outputs.version}}" "${{steps.setNussknackerVersion.outputs.nuVersion}}" \
@@ -127,7 +127,7 @@ jobs:
             --trace
       - name: Set Nussknacker image version
         id: setNussknackerVersion
-        run: '[[ $GITHUB_REF == refs/heads/release-* || $GITHUB_REF == refs/tags/release-* ]] && version=${GITHUB_REF##*/release-} && echo "Using version based on release branch/tag name: $version" && echo "nuVersion=$version" >> $GITHUB_OUTPUT || (echo "Using default version" && echo "nuVersion=${{env.NUSSKNACKER_VERSION}}" >> $GITHUB_OUTPUT)'
+        run: '[[ $GITHUB_REF == refs/heads/release-* || $GITHUB_REF == refs/tags/release-* ]] && version=$(echo $GITHUB_REF | sed -e s/release-// -e s/-[0-9]*$//) && echo "Using version based on release branch/tag name: $version" && echo "nuVersion=$version" >> $GITHUB_OUTPUT || (echo "Using default version" && echo "nuVersion=${{env.NUSSKNACKER_VERSION}}" >> $GITHUB_OUTPUT)'
       - name: helmTestRelease
         run: |
           ./ci-deploy-verify.sh "${{needs.build.outputs.version}}" "${{steps.setNussknackerVersion.outputs.nuVersion}}" \
