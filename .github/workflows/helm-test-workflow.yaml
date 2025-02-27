@@ -81,7 +81,8 @@ jobs:
         id: setNussknackerVersion
         run: '[[ $GITHUB_REF == refs/heads/release-* || $GITHUB_REF == refs/tags/release-* ]] && version=${GITHUB_REF##*/release-} && echo "Using version based on release branch/tag name: $version" && echo "nuVersion=$version" >> $GITHUB_OUTPUT || (echo "Using default version" && echo "nuVersion=${{env.NUSSKNACKER_VERSION}}" >> $GITHUB_OUTPUT)'
       - name: helmTestRelease
-        run: ./ci-deploy-verify.sh "${{needs.build.outputs.version}}"
+        run: |
+          ./ci-deploy-verify.sh "${{needs.build.outputs.version}}" "${{steps.setNussknackerVersion.outputs.nuVersion}}"
   test-lite-postgres:
     name: test lite-k8s streaming deployment mode postgres
     runs-on: ubuntu-latest
@@ -104,7 +105,9 @@ jobs:
         id: setNussknackerVersion
         run: '[[ $GITHUB_REF == refs/heads/release-* || $GITHUB_REF == refs/tags/release-* ]] && version=${GITHUB_REF##*/release-} && echo "Using version based on release branch/tag name: $version" && echo "nuVersion=$version" >> $GITHUB_OUTPUT || (echo "Using default version" && echo "nuVersion=${{env.NUSSKNACKER_VERSION}}" >> $GITHUB_OUTPUT)'
       - name: helmTestRelease
-        run: ./ci-deploy-verify.sh "${{needs.build.outputs.version}}" -f deploy-values-lite.yaml
+        run: |
+          ./ci-deploy-verify.sh "${{needs.build.outputs.version}}" "${{steps.setNussknackerVersion.outputs.nuVersion}}" \
+          -f deploy-values-lite.yaml
   test-lite-hsql:
     name: test lite-k8s streaming deployment hsql
     runs-on: ubuntu-latest
@@ -122,8 +125,13 @@ jobs:
           args: >-
             --config=.k3d/single-cluster.yml
             --trace
+      - name: Set Nussknacker image version
+        id: setNussknackerVersion
+        run: '[[ $GITHUB_REF == refs/heads/release-* || $GITHUB_REF == refs/tags/release-* ]] && version=${GITHUB_REF##*/release-} && echo "Using version based on release branch/tag name: $version" && echo "nuVersion=$version" >> $GITHUB_OUTPUT || (echo "Using default version" && echo "nuVersion=${{env.NUSSKNACKER_VERSION}}" >> $GITHUB_OUTPUT)'
       - name: helmTestRelease
-        run: ./ci-deploy-verify.sh "${{needs.build.outputs.version}}" -f deploy-values-lite.yaml -f deploy-values-db-hsql.yam
+        run: |
+          ./ci-deploy-verify.sh "${{needs.build.outputs.version}}" "${{steps.setNussknackerVersion.outputs.nuVersion}}" \
+          -f deploy-values-lite.yaml -f deploy-values-db-hsql.yam
   publish-snapshot:
     name: publish-snapshot
     if: ${{ github.ref == 'refs/heads/main' || startsWith(github.head_ref, 'preview/') }}
