@@ -80,10 +80,8 @@ jobs:
       - name: Set Nussknacker image version
         id: setNussknackerVersion
         run: '[[ $GITHUB_REF == refs/heads/release-* || $GITHUB_REF == refs/tags/release-* ]] && version=${GITHUB_REF##*/release-} && echo "Using version based on release branch/tag name: $version" && echo "nuVersion=$version" >> $GITHUB_OUTPUT || (echo "Using default version" && echo "nuVersion=${{env.NUSSKNACKER_VERSION}}" >> $GITHUB_OUTPUT)'
-      - name: helmUpgrade
-        run: helm upgrade -i "${{env.RELEASE_NAME}}" dist/*.tgz --version "${{needs.build.outputs.version}}"  --wait --debug -f deploy-values.yaml -f deploy-values-kafka-config.yaml --set "image.tag=${{steps.setNussknackerVersion.outputs.nuVersion}}_scala-2.12"
       - name: helmTestRelease
-        run: ./test.sh "${{env.RELEASE_NAME}}"
+        run: ./ci-deploy-verify.sh "${{needs.build.outputs.version}}"
   test-lite-postgres:
     name: test lite-k8s streaming deployment mode postgres
     runs-on: ubuntu-latest
@@ -105,10 +103,8 @@ jobs:
       - name: Set Nussknacker image version
         id: setNussknackerVersion
         run: '[[ $GITHUB_REF == refs/heads/release-* || $GITHUB_REF == refs/tags/release-* ]] && version=${GITHUB_REF##*/release-} && echo "Using version based on release branch/tag name: $version" && echo "nuVersion=$version" >> $GITHUB_OUTPUT || (echo "Using default version" && echo "nuVersion=${{env.NUSSKNACKER_VERSION}}" >> $GITHUB_OUTPUT)'
-      - name: helmUpgrade
-        run: helm upgrade -i "${{env.RELEASE_NAME}}" dist/*.tgz --version "${{needs.build.outputs.version}}" --wait --debug -f deploy-values.yaml -f deploy-values-kafka-config.yaml -f deploy-values-lite.yaml --set "image.tag=${{steps.setNussknackerVersion.outputs.nuVersion}}_scala-2.12"
       - name: helmTestRelease
-        run: ./test.sh "${{env.RELEASE_NAME}}"
+        run: ./ci-deploy-verify.sh "${{needs.build.outputs.version}}" -f deploy-values-lite.yaml
   test-lite-hsql:
     name: test lite-k8s streaming deployment hsql
     runs-on: ubuntu-latest
@@ -126,18 +122,8 @@ jobs:
           args: >-
             --config=.k3d/single-cluster.yml
             --trace
-      - name: helmUpgrade
-        run: |
-          helm upgrade -i "${{env.RELEASE_NAME}}" dist/*.tgz \
-            --version "${{needs.build.outputs.version}}" \
-            --wait --debug \
-            -f deploy-values.yaml \
-            -f deploy-values-kafka-config.yaml \
-            -f deploy-values-lite.yaml \
-            -f deploy-values-db-hsql.yaml \
-            --set "image.tag=${{env.NUSSKNACKER_VERSION}}"
       - name: helmTestRelease
-        run: ./test.sh "${{env.RELEASE_NAME}}"
+        run: ./ci-deploy-verify.sh "${{needs.build.outputs.version}}" -f deploy-values-lite.yaml -f deploy-values-db-hsql.yam
   publish-snapshot:
     name: publish-snapshot
     if: ${{ github.ref == 'refs/heads/main' || startsWith(github.head_ref, 'preview/') }}

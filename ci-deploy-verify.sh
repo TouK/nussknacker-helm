@@ -3,7 +3,7 @@
 set -e 
 set -x
 
-RELEASE=$1
+CHART_VERSION=$1
 
 function logOnExit {
     echo -e "\n\n\n\n\n"
@@ -27,4 +27,14 @@ function logOnExit {
 }
 trap 'logOnExit' EXIT
 
-helm test "$RELEASE" --timeout 10m0s
+echo "Installing helm chart"
+helm upgrade -i "$RELEASE_NAME" dist/*.tgz \
+  --version "$CHART_VERSION" \
+  --wait --debug \
+  -f deploy-values.yaml \
+  -f deploy-values-kafka-config.yaml \
+   $@ \
+  --set "image.tag=${NUSSKNACKER_VERSION}_scala-2.12"
+
+echo "Running tests"
+helm test "$RELEASE_NAME" --timeout 10m0s
