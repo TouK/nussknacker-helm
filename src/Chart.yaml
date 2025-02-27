@@ -13,7 +13,7 @@ keywords:
   - event stream processing
 type: application
 # staging-latest version is used when someone run the snapshot build of this chart manually.
-# During release it is replaced by the released image version. In the main we should always keep this version
+# During release it should be replaced by the released image version. In the main we should always keep staging-latest version
 # TODO The best would be to publish X.Y.Z-latest docker image version in core and use it here to make it more explicit
 appVersion: staging-latest
 dependencies:
