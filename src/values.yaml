@@ -130,6 +130,9 @@ tolerations: [ ]
 
 affinity: { }
 
+deploymentStrategy:
+  type: RollingUpdate
+
 db:
   driver: "org.postgresql.Driver"
   url: 'jdbc:postgresql://{{ .Release.Name }}-postgresql/'
