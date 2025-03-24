@@ -36,6 +36,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       version: ${{ steps.setVersion.outputs.version }}
+      nuVersion: ${{ steps.setNussknackerVersion.outputs.nuVersion }}
     steps:
       - name: Verify helm version
         run: >- 
@@ -101,7 +102,7 @@ jobs:
             --trace
       - name: helmTestRelease
         run: |
-          ./ci-deploy-verify.sh "${{needs.build.outputs.version}}" "${{steps.setNussknackerVersion.outputs.nuVersion}}"
+          ./ci-deploy-verify.sh "${{needs.build.outputs.version}}" "${{needs.build.outputs.nuVersion}}"
   test-lite-postgres:
     name: test lite-k8s streaming deployment mode postgres
     runs-on: ubuntu-latest
@@ -122,7 +123,7 @@ jobs:
             --trace
       - name: helmTestRelease
         run: |
-          ./ci-deploy-verify.sh "${{needs.build.outputs.version}}" "${{steps.build.outputs.nuVersion}}" \
+          ./ci-deploy-verify.sh "${{needs.build.outputs.version}}" "${{needs.build.outputs.nuVersion}}" \
           -f deploy-values-lite.yaml
   test-lite-hsql:
     name: test lite-k8s streaming deployment hsql
@@ -143,7 +144,7 @@ jobs:
             --trace
       - name: helmTestRelease
         run: |
-          ./ci-deploy-verify.sh "${{needs.build.outputs.version}}" "${{steps.build.outputs.nuVersion}}" \
+          ./ci-deploy-verify.sh "${{needs.build.outputs.version}}" "${{needs.build.outputs.nuVersion}}" \
           -f deploy-values-lite.yaml -f deploy-values-db-hsql.yaml
   publish-snapshot:
     name: publish-snapshot
