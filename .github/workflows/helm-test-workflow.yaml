@@ -18,7 +18,6 @@ on:
         type: string
 
 env:
-  NUSSKNACKER_VERSION: ${{ inputs.nussknacker_version != '' && inputs.nussknacker_version || 'staging-latest' }}
   CHART_SRC_DIR: ./src
   XDG_CACHE_HOME: $GITHUB_WORKSPACE/.cache/
   RELEASE_NAME: nu-helm-release-${{github.run_id}}
@@ -39,19 +38,42 @@ jobs:
       version: ${{ steps.setVersion.outputs.version }}
     steps:
       - name: Verify helm version
-        run: current_helm_version=$(helm version) && echo "Current helm version $current_helm_version" && [ "$current_helm_version" = "$HELM_VERSION" ] && echo "Helm is in expected version" || echo "::warning title=Helm version is different than expected!::Helm has been updated on runner's image. It could lead to unexpected behaviour during pipeline execution!"
+        run: >- 
+          current_helm_version=$(helm version) && 
+          echo "Current helm version $current_helm_version" && 
+          [ "$current_helm_version" = "$HELM_VERSION" ] && echo "Helm is in expected version" || 
+          echo "::warning title=Helm version is different than expected!::Helm has been updated on runner's image. It could lead to unexpected behaviour during pipeline execution!"
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Print Nussknacker version
-        run: |
-          echo "Nussknacker version: $NUSSKNACKER_VERSION"
+      - name: Set Nussknacker image version
+        id: setNussknackerVersion
+        run: >-
+          ([[ $GITHUB_REF == refs/heads/release-* || $GITHUB_REF == refs/tags/release-* ]]) && 
+          version=$(echo $GITHUB_REF | sed -e s/.*release-// -e s/-[0-9]*$//) && 
+          echo "Using image version based on release branch/tag name: $version" || 
+          [[ "${{ inputs.nussknacker_version }}" != '' ]] && 
+          version="${{ inputs.nussknacker_version }}" &&
+          echo "Using image version based on input: $version" ||
+          version="staging-latest" &&
+          echo "Using default $version image version" &&
+          echo "nuVersion=$version" >> $GITHUB_OUTPUT
       - name: setVersion
         id: setVersion
-        run: echo "version=$(helm show chart ${{env.CHART_SRC_DIR}} | grep ^version | sed -e "s/.*:\ //;s/SNAPSHOT/SNAPSHOT.${{github.run_id}}/")" >> $GITHUB_OUTPUT
+        run: >-
+          ([[ $GITHUB_REF == refs/heads/release-* || $GITHUB_REF == refs/tags/release-* ]]) && 
+          version=$(echo $GITHUB_REF | sed -e s/.*release-//) && 
+          echo "Using chart version based on release branch/tag name: $version" ||
+          version=$(helm show chart ${{env.CHART_SRC_DIR}} | grep ^version | sed -e "s/.*:\ //;s/SNAPSHOT/SNAPSHOT.${{github.run_id}}/") &&
+          echo "Using version from chart: $version" && 
+          echo "version=$version" >> $GITHUB_OUTPUT
+      - name: Print versions
+        run: |
+          echo "Nussknacker version: ${{steps.setNussknackerVersion.outputs.nuVersion}}"
+          echo "Chart version: ${{steps.setVersion.outputs.version}}"
       - name: buildAll
         run: ./setup.sh
       - name: checkTemplate
-        run: helm template -f deploy-values.yaml --set "image.tag=${{env.NUSSKNACKER_VERSION}}" ${{env.CHART_SRC_DIR}}
+        run: helm template -f deploy-values.yaml --set "image.tag=${{steps.setNussknackerVersion.outputs.nuVersion}}" ${{env.CHART_SRC_DIR}}
       - name: packageAll
         run: helm package ${{env.CHART_SRC_DIR}} -d dist --version "${{steps.setVersion.outputs.version}}"
       - name: Store target
@@ -77,9 +99,6 @@ jobs:
           args: >-
             --config=.k3d/single-cluster.yml
             --trace
-      - name: Set Nussknacker image version
-        id: setNussknackerVersion
-        run: '[[ $GITHUB_REF == refs/heads/release-* || $GITHUB_REF == refs/tags/release-* ]] && version=$(echo $GITHUB_REF | sed -e s/.*release-// -e s/-[0-9]*$//) && echo "Using version based on release branch/tag name: $version" && echo "nuVersion=$version" >> $GITHUB_OUTPUT || (echo "Using default version" && echo "nuVersion=${{env.NUSSKNACKER_VERSION}}" >> $GITHUB_OUTPUT)'
       - name: helmTestRelease
         run: |
           ./ci-deploy-verify.sh "${{needs.build.outputs.version}}" "${{steps.setNussknackerVersion.outputs.nuVersion}}"
@@ -101,12 +120,9 @@ jobs:
           args: >-
             --config=.k3d/single-cluster.yml
             --trace
-      - name: Set Nussknacker image version
-        id: setNussknackerVersion
-        run: '[[ $GITHUB_REF == refs/heads/release-* || $GITHUB_REF == refs/tags/release-* ]] && version=$(echo $GITHUB_REF | sed -e s/.*release-// -e s/-[0-9]*$//) && echo "Using version based on release branch/tag name: $version" && echo "nuVersion=$version" >> $GITHUB_OUTPUT || (echo "Using default version" && echo "nuVersion=${{env.NUSSKNACKER_VERSION}}" >> $GITHUB_OUTPUT)'
       - name: helmTestRelease
         run: |
-          ./ci-deploy-verify.sh "${{needs.build.outputs.version}}" "${{steps.setNussknackerVersion.outputs.nuVersion}}" \
+          ./ci-deploy-verify.sh "${{needs.build.outputs.version}}" "${{steps.build.outputs.nuVersion}}" \
           -f deploy-values-lite.yaml
   test-lite-hsql:
     name: test lite-k8s streaming deployment hsql
@@ -125,12 +141,9 @@ jobs:
           args: >-
             --config=.k3d/single-cluster.yml
             --trace
-      - name: Set Nussknacker image version
-        id: setNussknackerVersion
-        run: '[[ $GITHUB_REF == refs/heads/release-* || $GITHUB_REF == refs/tags/release-* ]] && version=$(echo $GITHUB_REF | sed -e s/.*release-// -e s/-[0-9]*$//) && echo "Using version based on release branch/tag name: $version" && echo "nuVersion=$version" >> $GITHUB_OUTPUT || (echo "Using default version" && echo "nuVersion=${{env.NUSSKNACKER_VERSION}}" >> $GITHUB_OUTPUT)'
       - name: helmTestRelease
         run: |
-          ./ci-deploy-verify.sh "${{needs.build.outputs.version}}" "${{steps.setNussknackerVersion.outputs.nuVersion}}" \
+          ./ci-deploy-verify.sh "${{needs.build.outputs.version}}" "${{steps.build.outputs.nuVersion}}" \
           -f deploy-values-lite.yaml -f deploy-values-db-hsql.yaml
   publish-snapshot:
     name: publish-snapshot
