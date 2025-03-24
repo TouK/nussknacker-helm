@@ -20,8 +20,8 @@ data:
           {{- if eq .Values.nussknacker.streaming.deploymentMode "flink" }}
           deploymentConfig: {
              type: "flinkStreaming"
+             {{- if not .Values.nussknacker.flinkConfig.useMiniClusterForDeployment }}
              {{- /* Find easier way of passing it through values */}}
-             {{- if not .Values.flinkConfig.useMiniClusterForDeployment }}
              restUrl: "{{ include "nussknacker.flinkJobManagerUrl" . }}"
              {{- end }}
           } {{ tpl (.Values.nussknacker.flinkConfig | mustToJson) . }}
