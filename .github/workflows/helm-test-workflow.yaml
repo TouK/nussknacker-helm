@@ -65,7 +65,7 @@ jobs:
         run: >-
           (([[ $GITHUB_REF == refs/heads/release-* || $GITHUB_REF == refs/tags/release-* ]]) && 
           version=$(echo $GITHUB_REF | sed -e s/.*release-//) && 
-          echo "Using chart version based on release branch/tag name: $version"
+          echo "Using chart version based on release branch/tag name: $version" &&
           echo "version=$version" >> $GITHUB_OUTPUT) ||
           (version=$(helm show chart ${{env.CHART_SRC_DIR}} | grep ^version | sed -e "s/.*:\ //;s/SNAPSHOT/SNAPSHOT.${{github.run_id}}/") && 
           echo "Using version from chart: $version" && 
