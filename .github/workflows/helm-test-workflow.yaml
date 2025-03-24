@@ -58,7 +58,7 @@ jobs:
           echo "Using image version based on input: $version" &&
           echo "nuVersion=$version" >> $GITHUB_OUTPUT) ||
           (version="staging-latest" && 
-          echo "Using default $version image version"
+          echo "Using default $version image version" &&
           echo "nuVersion=$version" >> $GITHUB_OUTPUT)
       - name: setVersion
         id: setVersion
