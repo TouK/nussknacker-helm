@@ -145,6 +145,7 @@ nussknacker:
   #override it if you want to provide own config file and override one provided via configmap.yaml
   configFile: /etc/nussknacker/application.conf
   flinkConfig:
+    useMiniClusterForDeployment: false
     jobManagerTimeout: "1m"
   useDefaultScenarioType: true
   modelConfig: {}
