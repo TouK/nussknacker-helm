@@ -51,18 +51,25 @@ jobs:
         run: >-
           ((([[ $GITHUB_REF == refs/heads/release-* || $GITHUB_REF == refs/tags/release-* ]]) && 
           version=$(echo $GITHUB_REF | sed -e s/.*release-// -e s/-[0-9]*$//) && 
-          echo "Using image version based on release branch/tag name: $version") || 
-          ([[ "${{ inputs.nussknacker_version }}" != '' ]] && version="${{ inputs.nussknacker_version }}" && echo "Using image version based on input: $version") ||
-          (version="staging-latest" && echo "Using default $version image version")) &&
-          echo "nuVersion=$version" >> $GITHUB_OUTPUT
+          echo "Using image version based on release branch/tag name: $version" &&
+          echo "nuVersion=$version" >> $GITHUB_OUTPUT) || 
+          ([[ "${{ inputs.nussknacker_version }}" != '' ]] && 
+          version="${{ inputs.nussknacker_version }}" && 
+          echo "Using image version based on input: $version" &&
+          echo "nuVersion=$version" >> $GITHUB_OUTPUT) ||
+          (version="staging-latest" && 
+          echo "Using default $version image version"
+          echo "nuVersion=$version" >> $GITHUB_OUTPUT)
       - name: setVersion
         id: setVersion
         run: >-
           ((([[ $GITHUB_REF == refs/heads/release-* || $GITHUB_REF == refs/tags/release-* ]]) && 
           version=$(echo $GITHUB_REF | sed -e s/.*release-//) && 
-          echo "Using chart version based on release branch/tag name: $version") ||
-          (version=$(helm show chart ${{env.CHART_SRC_DIR}} | grep ^version | sed -e "s/.*:\ //;s/SNAPSHOT/SNAPSHOT.${{github.run_id}}/") && echo "Using version from chart: $version")) && 
-          echo "version=$version" >> $GITHUB_OUTPUT
+          echo "Using chart version based on release branch/tag name: $version"
+          echo "version=$version" >> $GITHUB_OUTPUT) ||
+          (version=$(helm show chart ${{env.CHART_SRC_DIR}} | grep ^version | sed -e "s/.*:\ //;s/SNAPSHOT/SNAPSHOT.${{github.run_id}}/") && 
+          echo "Using version from chart: $version") && 
+          echo "version=$version" >> $GITHUB_OUTPUT)
       - name: Print versions
         run: |
           echo "Nussknacker version: ${{steps.setNussknackerVersion.outputs.nuVersion}}"
