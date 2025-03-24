@@ -49,7 +49,7 @@ jobs:
       - name: Set Nussknacker image version
         id: setNussknackerVersion
         run: >-
-          ((([[ $GITHUB_REF == refs/heads/release-* || $GITHUB_REF == refs/tags/release-* ]]) && 
+          (([[ $GITHUB_REF == refs/heads/release-* || $GITHUB_REF == refs/tags/release-* ]]) && 
           version=$(echo $GITHUB_REF | sed -e s/.*release-// -e s/-[0-9]*$//) && 
           echo "Using image version based on release branch/tag name: $version" &&
           echo "nuVersion=$version" >> $GITHUB_OUTPUT) || 
@@ -63,12 +63,12 @@ jobs:
       - name: setVersion
         id: setVersion
         run: >-
-          ((([[ $GITHUB_REF == refs/heads/release-* || $GITHUB_REF == refs/tags/release-* ]]) && 
+          (([[ $GITHUB_REF == refs/heads/release-* || $GITHUB_REF == refs/tags/release-* ]]) && 
           version=$(echo $GITHUB_REF | sed -e s/.*release-//) && 
           echo "Using chart version based on release branch/tag name: $version"
           echo "version=$version" >> $GITHUB_OUTPUT) ||
           (version=$(helm show chart ${{env.CHART_SRC_DIR}} | grep ^version | sed -e "s/.*:\ //;s/SNAPSHOT/SNAPSHOT.${{github.run_id}}/") && 
-          echo "Using version from chart: $version") && 
+          echo "Using version from chart: $version" && 
           echo "version=$version" >> $GITHUB_OUTPUT)
       - name: Print versions
         run: |
