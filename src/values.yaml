@@ -292,8 +292,6 @@ telegraf:
               dest: "scenario"
             - tag: "subtask_index"
               dest: "slot"
-            - tag: "originalProcessName"
-              dest: "process"
       - strings:
          replace:
             - measurement: "*"
