@@ -306,12 +306,6 @@ telegraf:
             - measurement: "*"
               old: "serviceName_"
               new: ""
-            - measurement: "*"
-              old: "namespace_"
-              new: ""
-            - measurement: "*"
-              old: "originalProcessName_"
-              new: ""
     inputs:
     aggregators:
     outputs:
