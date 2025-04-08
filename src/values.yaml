@@ -77,6 +77,7 @@ deployment:
     periodSeconds: 3
     failureThreshold: 40
     timeoutSeconds: 5
+    initialDelaySeconds: 10
   livenessProbe:
     periodSeconds: 5
     failureThreshold: 3

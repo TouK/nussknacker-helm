@@ -97,6 +97,7 @@ containers:
       periodSeconds: {{ .Values.deployment.startupProbe.periodSeconds }}
       failureThreshold: {{ .Values.deployment.startupProbe.failureThreshold }}
       timeoutSeconds: {{ .Values.deployment.startupProbe.timeoutSeconds }}
+      initialDelaySeconds: {{ .Values.deployment.startupProbe.initialDelaySeconds }}
     resources:
       {{- toYaml .Values.resources | nindent 6 }}
 {{- if .Values.sidecarContainers -}}
