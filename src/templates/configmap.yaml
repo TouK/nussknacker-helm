@@ -85,6 +85,13 @@ data:
               {{- end }}
             }
             {{- end }}
+            {{- if gt (len (default dict .Values.enterprise.flinkK8sOperatorDeploymentManager.additionalFlinkConfiguration)) 0 }}
+            additionalFlinkConfiguration: {
+            {{- range $key, $value := .Values.enterprise.flinkK8sOperatorDeploymentManager.additionalFlinkConfiguration }}
+              {{ $key | quote }}: {{ $value | quote }}
+            {{- end }}
+            }
+            {{- end }}
           }
           {{- else if eq .Values.nussknacker.streaming.deploymentMode "ververica" }}
           deploymentConfig: {
