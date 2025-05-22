@@ -2396,10 +2396,10 @@
               "type": "fill"
             }
           ],
-          "measurement": "/^.*.cur-size-all-mem-tables/",
+          "measurement": "/^.*.cur_size_all_mem_tables/",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "\nSELECT sum(\"value\")\nFROM (\n   SELECT mean(\"gauge\") AS \"value\"\n   FROM /^.*.cur-size-all-mem-tables/ \n   WHERE scenario =~ /^$scenarioName$/ AND env = '$env' AND $timeFilter \n   GROUP BY time($__interval), \"scenario\", \"operator_name\", \"slot\"\n) GROUP BY time($__interval), \"scenario\", \"operator_name\" fill(linear)",
+          "query": "\nSELECT sum(\"value\")\nFROM (\n   SELECT mean(\"gauge\") AS \"value\"\n   FROM /^.*.cur_size_all_mem_tables/ \n   WHERE scenario =~ /^$scenarioName$/ AND env = '$env' AND $timeFilter \n   GROUP BY time($__interval), \"scenario\", \"operator_name\", \"slot\"\n) GROUP BY time($__interval), \"scenario\", \"operator_name\" fill(linear)",
           "rawQuery": true,
           "refId": "A",
           "resultFormat": "time_series",
@@ -2525,10 +2525,10 @@
               "type": "fill"
             }
           ],
-          "measurement": "/^.*.cur-size-all-mem-tables/",
+          "measurement": "/^.*.cur_size_all_mem_tables/",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT sum(\"value\")\nFROM (\n   SELECT mean(\"gauge\") AS \"value\"\n   FROM /^.*.estimate-live-data-size/ \n   WHERE scenario =~ /^$scenarioName$/ AND env = '$env' AND $timeFilter\n   GROUP BY time($__interval), \"scenario\", \"operator_name\", \"slot\"\n) GROUP BY time($__interval), \"scenario\", \"operator_name\" fill(linear)\n",
+          "query": "SELECT sum(\"value\")\nFROM (\n   SELECT mean(\"gauge\") AS \"value\"\n   FROM /^.*.estimate_live_data_size/ \n   WHERE scenario =~ /^$scenarioName$/ AND env = '$env' AND $timeFilter\n   GROUP BY time($__interval), \"scenario\", \"operator_name\", \"slot\"\n) GROUP BY time($__interval), \"scenario\", \"operator_name\" fill(linear)\n",
           "rawQuery": true,
           "refId": "A",
           "resultFormat": "time_series",
@@ -2648,10 +2648,10 @@
               "type": "fill"
             }
           ],
-          "measurement": "/^.*.estimate-num-keys/",
+          "measurement": "/^.*.estimate_num_keys/",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT sum(\"value\")\nFROM (\n   SELECT mean(\"gauge\") AS \"value\"\n   FROM /^.*.estimate-num-keys/ \n   WHERE scenario =~ /^$scenarioName$/ AND env = '$env' AND $timeFilter \n   GROUP BY time($__interval), \"scenario\", \"operator_name\", \"slot\"\n) GROUP BY time($__interval), \"scenario\", \"operator_name\" fill(linear)",
+          "query": "SELECT sum(\"value\")\nFROM (\n   SELECT mean(\"gauge\") AS \"value\"\n   FROM /^.*.estimate_num_keys/ \n   WHERE scenario =~ /^$scenarioName$/ AND env = '$env' AND $timeFilter \n   GROUP BY time($__interval), \"scenario\", \"operator_name\", \"slot\"\n) GROUP BY time($__interval), \"scenario\", \"operator_name\" fill(linear)",
           "rawQuery": true,
           "refId": "A",
           "resultFormat": "time_series",
