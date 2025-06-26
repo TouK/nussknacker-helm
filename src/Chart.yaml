@@ -18,7 +18,11 @@ type: application
 appVersion: staging-latest
 dependencies:
   - name: postgresql
-    version: ~12.1.15
+    version: ~12.6.9
+    repository: "@bitnami"
+    condition: postgresql.enabled
+  - name: common
+    version: ~2.6.0
     repository: "@bitnami"
     condition: postgresql.enabled
   - name: kafka

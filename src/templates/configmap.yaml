@@ -36,9 +36,10 @@ data:
             {{- if .Values.enterprise.flinkK8sOperatorDeploymentManager.customLimitOfRunningScenarioExceededMessage }}
             customLimitOfRunningScenarioExceededMessage: {{ .Values.enterprise.flinkK8sOperatorDeploymentManager.customLimitOfRunningScenarioExceededMessage | quote }}
             {{- end }}
+            flinkImage: {{ .Values.enterprise.flinkK8sOperatorDeploymentManager.flinkImage | quote }}
             flinkVersion: {{ .Values.enterprise.flinkK8sOperatorDeploymentManager.flinkVersion | quote }}
             jobJarStoragePVCName: {{ .Values.enterprise.flinkK8sOperatorDeploymentManager.jobJarStorage.pvcName | quote }}
-            jobJarStorageMountPoint: {{ .Values.enterprise.flinkK8sOperatorDeploymentManager.jobJarStorage.mountPoint | quote }}            
+            jobJarStorageMountPoint: {{ .Values.enterprise.flinkK8sOperatorDeploymentManager.jobJarStorage.mountPoint | quote }}
             jobStateStoragePVCName: {{ .Values.enterprise.flinkK8sOperatorDeploymentManager.jobStateStorage.pvcName | quote }}
             jobStateStorageMountPoint: {{ .Values.enterprise.flinkK8sOperatorDeploymentManager.jobStateStorage.mountPoint | quote }}
             {{- if .Values.enterprise.flinkK8sOperatorDeploymentManager.numberOfTaskSlotsInTaskManager }}

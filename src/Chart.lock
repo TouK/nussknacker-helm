@@ -1,7 +1,10 @@
 dependencies:
 - name: postgresql
   repository: https://charts.bitnami.com/bitnami
-  version: 12.1.15
+  version: 12.6.9
+- name: common
+  repository: https://charts.bitnami.com/bitnami
+  version: 2.6.0
 - name: kafka
   repository: https://charts.bitnami.com/bitnami
   version: 22.1.6
@@ -19,6 +22,6 @@ dependencies:
   version: 4.12.5
 - name: telegraf
   repository: https://helm.influxdata.com/
-  version: 1.8.55
-digest: sha256:d424b5b2e69b0d057d08e4f0d604245f45775fb8d2f15c90fd96fb13ba6a4d2e
-generated: "2025-02-27T17:42:35.448756775+01:00"
+  version: 1.8.59
+digest: sha256:7a864ef5e04bfb61856ff0560460dd8b5abe007a2fcabd81c31c56a6f8945ad6
+generated: "2025-06-26T22:55:31.398208236+02:00"
