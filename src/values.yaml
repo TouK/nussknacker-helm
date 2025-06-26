@@ -318,14 +318,15 @@ nussknackerInitContainers: [ ]
 #Extra resources to deploy
 extraDeploy: []
 
-###########################################################    
-### Configuration for Nussknacker enterprise components ### 
+###########################################################
+### Configuration for Nussknacker enterprise components ###
 ###########################################################
 enterprise:
   flinkK8sOperatorDeploymentManager:
     enabled: false
     engineSetupName: "Flink K8s Operator"
-    flinkVersion: "1.19"
+    flinkImage: "touk/flink:1.1.3-flink1.20.1-scala_2.12"
+    flinkVersion: "1_20"
     jobJarStorage:
       pvcName: job-jars-pvc
       mountPoint: /mnt/jobjars
