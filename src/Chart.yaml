@@ -21,6 +21,10 @@ dependencies:
     version: ~12.6.9
     repository: "@bitnami"
     condition: postgresql.enabled
+  - name: common
+    version: ~2.6.0
+    repository: "@bitnami"
+    condition: postgresql.enabled
   - name: kafka
     version: ~22.1.6
     repository: "@bitnami"
